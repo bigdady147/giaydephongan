@@ -3,14 +3,3 @@
     <NuxtPage />
   </div>
 </template>
-
-<style>
-html {
-  font-family: 'Inter', system-ui, sans-serif;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-}
-</style>

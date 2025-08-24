@@ -31,12 +31,18 @@ body {
   height: 100%;
 }
 
+html {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
 // Set core body defaults
 body {
   line-height: $line-height-normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  margin: 0;
+  padding: 0;
 }
 
 // A elements that don't have a class get default styles

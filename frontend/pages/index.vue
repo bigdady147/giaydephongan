@@ -1,6 +1,7 @@
 <template>
   <div class="app">
     <div class="container">
+      123123
       <div class="header">
         <h1>GIÀY DÉP HỒNG AN</h1>
         <p>Laravel 12 + Nuxt 4 TypeScript</p>
