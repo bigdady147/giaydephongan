@@ -14,7 +14,6 @@
 
 <script setup>
 const { locale, locales } = useI18n()
-// const { switchLocalePath } = useI18n()
 const switchLocalePath = useSwitchLocalePath()
 const currentLocale = computed(() => locale.value)
 const availableLocales = computed(() => locales.value)

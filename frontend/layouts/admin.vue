@@ -59,17 +59,18 @@
 <script setup>
 // Admin layout logic
 const router = useRouter()
+const { t } = useI18n()
 
-  const handleLogout = () => {
-    if (confirm($t('auth.logoutConfirm'))) {
-      // Clear authentication data
-      localStorage.removeItem('isAuthenticated')
-      localStorage.removeItem('userRole')
-      
-      // Redirect to login page
-      router.push('/login')
-    }
+const handleLogout = () => {
+  if (confirm(t('auth.logoutConfirm'))) {
+    // Clear authentication data
+    localStorage.removeItem('isAuthenticated')
+    localStorage.removeItem('userRole')
+    
+    // Redirect to login page
+    router.push('/login')
   }
+}
 </script>
 
 

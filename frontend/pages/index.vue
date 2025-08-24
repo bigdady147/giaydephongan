@@ -2,8 +2,8 @@
       <div class="app">
       <div class="container">
         <div class="header">
-          <h1>{{ $t('home.title') }}</h1>
-          <p>{{ $t('home.subtitle') }}</p>
+          <!-- <h1>{{ $t('home.title') }}</h1> -->
+          <!-- <p>{{ $t('home.subtitle') }}</p> -->
           <LanguageSwitcher />
         </div>
       
@@ -75,7 +75,8 @@
 
 <script setup>
 const config = useRuntimeConfig()
-const loading = ref(true)
+const { t } = useI18n();
+const loading = ref(true);
 const error = ref('')
 const apiStatus = ref({
   status: '',

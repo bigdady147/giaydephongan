@@ -53,6 +53,7 @@
 
 <script setup>
 const router = useRouter()
+const { t } = useI18n()
 const loading = ref(false)
 
 const form = ref({
@@ -84,7 +85,7 @@ const handleLogin = async () => {
       // Redirect to client dashboard
       await router.push('/client')
           } else {
-        alert($t('auth.loginError'))
+        alert(t('auth.loginError'))
       }
   } catch (error) {
     console.error('Login error:', error)
