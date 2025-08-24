@@ -1,75 +1,71 @@
 <template>
-  <div class="app">
-    <div class="container">
-      123123
-      <div class="header">
-        <h1>GIÀY DÉP HỒNG AN</h1>
-        <p>Laravel 12 + Nuxt 4 TypeScript</p>
-      </div>
+      <div class="app">
+      <div class="container">
+        <div class="header">
+          <h1>{{ $t('home.title') }}</h1>
+          <p>{{ $t('home.subtitle') }}</p>
+          <LanguageSwitcher />
+        </div>
       
       <div class="content">
         <div class="card">
           <div v-if="loading" class="loading">
             <div class="spinner"></div>
-            <p>Đang kết nối với API...</p>
+            <p>{{ $t('home.apiConnecting') }}</p>
           </div>
           
           <div v-else-if="error" class="error">
-            <h3>Lỗi kết nối</h3>
+            <h3>{{ $t('home.apiError') }}</h3>
             <p>{{ error }}</p>
-            <button @click="checkApi" class="btn">Thử lại</button>
+            <button @click="checkApi" class="btn">{{ $t('home.apiRetry') }}</button>
           </div>
           
           <div v-else class="success">
-            <h2>Trạng thái API: {{ apiStatus.status }}</h2>
+            <h2>{{ $t('home.apiStatus') }}: {{ apiStatus.status }}</h2>
             <p>{{ apiStatus.message }}</p>
-            <small>Cập nhật lúc: {{ formatTime(apiStatus.timestamp) }}</small>
+            <small>{{ $t('home.lastUpdated') }}: {{ formatTime(apiStatus.timestamp) }}</small>
           </div>
         </div>
         
         <div class="portals">
           <div class="portal-card client">
             <div class="portal-icon">👤</div>
-            <h3>Client Portal</h3>
-            <p>Phần dành cho khách hàng sử dụng hệ thống</p>
+            <h3>{{ $t('home.clientPortal.title') }}</h3>
+            <p>{{ $t('home.clientPortal.subtitle') }}</p>
             <div class="portal-features">
-              <span>• Quản lý hồ sơ</span>
-              <span>• Đăng ký dịch vụ</span>
-              <span>• Theo dõi tiến độ</span>
+              <!-- <span v-for="(feature, index) in $t('home.clientPortal.features')" :key="feature">• {{ feature }}</span> -->
             </div>
-            <NuxtLink to="/client" class="btn btn-primary">Truy cập Client Portal</NuxtLink>
+            <NuxtLink to="/client" class="btn btn-primary">{{ $t('home.clientPortal.button') }}</NuxtLink>
           </div>
           
           <div class="portal-card admin">
             <div class="portal-icon">⚙️</div>
-            <h3>Admin Portal</h3>
-            <p>Phần quản lý hệ thống dành cho admin</p>
+            <h3>{{ $t('home.adminPortal.title') }}</h3>
+            <p>{{ $t('home.adminPortal.subtitle') }}</p>
             <div class="portal-features">
-              <span>• Quản lý người dùng</span>
-              <span>• Quản lý hồ sơ</span>
-              <span>• Báo cáo & thống kê</span>
+              <!-- <span v-for="feature in $t('home.adminPortal.features')" :key="feature">• {{ feature }}</span> -->
             </div>
-            <NuxtLink to="/admin" class="btn btn-secondary">Truy cập Admin Portal</NuxtLink>
+            <NuxtLink to="/admin" class="btn btn-secondary">{{ $t('home.adminPortal.button') }}</NuxtLink>
           </div>
         </div>
         
         <div class="links">
           <div class="link-card">
-            <h3>Laravel Backend</h3>
-            <p>API server chạy trên port 8000</p>
-            <a href="http://localhost:8000/api/health" target="_blank" class="btn">Kiểm tra API</a>
+            <h3>{{ $t('home.links.laravelBackend.title') }}</h3>
+            <p>{{ $t('home.links.laravelBackend.description') }}</p>
+            <a href="http://localhost:8000/api/health" target="_blank" class="btn">{{ $t('home.links.laravelBackend.button') }}</a>
           </div>
           
           <div class="link-card">
-            <h3>Nuxt Frontend</h3>
-            <p>Frontend chạy trên port 3000</p>
-            <a href="http://localhost:3000" target="_blank" class="btn">Mở Frontend</a>
+            <h3>{{ $t('home.links.nuxtFrontend.title') }}</h3>
+            <p>{{ $t('home.links.nuxtFrontend.description') }}</p>
+            <a href="http://localhost:3000" target="_blank" class="btn">{{ $t('home.links.nuxtFrontend.button') }}</a>
           </div>
           
           <div class="link-card">
-            <h3>Demo Routing</h3>
-            <p>Minh họa các tính năng Nuxt routing</p>
-            <NuxtLink to="/demo-routing" class="btn">Xem Demo</NuxtLink>
+            <h3>{{ $t('home.links.demoRouting.title') }}</h3>
+            <p>{{ $t('home.links.demoRouting.description') }}</p>
+            <NuxtLink to="/demo-routing" class="btn">{{ $t('home.links.demoRouting.button') }}</NuxtLink>
           </div>
         </div>
       </div>

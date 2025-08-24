@@ -7,13 +7,13 @@
           <span class="badge">Client Portal</span>
         </div>
         <nav class="nav">
-          <NuxtLink to="/client" class="nav-link">Trang chủ</NuxtLink>
-          <NuxtLink to="/client/profile" class="nav-link">Hồ sơ</NuxtLink>
-          <NuxtLink to="/client/services" class="nav-link">Dịch vụ</NuxtLink>
-          <NuxtLink to="/client/tracking" class="nav-link">Theo dõi</NuxtLink>
+          <NuxtLink to="/client" class="nav-link">{{ $t('navigation.home') }}</NuxtLink>
+          <NuxtLink to="/client/profile" class="nav-link">{{ $t('navigation.profile') }}</NuxtLink>
+          <NuxtLink to="/client/services" class="nav-link">{{ $t('navigation.services') }}</NuxtLink>
+          <NuxtLink to="/client/tracking" class="nav-link">{{ $t('navigation.tracking') }}</NuxtLink>
         </nav>
         <div class="user-menu">
-          <button @click="handleLogout" class="btn-logout">Đăng xuất</button>
+                      <button @click="handleLogout" class="btn-logout">{{ $t('navigation.logout') }}</button>
         </div>
       </div>
     </header>
@@ -34,16 +34,16 @@
 // Client layout logic
 const router = useRouter()
 
-const handleLogout = () => {
-  if (confirm('Bạn có chắc chắn muốn đăng xuất?')) {
-    // Clear authentication data
-    localStorage.removeItem('isAuthenticated')
-    localStorage.removeItem('userRole')
-    
-    // Redirect to login page
-    router.push('/login')
+  const handleLogout = () => {
+    if (confirm($t('auth.logoutConfirm'))) {
+      // Clear authentication data
+      localStorage.removeItem('isAuthenticated')
+      localStorage.removeItem('userRole')
+      
+      // Redirect to login page
+      router.push('/login')
+    }
   }
-}
 </script>
 
 

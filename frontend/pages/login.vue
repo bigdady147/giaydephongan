@@ -3,27 +3,27 @@
     <div class="login-container">
       <div class="login-card">
         <div class="login-header">
-          <h1>Đăng nhập</h1>
-          <p>Vui lòng đăng nhập để tiếp tục</p>
+          <h1>{{ $t('auth.loginTitle') }}</h1>
+          <p>{{ $t('auth.loginSubtitle') }}</p>
         </div>
         
         <form @submit.prevent="handleLogin" class="login-form">
           <div class="form-group">
-            <label>Email</label>
+            <label>{{ $t('auth.email') }}</label>
             <input 
               v-model="form.email" 
               type="email" 
-              placeholder="Nhập email của bạn"
+              :placeholder="$t('auth.emailPlaceholder')"
               required
             >
           </div>
           
           <div class="form-group">
-            <label>Mật khẩu</label>
+            <label>{{ $t('auth.password') }}</label>
             <input 
               v-model="form.password" 
               type="password" 
-              placeholder="Nhập mật khẩu"
+              :placeholder="$t('auth.passwordPlaceholder')"
               required
             >
           </div>
@@ -31,21 +31,21 @@
           <div class="form-options">
             <label class="checkbox">
               <input type="checkbox" v-model="form.remember">
-              <span>Ghi nhớ đăng nhập</span>
+              <span>{{ $t('auth.rememberMe') }}</span>
             </label>
             <NuxtLink to="/forgot-password" class="forgot-link">
-              Quên mật khẩu?
+              {{ $t('auth.forgotPassword') }}
             </NuxtLink>
           </div>
           
           <button type="submit" class="btn-login" :disabled="loading">
-            {{ loading ? 'Đang đăng nhập...' : 'Đăng nhập' }}
+            {{ loading ? $t('auth.loggingIn') : $t('auth.loginButton') }}
           </button>
         </form>
         
-        <div class="login-footer">
-          <p>Chưa có tài khoản? <NuxtLink to="/register">Đăng ký ngay</NuxtLink></p>
-        </div>
+                  <div class="login-footer">
+            <p>{{ $t('auth.noAccount') }} <NuxtLink to="/register">{{ $t('auth.registerNow') }}</NuxtLink></p>
+          </div>
       </div>
     </div>
   </div>
@@ -83,9 +83,9 @@ const handleLogin = async () => {
       
       // Redirect to client dashboard
       await router.push('/client')
-    } else {
-      alert('Email hoặc mật khẩu không đúng!')
-    }
+          } else {
+        alert($t('auth.loginError'))
+      }
   } catch (error) {
     console.error('Login error:', error)
     alert('Có lỗi xảy ra khi đăng nhập!')

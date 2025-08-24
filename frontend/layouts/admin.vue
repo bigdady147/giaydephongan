@@ -6,32 +6,32 @@
         <span class="badge">Administrator</span>
       </div>
       
-      <nav class="sidebar-nav">
-        <NuxtLink to="/admin" class="nav-item">
-          <span class="nav-icon">📊</span>
-          Dashboard
-        </NuxtLink>
-        <NuxtLink to="/admin/users" class="nav-item">
-          <span class="nav-icon">👥</span>
-          Quản lý người dùng
-        </NuxtLink>
-        <NuxtLink to="/admin/records" class="nav-item">
-          <span class="nav-icon">📋</span>
-          Quản lý hồ sơ
-        </NuxtLink>
-        <NuxtLink to="/admin/services" class="nav-item">
-          <span class="nav-icon">🔧</span>
-          Quản lý dịch vụ
-        </NuxtLink>
-        <NuxtLink to="/admin/reports" class="nav-item">
-          <span class="nav-icon">📈</span>
-          Báo cáo
-        </NuxtLink>
-        <NuxtLink to="/admin/settings" class="nav-item">
-          <span class="nav-icon">⚙️</span>
-          Cài đặt
-        </NuxtLink>
-      </nav>
+              <nav class="sidebar-nav">
+          <NuxtLink to="/admin" class="nav-item">
+            <span class="nav-icon">📊</span>
+            {{ $t('navigation.dashboard') }}
+          </NuxtLink>
+          <NuxtLink to="/admin/users" class="nav-item">
+            <span class="nav-icon">👥</span>
+            {{ $t('navigation.users') }}
+          </NuxtLink>
+          <NuxtLink to="/admin/records" class="nav-item">
+            <span class="nav-icon">📋</span>
+            {{ $t('navigation.records') }}
+          </NuxtLink>
+          <NuxtLink to="/admin/services" class="nav-item">
+            <span class="nav-icon">🔧</span>
+            {{ $t('navigation.services') }}
+          </NuxtLink>
+          <NuxtLink to="/admin/reports" class="nav-item">
+            <span class="nav-icon">📈</span>
+            {{ $t('navigation.reports') }}
+          </NuxtLink>
+          <NuxtLink to="/admin/settings" class="nav-item">
+            <span class="nav-icon">⚙️</span>
+            {{ $t('navigation.settings') }}
+          </NuxtLink>
+        </nav>
       
              <div class="sidebar-footer">
          <button @click="handleLogout" class="btn-logout">Đăng xuất</button>
@@ -60,16 +60,16 @@
 // Admin layout logic
 const router = useRouter()
 
-const handleLogout = () => {
-  if (confirm('Bạn có chắc chắn muốn đăng xuất?')) {
-    // Clear authentication data
-    localStorage.removeItem('isAuthenticated')
-    localStorage.removeItem('userRole')
-    
-    // Redirect to login page
-    router.push('/login')
+  const handleLogout = () => {
+    if (confirm($t('auth.logoutConfirm'))) {
+      // Clear authentication data
+      localStorage.removeItem('isAuthenticated')
+      localStorage.removeItem('userRole')
+      
+      // Redirect to login page
+      router.push('/login')
+    }
   }
-}
 </script>
 
 

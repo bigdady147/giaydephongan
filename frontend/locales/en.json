@@ -1,0 +1,177 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "reset": "Reset",
+    "close": "Close",
+    "open": "Open",
+    "yes": "Yes",
+    "no": "No",
+    "confirm": "Confirm",
+    "warning": "Warning",
+    "info": "Information"
+  },
+  "navigation": {
+    "home": "Home",
+    "profile": "Profile",
+    "services": "Services",
+    "tracking": "Tracking",
+    "dashboard": "Dashboard",
+    "users": "User Management",
+    "records": "Record Management",
+    "reports": "Reports",
+    "settings": "Settings",
+    "logout": "Logout",
+    "login": "Login",
+    "register": "Register"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "rememberMe": "Remember me",
+    "loginTitle": "Login",
+    "loginSubtitle": "Please login to continue",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "loginButton": "Login",
+    "loggingIn": "Logging in...",
+    "noAccount": "Don't have an account?",
+    "registerNow": "Register now",
+    "loginError": "Email or password is incorrect!",
+    "loginSuccess": "Login successful!",
+    "logoutConfirm": "Are you sure you want to logout?"
+  },
+  "home": {
+    "title": "HONG AN SHOES",
+    "subtitle": "Laravel 12 + Nuxt 4 TypeScript",
+    "apiStatus": "API Status",
+    "apiConnecting": "Connecting to API...",
+    "apiError": "Connection Error",
+    "apiRetry": "Retry",
+    "lastUpdated": "Last updated at",
+    "clientPortal": {
+      "title": "Client Portal",
+      "subtitle": "Section for customers using the system",
+      "features": [
+        "Profile Management",
+        "Service Registration",
+        "Progress Tracking"
+      ],
+      "button": "Access Client Portal"
+    },
+    "adminPortal": {
+      "title": "Admin Portal",
+      "subtitle": "System management section for administrators",
+      "features": [
+        "User Management",
+        "Record Management",
+        "Reports & Statistics"
+      ],
+      "button": "Access Admin Portal"
+    },
+    "links": {
+      "laravelBackend": {
+        "title": "Laravel Backend",
+        "description": "API server running on port 8000",
+        "button": "Check API"
+      },
+      "nuxtFrontend": {
+        "title": "Nuxt Frontend",
+        "description": "Frontend running on port 3000",
+        "button": "Open Frontend"
+      },
+      "demoRouting": {
+        "title": "Demo Routing",
+        "description": "Demonstrate Nuxt routing features",
+        "button": "View Demo"
+      }
+    }
+  },
+  "client": {
+    "dashboard": {
+      "title": "Dashboard",
+      "welcome": "Welcome to Client Portal",
+      "stats": {
+        "totalServices": "Total Services",
+        "activeServices": "Active Services",
+        "completedServices": "Completed Services",
+        "pendingServices": "Pending Services"
+      }
+    },
+    "profile": {
+      "title": "Personal Profile",
+      "personalInfo": "Personal Information",
+      "contactInfo": "Contact Information",
+      "updateProfile": "Update Profile",
+      "profileUpdated": "Profile updated successfully!"
+    },
+    "services": {
+      "title": "Services",
+      "availableServices": "Available Services",
+      "myServices": "My Services",
+      "registerService": "Register Service",
+      "serviceRegistered": "Service registered successfully!"
+    }
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Admin Dashboard",
+      "welcome": "Welcome to Admin Portal",
+      "stats": {
+        "totalUsers": "Total Users",
+        "totalRecords": "Total Records",
+        "totalServices": "Total Services",
+        "recentActivity": "Recent Activity"
+      }
+    },
+    "users": {
+      "title": "User Management",
+      "addUser": "Add User",
+      "editUser": "Edit User",
+      "deleteUser": "Delete User",
+      "userAdded": "User added successfully!",
+      "userUpdated": "User updated successfully!",
+      "userDeleted": "User deleted successfully!"
+    },
+    "records": {
+      "title": "Record Management",
+      "addRecord": "Add Record",
+      "editRecord": "Edit Record",
+      "deleteRecord": "Delete Record",
+      "recordAdded": "Record added successfully!",
+      "recordUpdated": "Record updated successfully!",
+      "recordDeleted": "Record deleted successfully!"
+    }
+  },
+  "errors": {
+    "general": "An error occurred!",
+    "network": "Network connection error",
+    "notFound": "Page not found",
+    "unauthorized": "Access denied",
+    "serverError": "Server error",
+    "validation": "Invalid data"
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Invalid email address",
+    "minLength": "Minimum {min} characters",
+    "maxLength": "Maximum {max} characters",
+    "passwordMatch": "Passwords do not match"
+  }
+}

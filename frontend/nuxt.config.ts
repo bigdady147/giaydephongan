@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   // Development tools
   devtools: { enabled: true },
-  
+
   // Compatibility
   compatibilityDate: '2025-07-15',
 
@@ -43,6 +43,36 @@ export default defineNuxtConfig({
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'description', content: 'Laravel 12 + Nuxt 4 TypeScript Full-Stack Application' }
       ]
+    }
+  },
+
+  modules: ['@nuxtjs/i18n'],
+
+  // i18n configuration
+  i18n: {
+    langDir: '../locales',
+    locales: [
+      {
+        code: 'vi',
+        iso: 'vi-VN',
+        name: 'Tiếng Việt',
+        file: 'vi.json'
+      },
+      {
+        code: 'en',
+        iso: 'en-US',
+        name: 'English',
+        file: 'en.json'
+      }
+    ],
+    defaultLocale: 'vi',
+    strategy: 'prefix_except_default',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root',
+      alwaysRedirect: true,
+      fallbackLocale: 'vi'
     }
   }
 })
