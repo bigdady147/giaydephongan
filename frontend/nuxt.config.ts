@@ -13,6 +13,22 @@ export default defineNuxtConfig({
     }
   },
 
+  // CSS configuration
+  css: [
+    '~/assets/scss/main.scss'
+  ],
+
+  // Vite configuration for SCSS
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@import "~/assets/scss/base/_variables.scss";'
+        }
+      }
+    }
+  },
+
   // Nitro configuration
   nitro: {
     preset: 'node-server'

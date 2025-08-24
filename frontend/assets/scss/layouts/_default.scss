@@ -1,0 +1,246 @@
+// =============================================================================
+// DEFAULT LAYOUT STYLES
+// =============================================================================
+
+.default-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $bg-primary;
+}
+
+// =============================================================================
+// DEFAULT HEADER
+// =============================================================================
+
+.default-header {
+  background-color: $bg-secondary;
+  border-bottom: $border-width solid $border-color;
+  box-shadow: $shadow-sm;
+  
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-4;
+    max-width: $container-max-width;
+    margin: 0 auto;
+    
+    @media (max-width: $breakpoint-md) {
+      padding: $spacing-3;
+    }
+  }
+  
+  .header-logo {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $primary-blue;
+    text-decoration: none;
+    
+    &:hover {
+      color: $primary-blue-dark;
+    }
+  }
+  
+  .header-nav {
+    display: flex;
+    align-items: center;
+    gap: $spacing-6;
+    
+    @media (max-width: $breakpoint-md) {
+      gap: $spacing-4;
+    }
+    
+    .nav-link {
+      color: $text-secondary;
+      text-decoration: none;
+      font-weight: $font-weight-medium;
+      transition: color $transition-normal;
+      
+      &:hover {
+        color: $primary-blue;
+      }
+      
+      &.active {
+        color: $primary-blue;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// DEFAULT MAIN CONTENT
+// =============================================================================
+
+.default-main {
+  flex: 1;
+  padding: $spacing-6 0;
+  
+  .main-container {
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: 0 $spacing-4;
+    
+    @media (max-width: $breakpoint-md) {
+      padding: 0 $spacing-3;
+    }
+  }
+  
+  .page-header {
+    margin-bottom: $spacing-8;
+    
+    .page-title {
+      font-size: $font-size-3xl;
+      font-weight: $font-weight-bold;
+      color: $text-primary;
+      margin-bottom: $spacing-2;
+    }
+    
+    .page-subtitle {
+      font-size: $font-size-lg;
+      color: $text-secondary;
+    }
+  }
+  
+  .content-section {
+    background-color: $bg-secondary;
+    border-radius: $border-radius-lg;
+    box-shadow: $shadow;
+    padding: $spacing-6;
+    margin-bottom: $spacing-6;
+    
+    .section-header {
+      margin-bottom: $spacing-6;
+      
+      .section-title {
+        font-size: $font-size-xl;
+        font-weight: $font-weight-semibold;
+        color: $text-primary;
+        margin-bottom: $spacing-2;
+      }
+      
+      .section-description {
+        color: $text-secondary;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// DEFAULT FOOTER
+// =============================================================================
+
+.default-footer {
+  background-color: $gray-800;
+  color: $text-white;
+  padding: $spacing-8 0;
+  margin-top: auto;
+  
+  .footer-container {
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: 0 $spacing-4;
+    
+    @media (max-width: $breakpoint-md) {
+      padding: 0 $spacing-3;
+    }
+  }
+  
+  .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: $spacing-8;
+    margin-bottom: $spacing-6;
+    
+    .footer-section {
+      .footer-title {
+        font-size: $font-size-lg;
+        font-weight: $font-weight-semibold;
+        margin-bottom: $spacing-4;
+      }
+      
+      .footer-links {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-2;
+        
+        .footer-link {
+          color: $gray-300;
+          text-decoration: none;
+          transition: color $transition-normal;
+          
+          &:hover {
+            color: $text-white;
+          }
+        }
+      }
+    }
+  }
+  
+  .footer-bottom {
+    border-top: $border-width solid $gray-700;
+    padding-top: $spacing-4;
+    text-align: center;
+    color: $gray-400;
+    font-size: $font-size-sm;
+  }
+}
+
+// =============================================================================
+// DEFAULT RESPONSIVE
+// =============================================================================
+
+@media (max-width: $breakpoint-md) {
+  .default-header {
+    .header-container {
+      flex-direction: column;
+      gap: $spacing-3;
+    }
+    
+    .header-nav {
+      order: 3;
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  
+  .default-main {
+    padding: $spacing-4 0;
+    
+    .page-header {
+      margin-bottom: $spacing-6;
+      
+      .page-title {
+        font-size: $font-size-2xl;
+      }
+    }
+    
+    .content-section {
+      padding: $spacing-4;
+    }
+  }
+  
+  .default-footer {
+    padding: $spacing-6 0;
+    
+    .footer-content {
+      grid-template-columns: 1fr;
+      gap: $spacing-6;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .default-header {
+    .header-nav {
+      flex-wrap: wrap;
+      gap: $spacing-3;
+    }
+  }
+  
+  .default-main {
+    .content-section {
+      padding: $spacing-3;
+    }
+  }
+}

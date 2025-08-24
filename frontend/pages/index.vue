@@ -64,6 +64,12 @@
             <p>Frontend chạy trên port 3000</p>
             <a href="http://localhost:3000" target="_blank" class="btn">Mở Frontend</a>
           </div>
+          
+          <div class="link-card">
+            <h3>Demo Routing</h3>
+            <p>Minh họa các tính năng Nuxt routing</p>
+            <NuxtLink to="/demo-routing" class="btn">Xem Demo</NuxtLink>
+          </div>
         </div>
       </div>
     </div>

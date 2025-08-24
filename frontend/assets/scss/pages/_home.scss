@@ -1,0 +1,290 @@
+// =============================================================================
+// HOME PAGE STYLES
+// =============================================================================
+
+.home-page {
+  .hero-section {
+    background: linear-gradient(135deg, $primary-blue 0%, $primary-blue-dark 100%);
+    color: $text-white;
+    padding: $spacing-20 0;
+    text-align: center;
+    
+    .hero-container {
+      max-width: $container-max-width;
+      margin: 0 auto;
+      padding: 0 $spacing-4;
+    }
+    
+    .hero-title {
+      font-size: $font-size-5xl;
+      font-weight: $font-weight-bold;
+      margin-bottom: $spacing-6;
+      line-height: $line-height-tight;
+      
+      @media (max-width: $breakpoint-md) {
+        font-size: $font-size-4xl;
+      }
+      
+      @media (max-width: $breakpoint-sm) {
+        font-size: $font-size-3xl;
+      }
+    }
+    
+    .hero-subtitle {
+      font-size: $font-size-xl;
+      margin-bottom: $spacing-8;
+      opacity: 0.9;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      
+      @media (max-width: $breakpoint-md) {
+        font-size: $font-size-lg;
+      }
+    }
+    
+    .hero-actions {
+      display: flex;
+      gap: $spacing-4;
+      justify-content: center;
+      flex-wrap: wrap;
+      
+      .btn {
+        min-width: 160px;
+      }
+    }
+  }
+  
+  .features-section {
+    padding: $spacing-16 0;
+    background-color: $bg-primary;
+    
+    .features-container {
+      max-width: $container-max-width;
+      margin: 0 auto;
+      padding: 0 $spacing-4;
+    }
+    
+    .section-header {
+      text-align: center;
+      margin-bottom: $spacing-12;
+      
+      .section-title {
+        font-size: $font-size-3xl;
+        font-weight: $font-weight-bold;
+        color: $text-primary;
+        margin-bottom: $spacing-4;
+      }
+      
+      .section-subtitle {
+        font-size: $font-size-lg;
+        color: $text-secondary;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: $spacing-8;
+      
+      .feature-card {
+        background-color: $bg-secondary;
+        border-radius: $border-radius-lg;
+        padding: $spacing-8;
+        text-align: center;
+        box-shadow: $shadow;
+        transition: transform $transition-normal, box-shadow $transition-normal;
+        
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: $shadow-lg;
+        }
+        
+        .feature-icon {
+          width: 4rem;
+          height: 4rem;
+          background-color: $primary-blue;
+          border-radius: $border-radius-full;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto $spacing-6;
+          color: $text-white;
+          font-size: $font-size-2xl;
+        }
+        
+        .feature-title {
+          font-size: $font-size-xl;
+          font-weight: $font-weight-semibold;
+          color: $text-primary;
+          margin-bottom: $spacing-4;
+        }
+        
+        .feature-description {
+          color: $text-secondary;
+          line-height: $line-height-relaxed;
+        }
+      }
+    }
+  }
+  
+  .stats-section {
+    padding: $spacing-16 0;
+    background-color: $gray-800;
+    color: $text-white;
+    
+    .stats-container {
+      max-width: $container-max-width;
+      margin: 0 auto;
+      padding: 0 $spacing-4;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: $spacing-8;
+      
+      .stat-item {
+        text-align: center;
+        
+        .stat-value {
+          font-size: $font-size-4xl;
+          font-weight: $font-weight-bold;
+          color: $primary-blue-lighter;
+          margin-bottom: $spacing-2;
+          display: block;
+        }
+        
+        .stat-label {
+          font-size: $font-size-lg;
+          color: $gray-300;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+      }
+    }
+  }
+  
+  .cta-section {
+    padding: $spacing-16 0;
+    background-color: $bg-secondary;
+    
+    .cta-container {
+      max-width: $container-max-width;
+      margin: 0 auto;
+      padding: 0 $spacing-4;
+      text-align: center;
+    }
+    
+    .cta-title {
+      font-size: $font-size-3xl;
+      font-weight: $font-weight-bold;
+      color: $text-primary;
+      margin-bottom: $spacing-4;
+    }
+    
+    .cta-description {
+      font-size: $font-size-lg;
+      color: $text-secondary;
+      margin-bottom: $spacing-8;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .cta-actions {
+      display: flex;
+      gap: $spacing-4;
+      justify-content: center;
+      flex-wrap: wrap;
+      
+      .btn {
+        min-width: 160px;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// RESPONSIVE STYLES
+// =============================================================================
+
+@media (max-width: $breakpoint-lg) {
+  .home-page {
+    .hero-section {
+      padding: $spacing-16 0;
+    }
+    
+    .features-section,
+    .stats-section,
+    .cta-section {
+      padding: $spacing-12 0;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .home-page {
+    .hero-section {
+      padding: $spacing-12 0;
+      
+      .hero-actions {
+        flex-direction: column;
+        align-items: center;
+        
+        .btn {
+          width: 100%;
+          max-width: 300px;
+        }
+      }
+    }
+    
+    .features-section {
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: $spacing-6;
+      }
+    }
+    
+    .stats-section {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: $spacing-6;
+      }
+    }
+    
+    .cta-section {
+      .cta-actions {
+        flex-direction: column;
+        align-items: center;
+        
+        .btn {
+          width: 100%;
+          max-width: 300px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .home-page {
+    .hero-section {
+      padding: $spacing-8 0;
+    }
+    
+    .features-section,
+    .stats-section,
+    .cta-section {
+      padding: $spacing-8 0;
+    }
+    
+    .stats-section {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+}

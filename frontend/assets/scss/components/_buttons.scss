@@ -1,0 +1,293 @@
+// =============================================================================
+// BUTTON COMPONENTS
+// =============================================================================
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-2;
+  padding: $button-padding-y $button-padding-x;
+  font-size: $button-font-size;
+  font-weight: $button-font-weight;
+  line-height: $line-height-tight;
+  border-radius: $button-border-radius;
+  border: $border-width solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all $transition-normal;
+  user-select: none;
+  white-space: nowrap;
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  
+  &:focus {
+    outline: 2px solid $primary-blue;
+    outline-offset: 2px;
+  }
+}
+
+// =============================================================================
+// BUTTON VARIANTS
+// =============================================================================
+
+// Primary Button
+.btn-primary {
+  background-color: $primary-blue;
+  color: $text-white;
+  border-color: $primary-blue;
+  
+  &:hover:not(:disabled) {
+    background-color: $primary-blue-dark;
+    border-color: $primary-blue-dark;
+  }
+  
+  &:active {
+    background-color: $primary-blue-dark;
+    border-color: $primary-blue-dark;
+  }
+}
+
+// Secondary Button
+.btn-secondary {
+  background-color: $gray-500;
+  color: $text-white;
+  border-color: $gray-500;
+  
+  &:hover:not(:disabled) {
+    background-color: $gray-600;
+    border-color: $gray-600;
+  }
+  
+  &:active {
+    background-color: $gray-600;
+    border-color: $gray-600;
+  }
+}
+
+// Success Button
+.btn-success {
+  background-color: $success-green;
+  color: $text-white;
+  border-color: $success-green;
+  
+  &:hover:not(:disabled) {
+    background-color: $success-green-dark;
+    border-color: $success-green-dark;
+  }
+  
+  &:active {
+    background-color: $success-green-dark;
+    border-color: $success-green-dark;
+  }
+}
+
+// Danger Button
+.btn-danger {
+  background-color: $secondary-red;
+  color: $text-white;
+  border-color: $secondary-red;
+  
+  &:hover:not(:disabled) {
+    background-color: $secondary-red-dark;
+    border-color: $secondary-red-dark;
+  }
+  
+  &:active {
+    background-color: $secondary-red-dark;
+    border-color: $secondary-red-dark;
+  }
+}
+
+// Warning Button
+.btn-warning {
+  background-color: $warning-orange;
+  color: $text-white;
+  border-color: $warning-orange;
+  
+  &:hover:not(:disabled) {
+    background-color: $warning-orange-dark;
+    border-color: $warning-orange-dark;
+  }
+  
+  &:active {
+    background-color: $warning-orange-dark;
+    border-color: $warning-orange-dark;
+  }
+}
+
+// =============================================================================
+// BUTTON SIZES
+// =============================================================================
+
+.btn-sm {
+  padding: $spacing-2 $spacing-3;
+  font-size: $font-size-sm;
+  border-radius: $border-radius-sm;
+}
+
+.btn-lg {
+  padding: $spacing-4 $spacing-8;
+  font-size: $font-size-lg;
+  border-radius: $border-radius-md;
+}
+
+// =============================================================================
+// BUTTON STYLES
+// =============================================================================
+
+// Outline Button
+.btn-outline {
+  background-color: transparent;
+  
+  &.btn-primary {
+    color: $primary-blue;
+    border-color: $primary-blue;
+    
+    &:hover:not(:disabled) {
+      background-color: $primary-blue;
+      color: $text-white;
+    }
+  }
+  
+  &.btn-secondary {
+    color: $gray-600;
+    border-color: $gray-300;
+    
+    &:hover:not(:disabled) {
+      background-color: $gray-100;
+      color: $gray-700;
+    }
+  }
+  
+  &.btn-success {
+    color: $success-green;
+    border-color: $success-green;
+    
+    &:hover:not(:disabled) {
+      background-color: $success-green;
+      color: $text-white;
+    }
+  }
+  
+  &.btn-danger {
+    color: $secondary-red;
+    border-color: $secondary-red;
+    
+    &:hover:not(:disabled) {
+      background-color: $secondary-red;
+      color: $text-white;
+    }
+  }
+}
+
+// Ghost Button
+.btn-ghost {
+  background-color: transparent;
+  border-color: transparent;
+  
+  &.btn-primary {
+    color: $primary-blue;
+    
+    &:hover:not(:disabled) {
+      background-color: rgba($primary-blue, 0.1);
+    }
+  }
+  
+  &.btn-secondary {
+    color: $gray-600;
+    
+    &:hover:not(:disabled) {
+      background-color: $gray-100;
+    }
+  }
+}
+
+// =============================================================================
+// BUTTON GROUPS
+// =============================================================================
+
+.btn-group {
+  display: inline-flex;
+  
+  .btn {
+    border-radius: 0;
+    
+    &:first-child {
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+    }
+    
+    &:last-child {
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
+    
+    &:not(:last-child) {
+      border-right: none;
+    }
+  }
+}
+
+// =============================================================================
+// ICON BUTTONS
+// =============================================================================
+
+.btn-icon {
+  padding: $spacing-2;
+  border-radius: $border-radius;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  
+  &:hover {
+    background-color: $gray-100;
+  }
+  
+  &.btn-icon-sm {
+    min-width: 2rem;
+    height: 2rem;
+    padding: $spacing-1;
+  }
+  
+  &.btn-icon-lg {
+    min-width: 3rem;
+    height: 3rem;
+    padding: $spacing-3;
+  }
+}
+
+// =============================================================================
+// LOADING BUTTON
+// =============================================================================
+
+.btn-loading {
+  position: relative;
+  color: transparent !important;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1rem;
+    height: 1rem;
+    margin: -0.5rem 0 0 -0.5rem;
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

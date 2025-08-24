@@ -13,7 +13,7 @@
           <NuxtLink to="/client/tracking" class="nav-link">Theo dõi</NuxtLink>
         </nav>
         <div class="user-menu">
-          <button class="btn-logout">Đăng xuất</button>
+          <button @click="handleLogout" class="btn-logout">Đăng xuất</button>
         </div>
       </div>
     </header>
@@ -32,6 +32,18 @@
 
 <script setup>
 // Client layout logic
+const router = useRouter()
+
+const handleLogout = () => {
+  if (confirm('Bạn có chắc chắn muốn đăng xuất?')) {
+    // Clear authentication data
+    localStorage.removeItem('isAuthenticated')
+    localStorage.removeItem('userRole')
+    
+    // Redirect to login page
+    router.push('/login')
+  }
+}
 </script>
 
 <style scoped>

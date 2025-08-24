@@ -1,0 +1,405 @@
+// =============================================================================
+// CARD COMPONENTS
+// =============================================================================
+
+.card {
+  background-color: $bg-card;
+  border-radius: $card-border-radius;
+  box-shadow: $card-shadow;
+  overflow: hidden;
+  transition: box-shadow $transition-normal;
+  
+  &:hover {
+    box-shadow: $shadow-md;
+  }
+  
+  .card-header {
+    padding: $spacing-6;
+    border-bottom: $border-width solid $border-color;
+    
+    .card-title {
+      font-size: $font-size-xl;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+      margin-bottom: $spacing-2;
+    }
+    
+    .card-subtitle {
+      font-size: $font-size-base;
+      color: $text-secondary;
+    }
+  }
+  
+  .card-body {
+    padding: $spacing-6;
+  }
+  
+  .card-footer {
+    padding: $spacing-6;
+    border-top: $border-width solid $border-color;
+    background-color: $gray-50;
+  }
+}
+
+// =============================================================================
+// CARD VARIANTS
+// =============================================================================
+
+.card-primary {
+  border-left: 4px solid $primary-blue;
+}
+
+.card-success {
+  border-left: 4px solid $success-green;
+}
+
+.card-warning {
+  border-left: 4px solid $warning-orange;
+}
+
+.card-danger {
+  border-left: 4px solid $secondary-red;
+}
+
+.card-info {
+  border-left: 4px solid $primary-blue-lighter;
+}
+
+// =============================================================================
+// CARD SIZES
+// =============================================================================
+
+.card-sm {
+  .card-header,
+  .card-body,
+  .card-footer {
+    padding: $spacing-4;
+  }
+  
+  .card-title {
+    font-size: $font-size-lg;
+  }
+}
+
+.card-lg {
+  .card-header,
+  .card-body,
+  .card-footer {
+    padding: $spacing-8;
+  }
+  
+  .card-title {
+    font-size: $font-size-2xl;
+  }
+}
+
+// =============================================================================
+// CARD LAYOUTS
+// =============================================================================
+
+.card-horizontal {
+  display: flex;
+  
+  .card-image {
+    flex-shrink: 0;
+    width: 200px;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  
+  .card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card-body {
+    flex: 1;
+  }
+  
+  @media (max-width: $breakpoint-md) {
+    flex-direction: column;
+    
+    .card-image {
+      width: 100%;
+      height: 200px;
+    }
+  }
+}
+
+.card-overlay {
+  position: relative;
+  overflow: hidden;
+  
+  .card-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+    }
+  }
+  
+  .card-content {
+    position: relative;
+    z-index: 2;
+    color: $text-white;
+  }
+  
+  .card-title {
+    color: $text-white;
+  }
+  
+  .card-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+// =============================================================================
+// CARD GRID
+// =============================================================================
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: $spacing-6;
+  
+  &.card-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+    
+    @media (max-width: $breakpoint-md) {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  &.card-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+    
+    @media (max-width: $breakpoint-lg) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @media (max-width: $breakpoint-md) {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  &.card-grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+    
+    @media (max-width: $breakpoint-xl) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    @media (max-width: $breakpoint-lg) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @media (max-width: $breakpoint-md) {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+// =============================================================================
+// CARD FEATURES
+// =============================================================================
+
+.card-feature {
+  text-align: center;
+  padding: $spacing-8;
+  
+  .card-icon {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto $spacing-4;
+    background-color: $primary-blue;
+    border-radius: $border-radius-full;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-white;
+    font-size: $font-size-2xl;
+  }
+  
+  .card-title {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    margin-bottom: $spacing-3;
+  }
+  
+  .card-description {
+    color: $text-secondary;
+    line-height: $line-height-relaxed;
+  }
+}
+
+// =============================================================================
+// CARD STATS
+// =============================================================================
+
+.card-stats {
+  .card-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .stats-info {
+    .stats-value {
+      font-size: $font-size-3xl;
+      font-weight: $font-weight-bold;
+      color: $text-primary;
+      line-height: 1;
+    }
+    
+    .stats-label {
+      font-size: $font-size-sm;
+      color: $text-secondary;
+      margin-top: $spacing-1;
+    }
+  }
+  
+  .stats-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: $border-radius;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $font-size-xl;
+    color: $text-white;
+    
+    &.stats-icon-primary {
+      background-color: $primary-blue;
+    }
+    
+    &.stats-icon-success {
+      background-color: $success-green;
+    }
+    
+    &.stats-icon-warning {
+      background-color: $warning-orange;
+    }
+    
+    &.stats-icon-danger {
+      background-color: $secondary-red;
+    }
+  }
+}
+
+// =============================================================================
+// CARD PROFILE
+// =============================================================================
+
+.card-profile {
+  text-align: center;
+  
+  .card-header {
+    padding: $spacing-8 $spacing-6 $spacing-6;
+  }
+  
+  .profile-avatar {
+    width: 6rem;
+    height: 6rem;
+    border-radius: $border-radius-full;
+    margin: 0 auto $spacing-4;
+    background-color: $primary-blue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-white;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+  }
+  
+  .profile-name {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    margin-bottom: $spacing-1;
+  }
+  
+  .profile-role {
+    font-size: $font-size-base;
+    color: $text-secondary;
+  }
+  
+  .profile-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-4;
+    padding: $spacing-4 0;
+    border-top: $border-width solid $border-color;
+    margin-top: $spacing-4;
+    
+    .stat-item {
+      .stat-value {
+        font-size: $font-size-lg;
+        font-weight: $font-weight-semibold;
+        color: $text-primary;
+      }
+      
+      .stat-label {
+        font-size: $font-size-xs;
+        color: $text-secondary;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// CARD INTERACTIVE
+// =============================================================================
+
+.card-interactive {
+  cursor: pointer;
+  transition: all $transition-normal;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.card-selectable {
+  cursor: pointer;
+  border: $border-width solid $border-color;
+  transition: all $transition-normal;
+  
+  &:hover {
+    border-color: $primary-blue;
+  }
+  
+  &.selected {
+    border-color: $primary-blue;
+    background-color: rgba($primary-blue, 0.05);
+  }
+}

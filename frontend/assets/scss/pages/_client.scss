@@ -1,0 +1,516 @@
+// =============================================================================
+// CLIENT PAGE STYLES
+// =============================================================================
+
+.client-page {
+  .client-dashboard {
+    .dashboard-header {
+      margin-bottom: $spacing-8;
+      
+      .dashboard-title {
+        font-size: $font-size-3xl;
+        font-weight: $font-weight-bold;
+        color: $text-primary;
+        margin-bottom: $spacing-2;
+      }
+      
+      .dashboard-subtitle {
+        font-size: $font-size-lg;
+        color: $text-secondary;
+      }
+    }
+    
+    .dashboard-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: $spacing-6;
+      margin-bottom: $spacing-8;
+      
+      .stat-card {
+        background-color: $bg-secondary;
+        border-radius: $border-radius-lg;
+        padding: $spacing-6;
+        box-shadow: $shadow;
+        border-left: 4px solid $primary-blue;
+        
+        .stat-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: $spacing-4;
+          
+          .stat-title {
+            font-size: $font-size-sm;
+            font-weight: $font-weight-medium;
+            color: $text-secondary;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+          }
+          
+          .stat-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: rgba($primary-blue, 0.1);
+            border-radius: $border-radius;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: $primary-blue;
+          }
+        }
+        
+        .stat-value {
+          font-size: $font-size-3xl;
+          font-weight: $font-weight-bold;
+          color: $text-primary;
+          margin-bottom: $spacing-2;
+        }
+        
+        .stat-change {
+          display: flex;
+          align-items: center;
+          gap: $spacing-1;
+          font-size: $font-size-sm;
+          
+          &.positive {
+            color: $success-green;
+          }
+          
+          &.negative {
+            color: $secondary-red;
+          }
+          
+          &.neutral {
+            color: $text-muted;
+          }
+        }
+      }
+    }
+    
+    .dashboard-content {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: $spacing-8;
+      
+      .main-content {
+        .content-section {
+          background-color: $bg-secondary;
+          border-radius: $border-radius-lg;
+          padding: $spacing-6;
+          margin-bottom: $spacing-6;
+          box-shadow: $shadow;
+          
+          .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: $spacing-6;
+            
+            .section-title {
+              font-size: $font-size-xl;
+              font-weight: $font-weight-semibold;
+              color: $text-primary;
+            }
+            
+            .section-actions {
+              display: flex;
+              gap: $spacing-2;
+            }
+          }
+        }
+      }
+      
+      .sidebar {
+        .sidebar-section {
+          background-color: $bg-secondary;
+          border-radius: $border-radius-lg;
+          padding: $spacing-6;
+          margin-bottom: $spacing-6;
+          box-shadow: $shadow;
+          
+          .section-title {
+            font-size: $font-size-lg;
+            font-weight: $font-weight-semibold;
+            color: $text-primary;
+            margin-bottom: $spacing-4;
+          }
+        }
+      }
+      
+      @media (max-width: $breakpoint-lg) {
+        grid-template-columns: 1fr;
+        gap: $spacing-6;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// CLIENT PROFILE PAGE
+// =============================================================================
+
+.client-profile-page {
+  .profile-header {
+    background-color: $bg-secondary;
+    border-radius: $border-radius-lg;
+    padding: $spacing-8;
+    margin-bottom: $spacing-8;
+    box-shadow: $shadow;
+    
+    .profile-info {
+      display: flex;
+      align-items: center;
+      gap: $spacing-6;
+      
+      .profile-avatar {
+        width: 6rem;
+        height: 6rem;
+        border-radius: $border-radius-full;
+        background-color: $primary-blue;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $text-white;
+        font-size: $font-size-2xl;
+        font-weight: $font-weight-semibold;
+      }
+      
+      .profile-details {
+        flex: 1;
+        
+        .profile-name {
+          font-size: $font-size-2xl;
+          font-weight: $font-weight-bold;
+          color: $text-primary;
+          margin-bottom: $spacing-2;
+        }
+        
+        .profile-email {
+          font-size: $font-size-base;
+          color: $text-secondary;
+          margin-bottom: $spacing-2;
+        }
+        
+        .profile-status {
+          display: inline-flex;
+          align-items: center;
+          gap: $spacing-2;
+          padding: $spacing-1 $spacing-3;
+          background-color: rgba($success-green, 0.1);
+          color: $success-green;
+          border-radius: $border-radius-full;
+          font-size: $font-size-sm;
+          font-weight: $font-weight-medium;
+          
+          .status-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background-color: currentColor;
+          }
+        }
+      }
+      
+      .profile-actions {
+        display: flex;
+        gap: $spacing-3;
+      }
+    }
+  }
+  
+  .profile-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-8;
+    
+    .profile-section {
+      background-color: $bg-secondary;
+      border-radius: $border-radius-lg;
+      padding: $spacing-6;
+      box-shadow: $shadow;
+      
+      .section-title {
+        font-size: $font-size-xl;
+        font-weight: $font-weight-semibold;
+        color: $text-primary;
+        margin-bottom: $spacing-6;
+        padding-bottom: $spacing-3;
+        border-bottom: $border-width solid $border-color;
+      }
+    }
+    
+    @media (max-width: $breakpoint-md) {
+      grid-template-columns: 1fr;
+      gap: $spacing-6;
+    }
+  }
+}
+
+// =============================================================================
+// CLIENT SERVICES PAGE
+// =============================================================================
+
+.client-services-page {
+  .services-header {
+    margin-bottom: $spacing-8;
+    
+    .services-title {
+      font-size: $font-size-3xl;
+      font-weight: $font-weight-bold;
+      color: $text-primary;
+      margin-bottom: $spacing-2;
+    }
+    
+    .services-subtitle {
+      font-size: $font-size-lg;
+      color: $text-secondary;
+    }
+  }
+  
+  .services-filters {
+    display: flex;
+    gap: $spacing-4;
+    margin-bottom: $spacing-6;
+    padding: $spacing-4;
+    background-color: $bg-secondary;
+    border-radius: $border-radius;
+    box-shadow: $shadow-sm;
+    
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-2;
+      
+      .filter-label {
+        font-size: $font-size-sm;
+        font-weight: $font-weight-medium;
+        color: $text-primary;
+      }
+      
+      .filter-select {
+        padding: $spacing-2 $spacing-3;
+        border: $border-width solid $border-color;
+        border-radius: $border-radius;
+        font-size: $font-size-sm;
+        background-color: $bg-secondary;
+        
+        &:focus {
+          outline: none;
+          border-color: $primary-blue;
+        }
+      }
+    }
+    
+    @media (max-width: $breakpoint-md) {
+      flex-direction: column;
+      gap: $spacing-3;
+    }
+  }
+  
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: $spacing-6;
+    margin-bottom: $spacing-8;
+    
+    .service-card {
+      background-color: $bg-secondary;
+      border-radius: $border-radius-lg;
+      overflow: hidden;
+      box-shadow: $shadow;
+      transition: transform $transition-normal, box-shadow $transition-normal;
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: $shadow-lg;
+      }
+      
+      .service-image {
+        width: 100%;
+        height: 200px;
+        background-color: $gray-200;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $gray-400;
+        font-size: $font-size-2xl;
+      }
+      
+      .service-content {
+        padding: $spacing-6;
+        
+        .service-title {
+          font-size: $font-size-xl;
+          font-weight: $font-weight-semibold;
+          color: $text-primary;
+          margin-bottom: $spacing-2;
+        }
+        
+        .service-description {
+          color: $text-secondary;
+          margin-bottom: $spacing-4;
+          line-height: $line-height-relaxed;
+        }
+        
+        .service-meta {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: $spacing-4;
+          
+          .service-price {
+            font-size: $font-size-lg;
+            font-weight: $font-weight-semibold;
+            color: $primary-blue;
+          }
+          
+          .service-duration {
+            font-size: $font-size-sm;
+            color: $text-secondary;
+          }
+        }
+        
+        .service-actions {
+          display: flex;
+          gap: $spacing-2;
+          
+          .btn {
+            flex: 1;
+          }
+        }
+      }
+    }
+  }
+  
+  .my-services {
+    background-color: $bg-secondary;
+    border-radius: $border-radius-lg;
+    padding: $spacing-6;
+    box-shadow: $shadow;
+    
+    .section-title {
+      font-size: $font-size-xl;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+      margin-bottom: $spacing-6;
+    }
+    
+    .service-list {
+      .service-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: $spacing-4;
+        border-bottom: $border-width solid $border-color;
+        
+        &:last-child {
+          border-bottom: none;
+        }
+        
+        .service-info {
+          .service-name {
+            font-weight: $font-weight-medium;
+            color: $text-primary;
+            margin-bottom: $spacing-1;
+          }
+          
+          .service-date {
+            font-size: $font-size-sm;
+            color: $text-secondary;
+          }
+        }
+        
+        .service-status {
+          padding: $spacing-1 $spacing-3;
+          border-radius: $border-radius-full;
+          font-size: $font-size-sm;
+          font-weight: $font-weight-medium;
+          
+          &.status-active {
+            background-color: rgba($success-green, 0.1);
+            color: $success-green;
+          }
+          
+          &.status-pending {
+            background-color: rgba($warning-orange, 0.1);
+            color: $warning-orange;
+          }
+          
+          &.status-completed {
+            background-color: rgba($text-muted, 0.1);
+            color: $text-muted;
+          }
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// RESPONSIVE STYLES
+// =============================================================================
+
+@media (max-width: $breakpoint-lg) {
+  .client-page {
+    .client-dashboard {
+      .dashboard-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .client-page {
+    .client-dashboard {
+      .dashboard-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+  
+  .client-profile-page {
+    .profile-header {
+      .profile-info {
+        flex-direction: column;
+        text-align: center;
+        
+        .profile-actions {
+          justify-content: center;
+        }
+      }
+    }
+  }
+  
+  .client-services-page {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .client-page {
+    .client-dashboard {
+      .dashboard-header {
+        .dashboard-title {
+          font-size: $font-size-2xl;
+        }
+      }
+    }
+  }
+  
+  .client-profile-page {
+    .profile-header {
+      padding: $spacing-6;
+      
+      .profile-info {
+        .profile-avatar {
+          width: 4rem;
+          height: 4rem;
+          font-size: $font-size-xl;
+        }
+      }
+    }
+  }
+}

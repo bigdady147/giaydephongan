@@ -1,0 +1,494 @@
+// =============================================================================
+// TABLE COMPONENTS
+// =============================================================================
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: $bg-secondary;
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+  box-shadow: $shadow;
+  
+  .table-header {
+    background-color: $gray-50;
+    border-bottom: $border-width solid $border-color;
+    
+    .table-row {
+      .table-cell {
+        padding: $table-cell-padding;
+        text-align: left;
+        font-weight: $font-weight-semibold;
+        color: $text-primary;
+        border-bottom: $border-width solid $border-color;
+        
+        &:first-child {
+          padding-left: $spacing-6;
+        }
+        
+        &:last-child {
+          padding-right: $spacing-6;
+        }
+      }
+    }
+  }
+  
+  .table-body {
+    .table-row {
+      transition: background-color $transition-normal;
+      
+      &:hover {
+        background-color: $gray-50;
+      }
+      
+      &:not(:last-child) {
+        border-bottom: $border-width solid $border-color;
+      }
+      
+      .table-cell {
+        padding: $table-cell-padding;
+        color: $text-primary;
+        vertical-align: middle;
+        
+        &:first-child {
+          padding-left: $spacing-6;
+        }
+        
+        &:last-child {
+          padding-right: $spacing-6;
+        }
+      }
+    }
+  }
+  
+  .table-footer {
+    background-color: $gray-50;
+    border-top: $border-width solid $border-color;
+    
+    .table-row {
+      .table-cell {
+        padding: $table-cell-padding;
+        text-align: left;
+        font-weight: $font-weight-medium;
+        color: $text-secondary;
+        
+        &:first-child {
+          padding-left: $spacing-6;
+        }
+        
+        &:last-child {
+          padding-right: $spacing-6;
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// TABLE VARIANTS
+// =============================================================================
+
+.table-striped {
+  .table-body {
+    .table-row {
+      &:nth-child(even) {
+        background-color: $gray-50;
+        
+        &:hover {
+          background-color: $gray-100;
+        }
+      }
+    }
+  }
+}
+
+.table-bordered {
+  .table-header,
+  .table-body,
+  .table-footer {
+    .table-row {
+      .table-cell {
+        border: $border-width solid $table-border-color;
+      }
+    }
+  }
+}
+
+.table-hover {
+  .table-body {
+    .table-row {
+      cursor: pointer;
+      
+      &:hover {
+        background-color: rgba($primary-blue, 0.05);
+      }
+    }
+  }
+}
+
+.table-sm {
+  .table-header,
+  .table-body,
+  .table-footer {
+    .table-row {
+      .table-cell {
+        padding: $spacing-3;
+        
+        &:first-child {
+          padding-left: $spacing-4;
+        }
+        
+        &:last-child {
+          padding-right: $spacing-4;
+        }
+      }
+    }
+  }
+}
+
+.table-lg {
+  .table-header,
+  .table-body,
+  .table-footer {
+    .table-row {
+      .table-cell {
+        padding: $spacing-5;
+        
+        &:first-child {
+          padding-left: $spacing-8;
+        }
+        
+        &:last-child {
+          padding-right: $spacing-8;
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// TABLE RESPONSIVE
+// =============================================================================
+
+.table-responsive {
+  overflow-x: auto;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow;
+  
+  .table {
+    box-shadow: none;
+    border-radius: 0;
+  }
+}
+
+// =============================================================================
+// TABLE ACTIONS
+// =============================================================================
+
+.table-actions {
+  display: flex;
+  gap: $spacing-2;
+  align-items: center;
+  
+  .action-btn {
+    padding: $spacing-1 $spacing-2;
+    background: none;
+    border: none;
+    color: $text-secondary;
+    cursor: pointer;
+    border-radius: $border-radius-sm;
+    transition: all $transition-normal;
+    
+    &:hover {
+      background-color: $gray-100;
+      color: $text-primary;
+    }
+    
+    &.action-edit:hover {
+      color: $primary-blue;
+    }
+    
+    &.action-delete:hover {
+      color: $secondary-red;
+    }
+    
+    &.action-view:hover {
+      color: $success-green;
+    }
+  }
+}
+
+// =============================================================================
+// TABLE STATUS
+// =============================================================================
+
+.table-status {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  padding: $spacing-1 $spacing-3;
+  border-radius: $border-radius-full;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  
+  &.status-active {
+    background-color: rgba($success-green, 0.1);
+    color: $success-green;
+  }
+  
+  &.status-inactive {
+    background-color: rgba($text-muted, 0.1);
+    color: $text-muted;
+  }
+  
+  &.status-pending {
+    background-color: rgba($warning-orange, 0.1);
+    color: $warning-orange;
+  }
+  
+  &.status-error {
+    background-color: rgba($secondary-red, 0.1);
+    color: $secondary-red;
+  }
+  
+  .status-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: currentColor;
+  }
+}
+
+// =============================================================================
+// TABLE SORTING
+// =============================================================================
+
+.table-sortable {
+  .table-header {
+    .table-row {
+      .table-cell {
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+        
+        &:hover {
+          background-color: $gray-100;
+        }
+        
+        &::after {
+          content: '';
+          position: absolute;
+          right: $spacing-2;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 0;
+          height: 0;
+          border-left: 4px solid transparent;
+          border-right: 4px solid transparent;
+          border-top: 4px solid $text-muted;
+        }
+        
+        &.sort-asc::after {
+          border-top: none;
+          border-bottom: 4px solid $primary-blue;
+        }
+        
+        &.sort-desc::after {
+          border-top: 4px solid $primary-blue;
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// TABLE FILTERS
+// =============================================================================
+
+.table-filters {
+  display: flex;
+  gap: $spacing-4;
+  margin-bottom: $spacing-6;
+  padding: $spacing-4;
+  background-color: $bg-secondary;
+  border-radius: $border-radius;
+  box-shadow: $shadow-sm;
+  
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2;
+    
+    .filter-label {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+      color: $text-primary;
+    }
+    
+    .filter-input {
+      padding: $spacing-2 $spacing-3;
+      border: $border-width solid $border-color;
+      border-radius: $border-radius;
+      font-size: $font-size-sm;
+      
+      &:focus {
+        outline: none;
+        border-color: $primary-blue;
+        box-shadow: 0 0 0 3px rgba($primary-blue, 0.1);
+      }
+    }
+  }
+  
+  .filter-actions {
+    display: flex;
+    align-items: flex-end;
+    gap: $spacing-2;
+  }
+  
+  @media (max-width: $breakpoint-md) {
+    flex-direction: column;
+    gap: $spacing-3;
+    
+    .filter-actions {
+      align-items: stretch;
+      
+      .btn {
+        flex: 1;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// TABLE PAGINATION
+// =============================================================================
+
+.table-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: $spacing-6;
+  padding: $spacing-4;
+  background-color: $bg-secondary;
+  border-radius: $border-radius;
+  box-shadow: $shadow-sm;
+  
+  .pagination-info {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+  }
+  
+  .pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    
+    .page-size-selector {
+      display: flex;
+      align-items: center;
+      gap: $spacing-2;
+      
+      .page-size-label {
+        font-size: $font-size-sm;
+        color: $text-secondary;
+      }
+      
+      .page-size-select {
+        padding: $spacing-1 $spacing-2;
+        border: $border-width solid $border-color;
+        border-radius: $border-radius-sm;
+        font-size: $font-size-sm;
+        background-color: $bg-secondary;
+        
+        &:focus {
+          outline: none;
+          border-color: $primary-blue;
+        }
+      }
+    }
+  }
+  
+  @media (max-width: $breakpoint-md) {
+    flex-direction: column;
+    gap: $spacing-3;
+    text-align: center;
+  }
+}
+
+// =============================================================================
+// TABLE EMPTY STATE
+// =============================================================================
+
+.table-empty {
+  text-align: center;
+  padding: $spacing-12;
+  color: $text-secondary;
+  
+  .empty-icon {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto $spacing-4;
+    color: $gray-400;
+  }
+  
+  .empty-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    margin-bottom: $spacing-2;
+  }
+  
+  .empty-description {
+    font-size: $font-size-base;
+    color: $text-secondary;
+    margin-bottom: $spacing-4;
+  }
+  
+  .empty-action {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+  }
+}
+
+// =============================================================================
+// TABLE LOADING
+// =============================================================================
+
+.table-loading {
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+  }
+  
+  .loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 11;
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid $gray-200;
+    border-top: 2px solid $primary-blue;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}

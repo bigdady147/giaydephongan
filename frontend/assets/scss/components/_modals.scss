@@ -1,0 +1,407 @@
+// =============================================================================
+// MODAL COMPONENTS
+// =============================================================================
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: $z-index-modal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-4;
+  
+  .modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+  }
+  
+  .modal-dialog {
+    background-color: $bg-secondary;
+    border-radius: $border-radius-lg;
+    box-shadow: $shadow-xl;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow: hidden;
+    transform: scale(0.95);
+    opacity: 0;
+    transition: all $transition-normal;
+    
+    &.show {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+  }
+  
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-6;
+    border-bottom: $border-width solid $border-color;
+    
+    .modal-title {
+      font-size: $font-size-xl;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+      margin: 0;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      color: $text-secondary;
+      cursor: pointer;
+      padding: $spacing-2;
+      border-radius: $border-radius;
+      transition: all $transition-normal;
+      
+      &:hover {
+        background-color: $gray-100;
+        color: $text-primary;
+      }
+      
+      .close-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+  }
+  
+  .modal-body {
+    padding: $spacing-6;
+    overflow-y: auto;
+    flex: 1;
+  }
+  
+  .modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: $spacing-3;
+    padding: $spacing-6;
+    border-top: $border-width solid $border-color;
+    background-color: $gray-50;
+  }
+}
+
+// =============================================================================
+// MODAL SIZES
+// =============================================================================
+
+.modal-sm .modal-dialog {
+  max-width: 400px;
+}
+
+.modal-lg .modal-dialog {
+  max-width: 800px;
+}
+
+.modal-xl .modal-dialog {
+  max-width: 1140px;
+}
+
+.modal-fullscreen .modal-dialog {
+  max-width: none;
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  margin: 0;
+}
+
+// =============================================================================
+// MODAL VARIANTS
+// =============================================================================
+
+.modal-centered {
+  align-items: center;
+}
+
+.modal-scrollable {
+  .modal-body {
+    overflow-y: auto;
+  }
+}
+
+.modal-static {
+  .modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+// =============================================================================
+// MODAL ANIMATIONS
+// =============================================================================
+
+.modal-fade {
+  .modal-dialog {
+    transition: transform $transition-slow, opacity $transition-slow;
+  }
+}
+
+.modal-slide-up {
+  .modal-dialog {
+    transform: translateY(100%);
+    transition: transform $transition-slow;
+    
+    &.show {
+      transform: translateY(0);
+    }
+  }
+}
+
+.modal-slide-down {
+  .modal-dialog {
+    transform: translateY(-100%);
+    transition: transform $transition-slow;
+    
+    &.show {
+      transform: translateY(0);
+    }
+  }
+}
+
+.modal-slide-left {
+  .modal-dialog {
+    transform: translateX(100%);
+    transition: transform $transition-slow;
+    
+    &.show {
+      transform: translateX(0);
+    }
+  }
+}
+
+.modal-slide-right {
+  .modal-dialog {
+    transform: translateX(-100%);
+    transition: transform $transition-slow;
+    
+    &.show {
+      transform: translateX(0);
+    }
+  }
+}
+
+// =============================================================================
+// MODAL CONTENT TYPES
+// =============================================================================
+
+.modal-confirm {
+  .modal-body {
+    text-align: center;
+    padding: $spacing-8;
+    
+    .confirm-icon {
+      width: 4rem;
+      height: 4rem;
+      margin: 0 auto $spacing-4;
+      color: $warning-orange;
+    }
+    
+    .confirm-title {
+      font-size: $font-size-xl;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+      margin-bottom: $spacing-3;
+    }
+    
+    .confirm-message {
+      color: $text-secondary;
+      line-height: $line-height-relaxed;
+    }
+  }
+  
+  .modal-footer {
+    justify-content: center;
+  }
+}
+
+.modal-alert {
+  .modal-body {
+    text-align: center;
+    padding: $spacing-8;
+    
+    .alert-icon {
+      width: 4rem;
+      height: 4rem;
+      margin: 0 auto $spacing-4;
+      
+      &.alert-success {
+        color: $success-green;
+      }
+      
+      &.alert-warning {
+        color: $warning-orange;
+      }
+      
+      &.alert-danger {
+        color: $secondary-red;
+      }
+      
+      &.alert-info {
+        color: $primary-blue;
+      }
+    }
+    
+    .alert-title {
+      font-size: $font-size-xl;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+      margin-bottom: $spacing-3;
+    }
+    
+    .alert-message {
+      color: $text-secondary;
+      line-height: $line-height-relaxed;
+    }
+  }
+  
+  .modal-footer {
+    justify-content: center;
+  }
+}
+
+.modal-form {
+  .modal-body {
+    .form-section {
+      margin-bottom: $spacing-6;
+      
+      .section-title {
+        font-size: $font-size-lg;
+        font-weight: $font-weight-semibold;
+        color: $text-primary;
+        margin-bottom: $spacing-4;
+        padding-bottom: $spacing-2;
+        border-bottom: $border-width solid $border-color;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// MODAL RESPONSIVE
+// =============================================================================
+
+@media (max-width: $breakpoint-md) {
+  .modal {
+    padding: $spacing-2;
+    
+    .modal-dialog {
+      margin: 0;
+      max-height: 95vh;
+    }
+    
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+      padding: $spacing-4;
+    }
+    
+    .modal-footer {
+      flex-direction: column;
+      
+      .btn {
+        width: 100%;
+      }
+    }
+  }
+  
+  .modal-lg .modal-dialog,
+  .modal-xl .modal-dialog {
+    max-width: none;
+    width: 100%;
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .modal {
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+      padding: $spacing-3;
+    }
+  }
+}
+
+// =============================================================================
+// MODAL UTILITIES
+// =============================================================================
+
+.modal-open {
+  overflow: hidden;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: $z-index-modal-backdrop;
+}
+
+// =============================================================================
+// MODAL TRIGGERS
+// =============================================================================
+
+[data-modal-target] {
+  cursor: pointer;
+}
+
+.modal-trigger {
+  cursor: pointer;
+}
+
+// =============================================================================
+// MODAL CUSTOMIZATION
+// =============================================================================
+
+.modal-custom {
+  .modal-dialog {
+    background: linear-gradient(135deg, $primary-blue 0%, $primary-blue-dark 100%);
+    color: $text-white;
+    
+    .modal-header {
+      border-bottom-color: rgba(255, 255, 255, 0.2);
+      
+      .modal-title {
+        color: $text-white;
+      }
+      
+      .modal-close {
+        color: rgba(255, 255, 255, 0.7);
+        
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+          color: $text-white;
+        }
+      }
+    }
+    
+    .modal-body {
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .modal-footer {
+      border-top-color: rgba(255, 255, 255, 0.2);
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+  }
+}

@@ -1,0 +1,355 @@
+// =============================================================================
+// FORM COMPONENTS
+// =============================================================================
+
+.form-group {
+  margin-bottom: $spacing-4;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: $spacing-2;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-primary;
+  
+  &.required::after {
+    content: ' *';
+    color: $secondary-red;
+  }
+}
+
+.form-input {
+  width: 100%;
+  padding: $form-input-padding;
+  font-size: $font-size-base;
+  line-height: $line-height-normal;
+  color: $text-primary;
+  background-color: $bg-secondary;
+  border: $border-width solid $form-input-border-color;
+  border-radius: $form-input-border-radius;
+  transition: border-color $transition-normal, box-shadow $transition-normal;
+  
+  &::placeholder {
+    color: $text-muted;
+  }
+  
+  &:focus {
+    outline: none;
+    border-color: $form-input-focus-border-color;
+    box-shadow: 0 0 0 3px rgba($primary-blue, 0.1);
+  }
+  
+  &:disabled {
+    background-color: $gray-100;
+    color: $text-muted;
+    cursor: not-allowed;
+  }
+  
+  &.form-input-error {
+    border-color: $secondary-red;
+    
+    &:focus {
+      border-color: $secondary-red;
+      box-shadow: 0 0 0 3px rgba($secondary-red, 0.1);
+    }
+  }
+  
+  &.form-input-success {
+    border-color: $success-green;
+    
+    &:focus {
+      border-color: $success-green;
+      box-shadow: 0 0 0 3px rgba($success-green, 0.1);
+    }
+  }
+}
+
+.form-textarea {
+  @extend .form-input;
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-select {
+  @extend .form-input;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right $spacing-2 center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: $spacing-8;
+  appearance: none;
+}
+
+.form-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  cursor: pointer;
+  
+  input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    margin: 0;
+    accent-color: $primary-blue;
+  }
+  
+  .form-checkbox-label {
+    font-size: $font-size-sm;
+    color: $text-primary;
+  }
+}
+
+.form-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  cursor: pointer;
+  
+  input[type="radio"] {
+    width: 1rem;
+    height: 1rem;
+    margin: 0;
+    accent-color: $primary-blue;
+  }
+  
+  .form-radio-label {
+    font-size: $font-size-sm;
+    color: $text-primary;
+  }
+}
+
+.form-help {
+  margin-top: $spacing-1;
+  font-size: $font-size-xs;
+  color: $text-muted;
+}
+
+.form-error {
+  margin-top: $spacing-1;
+  font-size: $font-size-xs;
+  color: $secondary-red;
+}
+
+.form-success {
+  margin-top: $spacing-1;
+  font-size: $font-size-xs;
+  color: $success-green;
+}
+
+// =============================================================================
+// FORM LAYOUTS
+// =============================================================================
+
+.form-row {
+  display: flex;
+  gap: $spacing-4;
+  margin-bottom: $spacing-4;
+  
+  .form-group {
+    flex: 1;
+    margin-bottom: 0;
+  }
+  
+  @media (max-width: $breakpoint-md) {
+    flex-direction: column;
+    gap: $spacing-2;
+  }
+}
+
+.form-inline {
+  display: flex;
+  align-items: flex-end;
+  gap: $spacing-4;
+  
+  .form-group {
+    margin-bottom: 0;
+  }
+  
+  @media (max-width: $breakpoint-md) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: $spacing-2;
+  }
+}
+
+// =============================================================================
+// FORM SIZES
+// =============================================================================
+
+.form-input-sm {
+  padding: $spacing-2 $spacing-3;
+  font-size: $font-size-sm;
+  border-radius: $border-radius-sm;
+}
+
+.form-input-lg {
+  padding: $spacing-4 $spacing-5;
+  font-size: $font-size-lg;
+  border-radius: $border-radius-md;
+}
+
+// =============================================================================
+// FORM VALIDATION STATES
+// =============================================================================
+
+.form-group {
+  &.has-error {
+    .form-label {
+      color: $secondary-red;
+    }
+    
+    .form-input {
+      border-color: $secondary-red;
+      
+      &:focus {
+        border-color: $secondary-red;
+        box-shadow: 0 0 0 3px rgba($secondary-red, 0.1);
+      }
+    }
+  }
+  
+  &.has-success {
+    .form-input {
+      border-color: $success-green;
+      
+      &:focus {
+        border-color: $success-green;
+        box-shadow: 0 0 0 3px rgba($success-green, 0.1);
+      }
+    }
+  }
+}
+
+// =============================================================================
+// FORM FLOATING LABELS
+// =============================================================================
+
+.form-floating {
+  position: relative;
+  
+  .form-input {
+    padding-top: $spacing-5;
+    padding-bottom: $spacing-1;
+  }
+  
+  .form-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: $spacing-3;
+    pointer-events: none;
+    border: $border-width solid transparent;
+    transform-origin: 0 0;
+    transition: opacity $transition-normal, transform $transition-normal;
+  }
+  
+  .form-input:focus,
+  .form-input:not(:placeholder-shown) {
+    ~ .form-label {
+      opacity: 0.65;
+      transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+    }
+  }
+}
+
+// =============================================================================
+// FORM SEARCH
+// =============================================================================
+
+.form-search {
+  position: relative;
+  
+  .form-input {
+    padding-left: $spacing-10;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: $spacing-3;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $text-muted;
+    pointer-events: none;
+  }
+}
+
+// =============================================================================
+// FORM FILE UPLOAD
+// =============================================================================
+
+.form-file {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  
+  input[type="file"] {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+  }
+  
+  .form-file-label {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: $spacing-3 $spacing-4;
+    background-color: $bg-secondary;
+    border: $border-width solid $border-color;
+    border-radius: $border-radius;
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      background-color: $gray-100;
+    }
+  }
+}
+
+// =============================================================================
+// FORM SWITCH
+// =============================================================================
+
+.form-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  cursor: pointer;
+  
+  input[type="checkbox"] {
+    position: relative;
+    width: 2.5rem;
+    height: 1.25rem;
+    background-color: $gray-300;
+    border-radius: $border-radius-full;
+    transition: background-color $transition-normal;
+    appearance: none;
+    cursor: pointer;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0.125rem;
+      left: 0.125rem;
+      width: 1rem;
+      height: 1rem;
+      background-color: white;
+      border-radius: 50%;
+      transition: transform $transition-normal;
+    }
+    
+    &:checked {
+      background-color: $primary-blue;
+      
+      &::before {
+        transform: translateX(1.25rem);
+      }
+    }
+  }
+  
+  .form-switch-label {
+    font-size: $font-size-sm;
+    color: $text-primary;
+  }
+}

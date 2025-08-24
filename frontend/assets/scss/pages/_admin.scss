@@ -1,0 +1,563 @@
+// =============================================================================
+// ADMIN PAGE STYLES
+// =============================================================================
+
+.admin-page {
+  .admin-dashboard {
+    .dashboard-header {
+      margin-bottom: $spacing-8;
+      
+      .dashboard-title {
+        font-size: $font-size-3xl;
+        font-weight: $font-weight-bold;
+        color: $text-primary;
+        margin-bottom: $spacing-2;
+      }
+      
+      .dashboard-subtitle {
+        font-size: $font-size-lg;
+        color: $text-secondary;
+      }
+    }
+    
+    .dashboard-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: $spacing-6;
+      margin-bottom: $spacing-8;
+      
+      .stat-card {
+        background-color: $bg-secondary;
+        border-radius: $border-radius-lg;
+        padding: $spacing-6;
+        box-shadow: $shadow;
+        border-left: 4px solid $primary-blue;
+        
+        &.stat-success {
+          border-left-color: $success-green;
+          
+          .stat-icon {
+            background-color: rgba($success-green, 0.1);
+            color: $success-green;
+          }
+        }
+        
+        &.stat-warning {
+          border-left-color: $warning-orange;
+          
+          .stat-icon {
+            background-color: rgba($warning-orange, 0.1);
+            color: $warning-orange;
+          }
+        }
+        
+        &.stat-danger {
+          border-left-color: $secondary-red;
+          
+          .stat-icon {
+            background-color: rgba($secondary-red, 0.1);
+            color: $secondary-red;
+          }
+        }
+        
+        .stat-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: $spacing-4;
+          
+          .stat-title {
+            font-size: $font-size-sm;
+            font-weight: $font-weight-medium;
+            color: $text-secondary;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+          }
+          
+          .stat-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: rgba($primary-blue, 0.1);
+            border-radius: $border-radius;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: $primary-blue;
+          }
+        }
+        
+        .stat-value {
+          font-size: $font-size-3xl;
+          font-weight: $font-weight-bold;
+          color: $text-primary;
+          margin-bottom: $spacing-2;
+        }
+        
+        .stat-change {
+          display: flex;
+          align-items: center;
+          gap: $spacing-1;
+          font-size: $font-size-sm;
+          
+          &.positive {
+            color: $success-green;
+          }
+          
+          &.negative {
+            color: $secondary-red;
+          }
+          
+          &.neutral {
+            color: $text-muted;
+          }
+        }
+      }
+    }
+    
+    .dashboard-content {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: $spacing-8;
+      
+      .main-content {
+        .content-section {
+          background-color: $bg-secondary;
+          border-radius: $border-radius-lg;
+          padding: $spacing-6;
+          margin-bottom: $spacing-6;
+          box-shadow: $shadow;
+          
+          .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: $spacing-6;
+            
+            .section-title {
+              font-size: $font-size-xl;
+              font-weight: $font-weight-semibold;
+              color: $text-primary;
+            }
+            
+            .section-actions {
+              display: flex;
+              gap: $spacing-2;
+            }
+          }
+        }
+      }
+      
+      .sidebar {
+        .sidebar-section {
+          background-color: $bg-secondary;
+          border-radius: $border-radius-lg;
+          padding: $spacing-6;
+          margin-bottom: $spacing-6;
+          box-shadow: $shadow;
+          
+          .section-title {
+            font-size: $font-size-lg;
+            font-weight: $font-weight-semibold;
+            color: $text-primary;
+            margin-bottom: $spacing-4;
+          }
+        }
+      }
+      
+      @media (max-width: $breakpoint-lg) {
+        grid-template-columns: 1fr;
+        gap: $spacing-6;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// ADMIN USERS PAGE
+// =============================================================================
+
+.admin-users-page {
+  .users-header {
+    margin-bottom: $spacing-8;
+    
+    .users-title {
+      font-size: $font-size-3xl;
+      font-weight: $font-weight-bold;
+      color: $text-primary;
+      margin-bottom: $spacing-2;
+    }
+    
+    .users-subtitle {
+      font-size: $font-size-lg;
+      color: $text-secondary;
+    }
+  }
+  
+  .users-filters {
+    display: flex;
+    gap: $spacing-4;
+    margin-bottom: $spacing-6;
+    padding: $spacing-4;
+    background-color: $bg-secondary;
+    border-radius: $border-radius;
+    box-shadow: $shadow-sm;
+    
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-2;
+      
+      .filter-label {
+        font-size: $font-size-sm;
+        font-weight: $font-weight-medium;
+        color: $text-primary;
+      }
+      
+      .filter-input {
+        padding: $spacing-2 $spacing-3;
+        border: $border-width solid $border-color;
+        border-radius: $border-radius;
+        font-size: $font-size-sm;
+        background-color: $bg-secondary;
+        
+        &:focus {
+          outline: none;
+          border-color: $primary-blue;
+        }
+      }
+    }
+    
+    .filter-actions {
+      display: flex;
+      align-items: flex-end;
+      gap: $spacing-2;
+    }
+    
+    @media (max-width: $breakpoint-md) {
+      flex-direction: column;
+      gap: $spacing-3;
+      
+      .filter-actions {
+        align-items: stretch;
+        
+        .btn {
+          flex: 1;
+        }
+      }
+    }
+  }
+  
+  .users-table {
+    background-color: $bg-secondary;
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+    box-shadow: $shadow;
+    
+    .table-header {
+      background-color: $gray-50;
+      border-bottom: $border-width solid $border-color;
+      
+      .table-row {
+        .table-cell {
+          padding: $spacing-4;
+          text-align: left;
+          font-weight: $font-weight-semibold;
+          color: $text-primary;
+          
+          &:first-child {
+            padding-left: $spacing-6;
+          }
+          
+          &:last-child {
+            padding-right: $spacing-6;
+          }
+        }
+      }
+    }
+    
+    .table-body {
+      .table-row {
+        transition: background-color $transition-normal;
+        
+        &:hover {
+          background-color: $gray-50;
+        }
+        
+        &:not(:last-child) {
+          border-bottom: $border-width solid $border-color;
+        }
+        
+        .table-cell {
+          padding: $spacing-4;
+          color: $text-primary;
+          vertical-align: middle;
+          
+          &:first-child {
+            padding-left: $spacing-6;
+          }
+          
+          &:last-child {
+            padding-right: $spacing-6;
+          }
+          
+          .user-info {
+            display: flex;
+            align-items: center;
+            gap: $spacing-3;
+            
+            .user-avatar {
+              width: 2.5rem;
+              height: 2.5rem;
+              border-radius: $border-radius-full;
+              background-color: $primary-blue;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: $text-white;
+              font-weight: $font-weight-semibold;
+              font-size: $font-size-sm;
+            }
+            
+            .user-details {
+              .user-name {
+                font-weight: $font-weight-medium;
+                color: $text-primary;
+                margin-bottom: $spacing-1;
+              }
+              
+              .user-email {
+                font-size: $font-size-sm;
+                color: $text-secondary;
+              }
+            }
+          }
+          
+          .user-status {
+            display: inline-flex;
+            align-items: center;
+            gap: $spacing-2;
+            padding: $spacing-1 $spacing-3;
+            border-radius: $border-radius-full;
+            font-size: $font-size-sm;
+            font-weight: $font-weight-medium;
+            
+            &.status-active {
+              background-color: rgba($success-green, 0.1);
+              color: $success-green;
+            }
+            
+            &.status-inactive {
+              background-color: rgba($text-muted, 0.1);
+              color: $text-muted;
+            }
+            
+            &.status-pending {
+              background-color: rgba($warning-orange, 0.1);
+              color: $warning-orange;
+            }
+            
+            .status-dot {
+              width: 0.5rem;
+              height: 0.5rem;
+              border-radius: 50%;
+              background-color: currentColor;
+            }
+          }
+          
+          .user-role {
+            padding: $spacing-1 $spacing-3;
+            background-color: $gray-100;
+            color: $text-secondary;
+            border-radius: $border-radius-full;
+            font-size: $font-size-sm;
+            font-weight: $font-weight-medium;
+          }
+          
+          .table-actions {
+            display: flex;
+            gap: $spacing-2;
+            align-items: center;
+            
+            .action-btn {
+              padding: $spacing-1 $spacing-2;
+              background: none;
+              border: none;
+              color: $text-secondary;
+              cursor: pointer;
+              border-radius: $border-radius-sm;
+              transition: all $transition-normal;
+              
+              &:hover {
+                background-color: $gray-100;
+                color: $text-primary;
+              }
+              
+              &.action-edit:hover {
+                color: $primary-blue;
+              }
+              
+              &.action-delete:hover {
+                color: $secondary-red;
+              }
+              
+              &.action-view:hover {
+                color: $success-green;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .users-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: $spacing-6;
+    padding: $spacing-4;
+    background-color: $bg-secondary;
+    border-radius: $border-radius;
+    box-shadow: $shadow-sm;
+    
+    .pagination-info {
+      font-size: $font-size-sm;
+      color: $text-secondary;
+    }
+    
+    .pagination-controls {
+      display: flex;
+      align-items: center;
+      gap: $spacing-2;
+      
+      .page-size-selector {
+        display: flex;
+        align-items: center;
+        gap: $spacing-2;
+        
+        .page-size-label {
+          font-size: $font-size-sm;
+          color: $text-secondary;
+        }
+        
+        .page-size-select {
+          padding: $spacing-1 $spacing-2;
+          border: $border-width solid $border-color;
+          border-radius: $border-radius-sm;
+          font-size: $font-size-sm;
+          background-color: $bg-secondary;
+          
+          &:focus {
+            outline: none;
+            border-color: $primary-blue;
+          }
+        }
+      }
+    }
+    
+    @media (max-width: $breakpoint-md) {
+      flex-direction: column;
+      gap: $spacing-3;
+      text-align: center;
+    }
+  }
+}
+
+// =============================================================================
+// ADMIN MODAL STYLES
+// =============================================================================
+
+.admin-modal {
+  .modal-header {
+    background-color: $gray-50;
+    border-bottom: $border-width solid $border-color;
+  }
+  
+  .modal-body {
+    .form-section {
+      margin-bottom: $spacing-6;
+      
+      .section-title {
+        font-size: $font-size-lg;
+        font-weight: $font-weight-semibold;
+        color: $text-primary;
+        margin-bottom: $spacing-4;
+        padding-bottom: $spacing-2;
+        border-bottom: $border-width solid $border-color;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// RESPONSIVE STYLES
+// =============================================================================
+
+@media (max-width: $breakpoint-lg) {
+  .admin-page {
+    .admin-dashboard {
+      .dashboard-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .admin-page {
+    .admin-dashboard {
+      .dashboard-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+  
+  .admin-users-page {
+    .users-table {
+      .table-header,
+      .table-body {
+        .table-row {
+          .table-cell {
+            padding: $spacing-3;
+            
+            &:first-child {
+              padding-left: $spacing-4;
+            }
+            
+            &:last-child {
+              padding-right: $spacing-4;
+            }
+          }
+        }
+      }
+      
+      .table-responsive {
+        overflow-x: auto;
+        
+        .table {
+          min-width: 800px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .admin-page {
+    .admin-dashboard {
+      .dashboard-header {
+        .dashboard-title {
+          font-size: $font-size-2xl;
+        }
+      }
+    }
+  }
+  
+  .admin-users-page {
+    .users-header {
+      .users-title {
+        font-size: $font-size-2xl;
+      }
+    }
+  }
+}

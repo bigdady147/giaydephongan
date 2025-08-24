@@ -33,9 +33,9 @@
         </NuxtLink>
       </nav>
       
-      <div class="sidebar-footer">
-        <button class="btn-logout">Đăng xuất</button>
-      </div>
+             <div class="sidebar-footer">
+         <button @click="handleLogout" class="btn-logout">Đăng xuất</button>
+       </div>
     </aside>
     
     <div class="main-content">
@@ -58,6 +58,18 @@
 
 <script setup>
 // Admin layout logic
+const router = useRouter()
+
+const handleLogout = () => {
+  if (confirm('Bạn có chắc chắn muốn đăng xuất?')) {
+    // Clear authentication data
+    localStorage.removeItem('isAuthenticated')
+    localStorage.removeItem('userRole')
+    
+    // Redirect to login page
+    router.push('/login')
+  }
+}
 </script>
 
 <style scoped>
