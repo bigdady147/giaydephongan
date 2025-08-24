@@ -1,4 +1,4 @@
-# Giấy Đề Phòng An - Laravel 12 + Nuxt 4
+# Giày dép Hồng An - Laravel 12 + Nuxt 4
 
 Full-stack application sử dụng Laravel 12 làm backend API và Nuxt 4 với TypeScript làm frontend.
 

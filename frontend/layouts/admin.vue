@@ -41,7 +41,7 @@
     <div class="main-content">
       <header class="top-header">
         <div class="header-content">
-          <h1>Giấy Đề Phòng An</h1>
+          <h1>Giày dép Hồng An</h1>
           <div class="user-info">
             <span>Admin User</span>
             <div class="avatar">A</div>

@@ -3,7 +3,7 @@
     <header class="header">
       <div class="container">
         <div class="logo">
-          <h1>Giấy Đề Phòng An</h1>
+          <h1>Giày dép Hồng An</h1>
           <span class="badge">Client Portal</span>
         </div>
         <nav class="nav">
@@ -24,7 +24,7 @@
     
     <footer class="footer">
       <div class="container">
-        <p>&copy; 2024 Giấy Đề Phòng An. Client Portal.</p>
+        <p>&copy; 2024 Giày dép Hồng An. Client Portal.</p>
       </div>
     </footer>
   </div>

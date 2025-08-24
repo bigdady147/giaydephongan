@@ -26,7 +26,7 @@ Route::get('/version', [HealthController::class, 'version']);
 // API documentation
 Route::get('/', function () {
     return response()->json([
-        'message' => 'Giấy Đề Phòng An API',
+        'message' => 'Giày dép Hồng An API',
         'version' => '1.0.0',
         'endpoints' => [
             'health' => '/api/health',
