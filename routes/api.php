@@ -27,18 +27,18 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
     // User routes
-    Route::get('/user', [AuthController::class, 'me']);
+    Route::get('/user', [AuthController::class, 'me'])->middleware('can:active-only');
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::put('/user/profile', [AuthController::class, 'updateProfile']);
+    Route::put('/user/profile', [AuthController::class, 'updateProfile'])->middleware('can:active-only');
 
     // Example of a role-protected route (using a simple closure check or dedicated middleware)
-    Route::middleware('can:admin-only')->get('/admin/users', function () {
+    Route::middleware(['can:active-only', 'can:admin-only'])->get('/admin/users', function () {
         return \App\Models\User::all();
     });
 });
 
 // Admin catalog management — accessible to both admin and staff (see design spec §5)
-Route::middleware(['auth:sanctum', 'can:staff-only'])->prefix('admin')->group(function () {
+Route::middleware(['auth:sanctum', 'can:active-only', 'can:staff-only'])->prefix('admin')->group(function () {
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('brands', BrandController::class);
     Route::apiResource('products', ProductController::class);

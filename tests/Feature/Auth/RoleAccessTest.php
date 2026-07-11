@@ -36,4 +36,13 @@ class RoleAccessTest extends TestCase
 
         $this->getJson('/api/admin/users')->assertStatus(200);
     }
+
+    public function test_inactive_admin_loses_api_access_despite_valid_token(): void
+    {
+        $admin = User::factory()->admin()->inactive()->create();
+        Sanctum::actingAs($admin);
+
+        $this->getJson('/api/user')->assertStatus(403);
+        $this->getJson('/api/admin/categories')->assertStatus(403);
+    }
 }

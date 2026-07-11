@@ -3,6 +3,7 @@
 namespace Tests\Feature\Admin;
 
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
@@ -94,5 +95,15 @@ class CategoryControllerTest extends TestCase
         $this->putJson("/api/admin/categories/{$category->id}", ['parent_id' => $category->id])
             ->assertStatus(422)
             ->assertJsonValidationErrors(['parent_id']);
+    }
+
+    public function test_deleting_a_category_with_products_returns_409(): void
+    {
+        $category = Category::factory()->create();
+        Product::factory()->for($category)->create();
+        $this->actingAsStaff();
+
+        $this->deleteJson("/api/admin/categories/{$category->id}")->assertStatus(409);
+        $this->assertDatabaseHas('categories', ['id' => $category->id]);
     }
 }

@@ -72,6 +72,12 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
+        if ($category->products()->exists()) {
+            return response()->json([
+                'message' => 'Không thể xóa danh mục vì vẫn còn sản phẩm thuộc danh mục này.',
+            ], 409);
+        }
+
         $category->delete();
 
         return response()->json(['message' => 'Category deleted successfully']);
