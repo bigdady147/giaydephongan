@@ -1,101 +1,112 @@
 <template>
   <div class="products-page">
-    <div class="header">
+    <div class="page-header">
       <h1>Sản phẩm</h1>
-      <BaseButton @click="openCreateForm">+ Thêm sản phẩm</BaseButton>
+      <el-button type="primary" @click="openCreateForm">+ Thêm sản phẩm</el-button>
     </div>
 
-    <div v-if="loadError" class="general-error">{{ loadError }}</div>
+    <el-alert v-if="loadError" :title="loadError" type="error" show-icon class="page-alert" />
 
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Tên</th>
-          <th>Danh mục</th>
-          <th>Giá</th>
-          <th>Trạng thái</th>
-          <th>Biến thể</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="product in products" :key="product.id">
-          <td>{{ product.name }}</td>
-          <td>{{ product.category?.name }}</td>
-          <td>{{ product.base_price.toLocaleString('vi-VN') }}đ</td>
-          <td>{{ statusLabel(product.status) }}</td>
-          <td>{{ product.variants.length }}</td>
-          <td class="row-actions">
-            <button @click="openEditForm(product)">Sửa</button>
-            <button @click="removeProduct(product)">Xóa</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <el-table :data="products" v-loading="loading" stripe style="width: 100%">
+      <el-table-column prop="name" label="Tên" />
+      <el-table-column label="Danh mục">
+        <template #default="{ row }">{{ (row as Product).category?.name }}</template>
+      </el-table-column>
+      <el-table-column label="Giá" width="130">
+        <template #default="{ row }">{{ (row as Product).base_price.toLocaleString('vi-VN') }}đ</template>
+      </el-table-column>
+      <el-table-column label="Trạng thái" width="110">
+        <template #default="{ row }">
+          <el-tag :type="statusTagType((row as Product).status)">{{ statusLabel((row as Product).status) }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="Biến thể" width="90">
+        <template #default="{ row }">{{ (row as Product).variants.length }}</template>
+      </el-table-column>
+      <el-table-column label="" width="160">
+        <template #default="{ row }">
+          <el-button link type="primary" @click="openEditForm(row as Product)">Sửa</el-button>
+          <el-button link type="danger" @click="removeProduct(row as Product)">Xóa</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
 
-    <div v-if="showForm" class="form-panel">
-      <h2>{{ editingId ? 'Sửa sản phẩm' : 'Thêm sản phẩm' }}</h2>
-      <div v-if="formError" class="general-error">{{ formError }}</div>
-      <form @submit.prevent="submitForm">
-        <BaseInput v-model="form.name" label="Tên sản phẩm" required :error="formErrors.name" />
+    <el-dialog v-model="showForm" :title="editingId ? 'Sửa sản phẩm' : 'Thêm sản phẩm'" width="640px">
+      <el-alert v-if="formError" :title="formError" type="error" show-icon class="page-alert" />
 
-        <label class="field-label">Danh mục</label>
-        <select v-model.number="form.category_id" required class="native-select">
-          <option value="" disabled>Chọn danh mục</option>
-          <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
-        </select>
-        <span v-if="formErrors.category_id" class="error-message">{{ formErrors.category_id }}</span>
+      <el-tabs v-model="activeTab">
+        <el-tab-pane label="Thông tin" name="info">
+          <el-form label-position="top">
+            <el-form-item label="Tên sản phẩm" :error="formErrors.name" required>
+              <el-input v-model="form.name" />
+            </el-form-item>
+            <el-form-item label="Danh mục" :error="formErrors.category_id" required>
+              <el-select v-model="form.category_id" placeholder="Chọn danh mục" style="width: 100%">
+                <el-option v-for="category in categories" :key="category.id" :label="category.name" :value="category.id" />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="Thương hiệu (không bắt buộc)">
+              <el-select v-model="form.brand_id" placeholder="Không chọn" clearable style="width: 100%">
+                <el-option v-for="brand in brands" :key="brand.id" :label="brand.name" :value="brand.id" />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="Chất liệu">
+              <el-select v-model="form.material" style="width: 100%">
+                <el-option label="Da bò thật (full-grain)" value="full_grain_leather" />
+                <el-option label="Da lộn" value="suede" />
+                <el-option label="Da PU" value="pu_leather" />
+                <el-option label="Khác" value="other" />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="Giá gốc (VNĐ)" :error="formErrors.base_price" required>
+              <el-input-number v-model="form.base_price" :min="0" :step="10000" style="width: 100%" />
+            </el-form-item>
+            <el-form-item label="Giá khuyến mãi (không bắt buộc)" :error="formErrors.sale_price">
+              <el-input-number v-model="form.sale_price" :min="0" :step="10000" style="width: 100%" />
+            </el-form-item>
+            <el-form-item label="Trạng thái">
+              <el-select v-model="form.status" style="width: 100%">
+                <el-option label="Nháp" value="draft" />
+                <el-option label="Đã đăng" value="published" />
+                <el-option label="Lưu trữ" value="archived" />
+              </el-select>
+            </el-form-item>
+          </el-form>
 
-        <label class="field-label">Thương hiệu (không bắt buộc)</label>
-        <select v-model="form.brand_id" class="native-select">
-          <option :value="null">Không chọn</option>
-          <option v-for="brand in brands" :key="brand.id" :value="brand.id">{{ brand.name }}</option>
-        </select>
+          <fieldset v-if="!editingId" class="variants-fieldset">
+            <legend>Biến thể (size / màu)</legend>
+            <div v-for="(variant, index) in form.variants" :key="index" class="variant-row">
+              <el-input v-model="variant.size" placeholder="Size (vd: 41)" size="small" />
+              <el-input v-model="variant.color" placeholder="Màu (vd: Nâu)" size="small" />
+              <el-input v-model="variant.sku" placeholder="SKU" size="small" />
+              <el-input-number v-model="variant.stock_quantity" :min="0" size="small" />
+              <el-button link type="danger" size="small" @click="removeVariantRow(index)">Xóa</el-button>
+            </div>
+            <el-button size="small" @click="addVariantRow">+ Thêm biến thể</el-button>
+          </fieldset>
+          <p v-else class="variant-edit-note">Quản lý biến thể của sản phẩm đã lưu ở tab "Biến thể".</p>
+        </el-tab-pane>
 
-        <label class="field-label">Chất liệu</label>
-        <select v-model="form.material" class="native-select">
-          <option value="full_grain_leather">Da bò thật (full-grain)</option>
-          <option value="suede">Da lộn</option>
-          <option value="pu_leather">Da PU</option>
-          <option value="other">Khác</option>
-        </select>
+        <el-tab-pane label="Ảnh" name="images" :disabled="!editingId">
+          <ProductImageManager :product-id="editingId" />
+        </el-tab-pane>
 
-        <BaseInput v-model="form.base_price" label="Giá gốc (VNĐ)" type="number" required :error="formErrors.base_price" />
-        <BaseInput v-model="form.sale_price" label="Giá khuyến mãi (không bắt buộc)" type="number" :error="formErrors.sale_price" />
+        <el-tab-pane label="Biến thể" name="variants" :disabled="!editingId">
+          <ProductVariantManager :product-id="editingId" />
+        </el-tab-pane>
+      </el-tabs>
 
-        <label class="field-label">Trạng thái</label>
-        <select v-model="form.status" class="native-select">
-          <option value="draft">Nháp</option>
-          <option value="published">Đã đăng</option>
-          <option value="archived">Lưu trữ</option>
-        </select>
-
-        <fieldset v-if="!editingId" class="variants-fieldset">
-          <legend>Biến thể (size / màu)</legend>
-          <div v-for="(variant, index) in form.variants" :key="index" class="variant-row">
-            <input v-model="variant.size" placeholder="Size (vd: 41)" required>
-            <input v-model="variant.color" placeholder="Màu (vd: Nâu)" required>
-            <input v-model="variant.sku" placeholder="SKU" required>
-            <input v-model.number="variant.stock_quantity" type="number" placeholder="Tồn kho" required>
-            <button type="button" @click="removeVariantRow(index)">Xóa</button>
-          </div>
-          <button type="button" @click="addVariantRow">+ Thêm biến thể</button>
-        </fieldset>
-        <p v-else class="variant-edit-note">
-          Sản phẩm này có sẵn biến thể — chỉnh sửa biến thể sẽ được bổ sung sau (chưa hỗ trợ trong màn hình này).
-        </p>
-
-        <div class="form-actions">
-          <BaseButton type="submit" :loading="saving">Lưu</BaseButton>
-          <button type="button" @click="closeForm">Hủy</button>
-        </div>
-      </form>
-    </div>
+      <template #footer>
+        <el-button @click="closeForm">Đóng</el-button>
+        <el-button type="primary" :loading="saving" @click="submitForm">Lưu</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 definePageMeta({ layout: 'admin' })
 
@@ -119,8 +130,10 @@ const api = useApiClient()
 const products = ref<Product[]>([])
 const categories = ref<Category[]>([])
 const brands = ref<Brand[]>([])
+const loading = ref(true)
 const loadError = ref('')
 const showForm = ref(false)
+const activeTab = ref('info')
 const editingId = ref<number | null>(null)
 const saving = ref(false)
 const formError = ref('')
@@ -129,10 +142,10 @@ const formErrors = reactive({ name: '', category_id: '', base_price: '', sale_pr
 const emptyForm = () => ({
   name: '',
   category_id: '' as number | '',
-  brand_id: null as string | number | null,
+  brand_id: null as number | null,
   material: 'full_grain_leather',
   base_price: 0,
-  sale_price: undefined as number | undefined,
+  sale_price: null as number | null,
   status: 'draft' as 'draft' | 'published' | 'archived',
   variants: [] as Variant[]
 })
@@ -145,7 +158,14 @@ const statusLabel = (status: Product['status']) => ({
   archived: 'Lưu trữ'
 })[status]
 
+const statusTagType = (status: Product['status']) => ({
+  draft: 'info',
+  published: 'success',
+  archived: 'warning'
+})[status] as 'info' | 'success' | 'warning'
+
 const loadAll = async () => {
+  loading.value = true
   loadError.value = ''
   try {
     const [productList, categoryList, brandList] = await Promise.all([
@@ -158,17 +178,21 @@ const loadAll = async () => {
     brands.value = brandList
   } catch (err: any) {
     loadError.value = err.message ?? 'Không thể tải sản phẩm.'
+  } finally {
+    loading.value = false
   }
 }
 
 const openCreateForm = () => {
   editingId.value = null
+  activeTab.value = 'info'
   Object.assign(form, emptyForm())
   showForm.value = true
 }
 
 const openEditForm = (product: Product) => {
   editingId.value = product.id
+  activeTab.value = 'info'
   Object.assign(form, {
     name: product.name,
     category_id: product.category?.id ?? '',
@@ -211,9 +235,10 @@ const submitForm = async () => {
     if (editingId.value) {
       await api.put(`/admin/products/${editingId.value}`, payload)
     } else {
-      await api.post('/admin/products', payload)
+      const created = await api.post<{ product: Product }>('/admin/products', payload)
+      editingId.value = created.product.id
     }
-    showForm.value = false
+    ElMessage.success('Đã lưu sản phẩm')
     await loadAll()
   } catch (err: any) {
     formErrors.name = err.errors?.name?.[0] ?? ''
@@ -227,9 +252,19 @@ const submitForm = async () => {
 }
 
 const removeProduct = async (product: Product) => {
-  if (!confirm(`Xóa sản phẩm "${product.name}"?`)) return
+  try {
+    await ElMessageBox.confirm(`Xóa sản phẩm "${product.name}"?`, 'Xác nhận', {
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+      type: 'warning'
+    })
+  } catch {
+    return
+  }
+
   try {
     await api.del(`/admin/products/${product.id}`)
+    ElMessage.success('Đã xóa sản phẩm')
     await loadAll()
   } catch (err: any) {
     loadError.value = err.message ?? 'Xóa sản phẩm thất bại.'
@@ -244,56 +279,19 @@ onMounted(loadAll)
   max-width: 1100px;
 }
 
-.header {
+.page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-
-  th, td {
-    text-align: left;
-    padding: 12px;
-    border-bottom: 1px solid #e5e7eb;
-  }
-}
-
-.row-actions button {
-  margin-right: 8px;
-  background: none;
-  border: none;
-  color: #2563eb;
-  cursor: pointer;
-}
-
-.form-panel {
-  margin-top: 24px;
-  padding: 20px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  max-width: 560px;
-}
-
-.field-label {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  margin: 12px 0 4px;
-}
-
-.native-select {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
+.page-alert {
+  margin-bottom: 16px;
 }
 
 .variants-fieldset {
-  margin-top: 20px;
+  margin-top: 12px;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   padding: 12px;
@@ -304,41 +302,15 @@ onMounted(loadAll)
   grid-template-columns: 1fr 1fr 1fr 1fr auto;
   gap: 8px;
   margin-bottom: 8px;
-
-  input {
-    padding: 6px;
-    border: 1px solid #d1d5db;
-    border-radius: 4px;
-  }
+  align-items: center;
 }
 
 .variant-edit-note {
-  margin-top: 20px;
+  margin-top: 12px;
   padding: 12px;
   background-color: #f9fafb;
   border-radius: 8px;
   font-size: 13px;
   color: #6b7280;
-}
-
-.form-actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.general-error {
-  background-color: #fef2f2;
-  color: #dc2626;
-  border: 1px solid #fecaca;
-  border-radius: 8px;
-  padding: 12px 16px;
-  font-size: 14px;
-  margin-bottom: 16px;
-}
-
-.error-message {
-  color: #dc2626;
-  font-size: 12px;
 }
 </style>
