@@ -48,8 +48,12 @@ export const useAuth = () => {
     try {
       user.value = await api.get<AuthUser>('/user')
       return user.value
-    } catch {
-      setStoredToken(null)
+    } catch (error: any) {
+      // Only discard the token when the server rejected it (expired/revoked).
+      // A transient network error or a 5xx must not log the user out.
+      if (error?.status === 401 || error?.status === 403) {
+        setStoredToken(null)
+      }
       user.value = null
       return null
     }
