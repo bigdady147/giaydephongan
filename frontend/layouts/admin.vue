@@ -7,31 +7,27 @@
       </div>
       
               <nav class="sidebar-nav">
-          <NuxtLink to="/admin" class="nav-item">
-            <span class="nav-icon">📊</span>
-            {{ $t('navigation.dashboard') }}
-          </NuxtLink>
-          <NuxtLink to="/admin/users" class="nav-item">
-            <span class="nav-icon">👥</span>
-            {{ $t('navigation.users') }}
-          </NuxtLink>
-          <NuxtLink to="/admin/records" class="nav-item">
-            <span class="nav-icon">📋</span>
-            {{ $t('navigation.records') }}
-          </NuxtLink>
-          <NuxtLink to="/admin/services" class="nav-item">
-            <span class="nav-icon">🔧</span>
-            {{ $t('navigation.services') }}
-          </NuxtLink>
-          <NuxtLink to="/admin/reports" class="nav-item">
-            <span class="nav-icon">📈</span>
-            {{ $t('navigation.reports') }}
-          </NuxtLink>
-          <NuxtLink to="/admin/settings" class="nav-item">
-            <span class="nav-icon">⚙️</span>
-            {{ $t('navigation.settings') }}
-          </NuxtLink>
-        </nav>
+        <NuxtLink to="/admin" class="nav-item">
+          <span class="nav-icon">📊</span>
+          {{ $t('navigation.dashboard') }}
+        </NuxtLink>
+        <NuxtLink to="/admin/categories" class="nav-item">
+          <span class="nav-icon">🗂️</span>
+          Danh mục
+        </NuxtLink>
+        <NuxtLink to="/admin/brands" class="nav-item">
+          <span class="nav-icon">🏷️</span>
+          Thương hiệu
+        </NuxtLink>
+        <NuxtLink to="/admin/products" class="nav-item">
+          <span class="nav-icon">👞</span>
+          Sản phẩm
+        </NuxtLink>
+        <NuxtLink to="/admin/users" class="nav-item">
+          <span class="nav-icon">👥</span>
+          {{ $t('navigation.users') }}
+        </NuxtLink>
+      </nav>
       
              <div class="sidebar-footer">
          <button @click="handleLogout" class="btn-logout">Đăng xuất</button>
