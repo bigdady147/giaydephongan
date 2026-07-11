@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Admin\BrandController;
 use App\Http\Controllers\Api\Admin\ProductController;
 use App\Http\Controllers\Api\Admin\ProductVariantController;
 use App\Http\Controllers\Api\Admin\ProductImageController;
+use App\Http\Controllers\Api\Admin\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // Admin catalog management — accessible to both admin and staff (see design spec §5)
 Route::middleware(['auth:sanctum', 'can:active-only', 'can:staff-only'])->prefix('admin')->group(function () {
+    Route::get('dashboard/stats', [DashboardController::class, 'stats']);
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('brands', BrandController::class);
     Route::apiResource('products', ProductController::class);
