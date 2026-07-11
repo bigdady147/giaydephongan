@@ -18,6 +18,8 @@
           <p>Step into your style. Log in to your account.</p>
         </div>
 
+        <div v-if="generalError" class="general-error">{{ generalError }}</div>
+
         <form class="login-form" @submit.prevent="handleLogin">
           <BaseInput
             v-model="loginForm.login"
@@ -72,7 +74,7 @@
         </div>
 
         <div class="register-prompt">
-          Don't have an account? <a href="#" class="join-link">Join the club</a>
+          Don't have an account? <NuxtLink to="/register" class="join-link">Đăng ký ngay</NuxtLink>
         </div>
       </div>
     </div>
@@ -101,7 +103,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { reactive, ref } from 'vue'
+
+const router = useRouter()
+const auth = useAuth()
 
 const loginForm = reactive({
   login: '',
@@ -114,26 +119,26 @@ const errors = reactive({
   password: ''
 })
 
+const generalError = ref('')
 const loading = ref(false)
+
+const resetErrors = () => {
+  errors.login = ''
+  errors.password = ''
+  generalError.value = ''
+}
 
 const handleLogin = async () => {
   loading.value = true
-  errors.login = ''
-  errors.password = ''
-  
+  resetErrors()
+
   try {
-    // Integrate with Laravel Auth API later
-    console.log('Logging in with:', loginForm)
-    // await $fetch('/api/login', { method: 'POST', body: loginForm })
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    alert('Logged in successfully (simulated)')
+    const user = await auth.login({ login: loginForm.login, password: loginForm.password })
+    await router.push(user.role === 'admin' || user.role === 'staff' ? '/admin' : '/')
   } catch (err: any) {
-    console.error(err)
-    if (err.data?.errors) {
-      Object.assign(errors, err.data.errors)
-    }
+    errors.login = err.errors?.login?.[0] ?? ''
+    errors.password = err.errors?.password?.[0] ?? ''
+    generalError.value = err.message ?? 'Đăng nhập thất bại, vui lòng thử lại.'
   } finally {
     loading.value = false
   }
@@ -193,6 +198,16 @@ const socialLogin = (provider: string) => {
     color: #6b7280;
     font-size: 14px;
   }
+}
+
+.general-error {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
+  margin-bottom: 20px;
 }
 
 .login-form {
