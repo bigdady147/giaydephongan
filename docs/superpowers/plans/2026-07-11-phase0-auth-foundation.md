@@ -332,6 +332,7 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -376,6 +377,13 @@ class ProfileTest extends TestCase
         $logoutResponse = $this->withHeader('Authorization', "Bearer {$token}")
             ->postJson('/api/logout');
         $logoutResponse->assertStatus(200);
+
+        // Laravel's auth guard caches the resolved user on the guard instance,
+        // which persists across sequential simulated HTTP calls within one
+        // test method (unlike real requests, which each get a fresh guard).
+        // Without this, the follow-up call below sees the pre-logout cached
+        // user and wrongly returns 200 even though the token row is deleted.
+        Auth::forgetGuards();
 
         $followUpResponse = $this->withHeader('Authorization', "Bearer {$token}")
             ->getJson('/api/user');
