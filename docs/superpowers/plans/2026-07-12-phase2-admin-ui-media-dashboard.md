@@ -973,12 +973,15 @@ const error = ref('')
 const uploading = ref(false)
 
 const loadImages = async () => {
-  if (!props.productId) return
+  const requestedId = props.productId
+  if (!requestedId) return
   error.value = ''
   try {
-    const product = await api.get<{ images: ProductImage[] }>(`/admin/products/${props.productId}`)
+    const product = await api.get<{ images: ProductImage[] }>(`/admin/products/${requestedId}`)
+    if (props.productId !== requestedId) return // productId changed while this request was in flight
     images.value = product.images
   } catch (err: any) {
+    if (props.productId !== requestedId) return
     error.value = err.message ?? 'Không thể tải ảnh sản phẩm.'
   }
 }
@@ -1020,7 +1023,10 @@ const removeImage = async (image: ProductImage) => {
   }
 }
 
-watch(() => props.productId, loadImages)
+watch(() => props.productId, () => {
+  images.value = []
+  loadImages()
+})
 onMounted(loadImages)
 </script>
 
