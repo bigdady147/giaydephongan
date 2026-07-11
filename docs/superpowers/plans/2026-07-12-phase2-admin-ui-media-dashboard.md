@@ -1618,9 +1618,13 @@ git commit -m "feat: rebuild products admin page with Element Plus tabs for info
 
 ### Task 10: End-to-end verification
 
-**Files:** none (verification only).
+**Files:** none (verification only) — but be ready to fix real bugs this step finds; two were found and fixed the first time this task ran (see below), neither caught by any unit test or per-task review.
 
 **Interfaces:** exercises Tasks 1-9 together against the real backend.
+
+**Known environment prerequisites** (fix once per environment, not app code):
+- `frontend/app.vue` must wrap `<NuxtPage />` in `<NuxtLayout>`. Without it, `definePageMeta({ layout: 'admin' })` is a silent no-op and the entire Element Plus sidebar/header built in Tasks 2-9 never renders — the page falls back to bare, unstyled content. This is a pre-existing bug predating this plan; fix it before Step 4 if `git log -- frontend/app.vue` shows it's not already fixed.
+- `.env`'s `APP_URL` must include the actual port the backend dev server runs on (e.g. `http://localhost:8000`, not bare `http://localhost`). `ProductImageController` builds image URLs from `Storage::disk('public')->url()`, which is built from `APP_URL` — a mismatched port means every uploaded image 404s in the browser even though the upload API call itself succeeds and the file is genuinely written to disk.
 
 - [ ] **Step 1: Run the full backend suite**
 

@@ -1441,7 +1441,12 @@ class ProductImageController extends Controller
         $path = $request->file('image')->store('products', 'public');
 
         $image = $product->images()->create([
-            'url' => Storage::url($path),
+            // Storage::url($path) alone resolves against the *default*
+            // filesystem disk ('local', no configured URL) rather than
+            // 'public' (which has APP_URL wired up) — always scope it
+            // explicitly, or every uploaded image silently 404s in the
+            // browser (found live in Phase 2 Task 10, not by any test).
+            'url' => Storage::disk('public')->url($path),
             'sort_order' => $request->integer('sort_order', 0),
         ]);
 
