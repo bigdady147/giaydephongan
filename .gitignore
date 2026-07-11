@@ -28,6 +28,12 @@ frontend/dist
 .DS_Store
 .DS_Store?
 ._*
+
+# Git worktrees (local isolation for subagent-driven development)
+/.worktrees
+
+# Playwright MCP session cache
+/.playwright-mcp
 .Spotlight-V100
 .Trashes
 ehthumbs.db
