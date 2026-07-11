@@ -1,50 +1,44 @@
-<!-- frontend/pages/admin/brands/index.vue -->
 <template>
   <div class="brands-page">
-    <div class="header">
+    <div class="page-header">
       <h1>Thương hiệu</h1>
-      <BaseButton @click="openCreateForm">+ Thêm thương hiệu</BaseButton>
+      <el-button type="primary" @click="openCreateForm">+ Thêm thương hiệu</el-button>
     </div>
 
-    <div v-if="loadError" class="general-error">{{ loadError }}</div>
+    <el-alert v-if="loadError" :title="loadError" type="error" show-icon class="page-alert" />
 
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Tên</th>
-          <th>Slug</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="brand in brands" :key="brand.id">
-          <td>{{ brand.name }}</td>
-          <td>{{ brand.slug }}</td>
-          <td class="row-actions">
-            <button @click="openEditForm(brand)">Sửa</button>
-            <button @click="removeBrand(brand)">Xóa</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <el-table :data="brands" v-loading="loading" stripe style="width: 100%">
+      <el-table-column prop="name" label="Tên" />
+      <el-table-column prop="slug" label="Slug" />
+      <el-table-column label="" width="160">
+        <template #default="{ row }">
+          <el-button link type="primary" @click="openEditForm(row as Brand)">Sửa</el-button>
+          <el-button link type="danger" @click="removeBrand(row as Brand)">Xóa</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
 
-    <div v-if="showForm" class="form-panel">
-      <h2>{{ editingId ? 'Sửa thương hiệu' : 'Thêm thương hiệu' }}</h2>
-      <div v-if="formError" class="general-error">{{ formError }}</div>
-      <form @submit.prevent="submitForm">
-        <BaseInput v-model="form.name" label="Tên thương hiệu" required :error="formErrors.name" />
-        <BaseInput v-model="form.description" label="Mô tả" />
-        <div class="form-actions">
-          <BaseButton type="submit" :loading="saving">Lưu</BaseButton>
-          <button type="button" @click="closeForm">Hủy</button>
-        </div>
-      </form>
-    </div>
+    <el-dialog v-model="showForm" :title="editingId ? 'Sửa thương hiệu' : 'Thêm thương hiệu'" width="480px">
+      <el-alert v-if="formError" :title="formError" type="error" show-icon class="page-alert" />
+      <el-form label-position="top">
+        <el-form-item label="Tên thương hiệu" :error="formErrors.name" required>
+          <el-input v-model="form.name" />
+        </el-form-item>
+        <el-form-item label="Mô tả">
+          <el-input v-model="form.description" type="textarea" :rows="3" />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="closeForm">Hủy</el-button>
+        <el-button type="primary" :loading="saving" @click="submitForm">Lưu</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 definePageMeta({ layout: 'admin' })
 
@@ -58,6 +52,7 @@ interface Brand {
 const api = useApiClient()
 
 const brands = ref<Brand[]>([])
+const loading = ref(true)
 const loadError = ref('')
 const showForm = ref(false)
 const editingId = ref<number | null>(null)
@@ -71,11 +66,14 @@ const form = reactive({
 })
 
 const loadBrands = async () => {
+  loading.value = true
   loadError.value = ''
   try {
     brands.value = await api.get<Brand[]>('/admin/brands')
   } catch (err: any) {
     loadError.value = err.message ?? 'Không thể tải thương hiệu.'
+  } finally {
+    loading.value = false
   }
 }
 
@@ -113,6 +111,7 @@ const submitForm = async () => {
       await api.post('/admin/brands', { ...form })
     }
     showForm.value = false
+    ElMessage.success('Đã lưu thương hiệu')
     await loadBrands()
   } catch (err: any) {
     formErrors.name = err.errors?.name?.[0] ?? ''
@@ -123,9 +122,19 @@ const submitForm = async () => {
 }
 
 const removeBrand = async (brand: Brand) => {
-  if (!confirm(`Xóa thương hiệu "${brand.name}"?`)) return
+  try {
+    await ElMessageBox.confirm(`Xóa thương hiệu "${brand.name}"?`, 'Xác nhận', {
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+      type: 'warning'
+    })
+  } catch {
+    return
+  }
+
   try {
     await api.del(`/admin/brands/${brand.id}`)
+    ElMessage.success('Đã xóa thương hiệu')
     await loadBrands()
   } catch (err: any) {
     loadError.value = err.message ?? 'Xóa thương hiệu thất bại.'
@@ -140,53 +149,14 @@ onMounted(loadBrands)
   max-width: 1000px;
 }
 
-.header {
+.page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-
-  th, td {
-    text-align: left;
-    padding: 12px;
-    border-bottom: 1px solid #e5e7eb;
-  }
-}
-
-.row-actions button {
-  margin-right: 8px;
-  background: none;
-  border: none;
-  color: #2563eb;
-  cursor: pointer;
-}
-
-.form-panel {
-  margin-top: 24px;
-  padding: 20px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  max-width: 480px;
-}
-
-.form-actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.general-error {
-  background-color: #fef2f2;
-  color: #dc2626;
-  border: 1px solid #fecaca;
-  border-radius: 8px;
-  padding: 12px 16px;
-  font-size: 14px;
+.page-alert {
   margin-bottom: 16px;
 }
 </style>
