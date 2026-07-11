@@ -1,51 +1,49 @@
 <template>
   <div class="categories-page">
-    <div class="header">
+    <div class="page-header">
       <h1>Danh mục sản phẩm</h1>
-      <BaseButton @click="openCreateForm">+ Thêm danh mục</BaseButton>
+      <el-button type="primary" @click="openCreateForm">+ Thêm danh mục</el-button>
     </div>
 
-    <div v-if="loadError" class="general-error">{{ loadError }}</div>
+    <el-alert v-if="loadError" :title="loadError" type="error" show-icon class="page-alert" />
 
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Tên</th>
-          <th>Slug</th>
-          <th>Trạng thái</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="category in categories" :key="category.id">
-          <td>{{ category.name }}</td>
-          <td>{{ category.slug }}</td>
-          <td>{{ category.is_active ? 'Hoạt động' : 'Ẩn' }}</td>
-          <td class="row-actions">
-            <button @click="openEditForm(category)">Sửa</button>
-            <button @click="removeCategory(category)">Xóa</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <el-table :data="categories" v-loading="loading" stripe style="width: 100%">
+      <el-table-column prop="name" label="Tên" />
+      <el-table-column prop="slug" label="Slug" />
+      <el-table-column label="Trạng thái" width="120">
+        <template #default="{ row }">
+          <el-tag :type="(row as Category).is_active ? 'success' : 'info'">{{ (row as Category).is_active ? 'Hoạt động' : 'Ẩn' }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="" width="160">
+        <template #default="{ row }">
+          <el-button link type="primary" @click="openEditForm(row as Category)">Sửa</el-button>
+          <el-button link type="danger" @click="removeCategory(row as Category)">Xóa</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
 
-    <div v-if="showForm" class="form-panel">
-      <h2>{{ editingId ? 'Sửa danh mục' : 'Thêm danh mục' }}</h2>
-      <div v-if="formError" class="general-error">{{ formError }}</div>
-      <form @submit.prevent="submitForm">
-        <BaseInput v-model="form.name" label="Tên danh mục" required :error="formErrors.name" />
-        <BaseInput v-model="form.description" label="Mô tả (SEO)" />
-        <div class="form-actions">
-          <BaseButton type="submit" :loading="saving">Lưu</BaseButton>
-          <button type="button" @click="closeForm">Hủy</button>
-        </div>
-      </form>
-    </div>
+    <el-dialog v-model="showForm" :title="editingId ? 'Sửa danh mục' : 'Thêm danh mục'" width="480px">
+      <el-alert v-if="formError" :title="formError" type="error" show-icon class="page-alert" />
+      <el-form label-position="top">
+        <el-form-item label="Tên danh mục" :error="formErrors.name" required>
+          <el-input v-model="form.name" />
+        </el-form-item>
+        <el-form-item label="Mô tả (SEO)">
+          <el-input v-model="form.description" type="textarea" :rows="3" />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="closeForm">Hủy</el-button>
+        <el-button type="primary" :loading="saving" @click="submitForm">Lưu</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 definePageMeta({ layout: 'admin' })
 
@@ -60,6 +58,7 @@ interface Category {
 const api = useApiClient()
 
 const categories = ref<Category[]>([])
+const loading = ref(true)
 const loadError = ref('')
 const showForm = ref(false)
 const editingId = ref<number | null>(null)
@@ -73,11 +72,14 @@ const form = reactive({
 })
 
 const loadCategories = async () => {
+  loading.value = true
   loadError.value = ''
   try {
     categories.value = await api.get<Category[]>('/admin/categories')
   } catch (err: any) {
     loadError.value = err.message ?? 'Không thể tải danh mục.'
+  } finally {
+    loading.value = false
   }
 }
 
@@ -115,6 +117,7 @@ const submitForm = async () => {
       await api.post('/admin/categories', { ...form })
     }
     showForm.value = false
+    ElMessage.success('Đã lưu danh mục')
     await loadCategories()
   } catch (err: any) {
     formErrors.name = err.errors?.name?.[0] ?? ''
@@ -125,9 +128,19 @@ const submitForm = async () => {
 }
 
 const removeCategory = async (category: Category) => {
-  if (!confirm(`Xóa danh mục "${category.name}"?`)) return
+  try {
+    await ElMessageBox.confirm(`Xóa danh mục "${category.name}"?`, 'Xác nhận', {
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+      type: 'warning'
+    })
+  } catch {
+    return
+  }
+
   try {
     await api.del(`/admin/categories/${category.id}`)
+    ElMessage.success('Đã xóa danh mục')
     await loadCategories()
   } catch (err: any) {
     loadError.value = err.message ?? 'Xóa danh mục thất bại.'
@@ -142,53 +155,14 @@ onMounted(loadCategories)
   max-width: 1000px;
 }
 
-.header {
+.page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-
-  th, td {
-    text-align: left;
-    padding: 12px;
-    border-bottom: 1px solid #e5e7eb;
-  }
-}
-
-.row-actions button {
-  margin-right: 8px;
-  background: none;
-  border: none;
-  color: #2563eb;
-  cursor: pointer;
-}
-
-.form-panel {
-  margin-top: 24px;
-  padding: 20px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  max-width: 480px;
-}
-
-.form-actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.general-error {
-  background-color: #fef2f2;
-  color: #dc2626;
-  border: 1px solid #fecaca;
-  border-radius: 8px;
-  padding: 12px 16px;
-  font-size: 14px;
+.page-alert {
   margin-bottom: 16px;
 }
 </style>
