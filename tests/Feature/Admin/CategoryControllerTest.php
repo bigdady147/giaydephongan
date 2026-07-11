@@ -74,4 +74,25 @@ class CategoryControllerTest extends TestCase
         $this->deleteJson("/api/admin/categories/{$category->id}")->assertStatus(200);
         $this->assertDatabaseMissing('categories', ['id' => $category->id]);
     }
+
+    public function test_creating_two_categories_with_same_name_generates_unique_slugs(): void
+    {
+        $this->actingAsStaff();
+
+        $first = $this->postJson('/api/admin/categories', ['name' => 'Giày Oxford Nam']);
+        $second = $this->postJson('/api/admin/categories', ['name' => 'Giày Oxford Nam']);
+
+        $first->assertStatus(201)->assertJsonPath('category.slug', 'giay-oxford-nam');
+        $second->assertStatus(201)->assertJsonPath('category.slug', 'giay-oxford-nam-2');
+    }
+
+    public function test_category_cannot_be_its_own_parent(): void
+    {
+        $category = Category::factory()->create();
+        $this->actingAsStaff();
+
+        $this->putJson("/api/admin/categories/{$category->id}", ['parent_id' => $category->id])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['parent_id']);
+    }
 }
