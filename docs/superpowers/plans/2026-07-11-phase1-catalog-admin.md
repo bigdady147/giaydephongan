@@ -624,9 +624,9 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Support\UniqueSlug;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
@@ -655,7 +655,7 @@ class CategoryController extends Controller
         }
 
         $data = $validator->validated();
-        $data['slug'] = $data['slug'] ?? Str::slug($data['name']);
+        $data['slug'] = $data['slug'] ?? UniqueSlug::make($data['name'], 'categories');
 
         $category = Category::create($data);
 
@@ -820,9 +820,9 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Support\UniqueSlug;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class BrandController extends Controller
@@ -846,7 +846,7 @@ class BrandController extends Controller
         }
 
         $data = $validator->validated();
-        $data['slug'] = $data['slug'] ?? Str::slug($data['name']);
+        $data['slug'] = $data['slug'] ?? UniqueSlug::make($data['name'], 'brands');
 
         $brand = Brand::create($data);
 
@@ -1050,10 +1050,10 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Support\UniqueSlug;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
@@ -1084,7 +1084,7 @@ class ProductController extends Controller
         $data = $validator->validated();
         $variants = $data['variants'] ?? [];
         unset($data['variants']);
-        $data['slug'] = $data['slug'] ?? Str::slug($data['name']);
+        $data['slug'] = $data['slug'] ?? UniqueSlug::make($data['name'], 'products');
 
         $product = DB::transaction(function () use ($data, $variants) {
             $product = Product::create($data);
