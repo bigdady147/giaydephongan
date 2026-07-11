@@ -44,14 +44,25 @@ class ProductImageControllerTest extends TestCase
         ])->assertStatus(422)->assertJsonValidationErrors(['image']);
     }
 
-    public function test_staff_can_delete_a_product_image(): void
+    public function test_staff_can_delete_a_product_image_and_its_file(): void
     {
         Storage::fake('public');
         $product = Product::factory()->create();
-        $image = $product->images()->create(['url' => '/storage/products/test.jpg', 'sort_order' => 0]);
         $this->actingAsStaff();
 
+        $uploadResponse = $this->postJson("/api/admin/products/{$product->id}/images", [
+            'image' => UploadedFile::fake()->image('shoe.jpg'),
+        ]);
+        $uploadResponse->assertStatus(201);
+
+        $image = $product->images()->firstOrFail();
+        $storedPath = ltrim(parse_url($image->url, PHP_URL_PATH) ?? '', '/');
+        $storedPath = preg_replace('#^storage/#', '', $storedPath);
+        Storage::disk('public')->assertExists($storedPath);
+
         $this->deleteJson("/api/admin/images/{$image->id}")->assertStatus(200);
+
+        Storage::disk('public')->assertMissing($storedPath);
         $this->assertDatabaseMissing('product_images', ['id' => $image->id]);
     }
 }

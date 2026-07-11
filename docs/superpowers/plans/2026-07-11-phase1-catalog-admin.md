@@ -1450,7 +1450,10 @@ class ProductImageController extends Controller
 
     public function destroy(ProductImage $image)
     {
-        $path = str_replace('/storage/', '', $image->url);
+        // url may be absolute (APP_URL-based) or root-relative; reduce it to
+        // the disk-relative path that store() originally wrote.
+        $path = ltrim(parse_url($image->url, PHP_URL_PATH) ?? '', '/');
+        $path = preg_replace('#^storage/#', '', $path);
         Storage::disk('public')->delete($path);
         $image->delete();
 
