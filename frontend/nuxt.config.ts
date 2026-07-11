@@ -34,6 +34,14 @@ export default defineNuxtConfig({
     preset: 'node-server'
   },
 
+  // Auth/admin pages are client-only (SPA) — they read localStorage and
+  // don't need SEO, unlike the public storefront (see docs/superpowers/specs/2026-07-11-shop-system-design.md, section 2)
+  routeRules: {
+    '/login': { ssr: false },
+    '/register': { ssr: false },
+    '/admin/**': { ssr: false }
+  },
+
   // App configuration
   app: {
     head: {
@@ -41,16 +49,8 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: 'Laravel 12 + Nuxt 4 TypeScript Full-Stack Application' }
-      ]
-    }
-  },
-
-  modules: ['@nuxtjs/i18n'],
-
-  // i18n configuration
-  app: {
-    head: {
+        { name: 'description', content: 'Giày da nam chính hãng - Hồng An' }
+      ],
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
@@ -58,6 +58,10 @@ export default defineNuxtConfig({
       ]
     }
   },
+
+  modules: ['@nuxtjs/i18n'],
+
+  // i18n configuration
   i18n: {
     langDir: '../locales',
     locales: [
