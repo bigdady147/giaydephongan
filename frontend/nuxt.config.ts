@@ -59,7 +59,7 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: ['@nuxtjs/i18n'],
+  modules: ['@nuxtjs/i18n', '@element-plus/nuxt'],
 
   // i18n configuration
   i18n: {
