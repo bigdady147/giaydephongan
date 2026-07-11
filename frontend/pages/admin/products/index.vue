@@ -60,8 +60,8 @@
           <option value="other">Khác</option>
         </select>
 
-        <BaseInput v-model.number="form.base_price" label="Giá gốc (VNĐ)" type="number" required :error="formErrors.base_price" />
-        <BaseInput v-model.number="form.sale_price" label="Giá khuyến mãi (không bắt buộc)" type="number" :error="formErrors.sale_price" />
+        <BaseInput v-model="form.base_price" label="Giá gốc (VNĐ)" type="number" required :error="formErrors.base_price" />
+        <BaseInput v-model="form.sale_price" label="Giá khuyến mãi (không bắt buộc)" type="number" :error="formErrors.sale_price" />
 
         <label class="field-label">Trạng thái</label>
         <select v-model="form.status" class="native-select">
@@ -70,7 +70,7 @@
           <option value="archived">Lưu trữ</option>
         </select>
 
-        <fieldset class="variants-fieldset">
+        <fieldset v-if="!editingId" class="variants-fieldset">
           <legend>Biến thể (size / màu)</legend>
           <div v-for="(variant, index) in form.variants" :key="index" class="variant-row">
             <input v-model="variant.size" placeholder="Size (vd: 41)" required>
@@ -81,6 +81,9 @@
           </div>
           <button type="button" @click="addVariantRow">+ Thêm biến thể</button>
         </fieldset>
+        <p v-else class="variant-edit-note">
+          Sản phẩm này có sẵn biến thể — chỉnh sửa biến thể sẽ được bổ sung sau (chưa hỗ trợ trong màn hình này).
+        </p>
 
         <div class="form-actions">
           <BaseButton type="submit" :loading="saving">Lưu</BaseButton>
@@ -103,8 +106,11 @@ interface Product {
   id: number
   name: string
   base_price: number
+  sale_price: number | null
+  material: 'full_grain_leather' | 'suede' | 'pu_leather' | 'other'
   status: 'draft' | 'published' | 'archived'
   category?: Category
+  brand?: Brand
   variants: Variant[]
 }
 
@@ -166,10 +172,10 @@ const openEditForm = (product: Product) => {
   Object.assign(form, {
     name: product.name,
     category_id: product.category?.id ?? '',
-    brand_id: null,
-    material: 'full_grain_leather',
+    brand_id: product.brand?.id ?? null,
+    material: product.material,
     base_price: product.base_price,
-    sale_price: undefined,
+    sale_price: product.sale_price,
     status: product.status,
     variants: []
   })
@@ -197,7 +203,11 @@ const submitForm = async () => {
   formErrors.sale_price = ''
 
   try {
-    const payload = { ...form, sale_price: form.sale_price || null }
+    const payload = {
+      ...form,
+      base_price: Number(form.base_price) || 0,
+      sale_price: form.sale_price ? Number(form.sale_price) : null
+    }
     if (editingId.value) {
       await api.put(`/admin/products/${editingId.value}`, payload)
     } else {
@@ -300,6 +310,15 @@ onMounted(loadAll)
     border: 1px solid #d1d5db;
     border-radius: 4px;
   }
+}
+
+.variant-edit-note {
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #6b7280;
 }
 
 .form-actions {
