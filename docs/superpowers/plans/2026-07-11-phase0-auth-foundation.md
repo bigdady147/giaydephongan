@@ -1146,7 +1146,12 @@ const auth = useAuth()
 
 const handleLogout = async () => {
   if (confirm(t('auth.logoutConfirm'))) {
-    await auth.logout()
+    try {
+      await auth.logout()
+    } catch {
+      // Local session is already cleared by logout()'s finally block;
+      // a failed server call must not strand the user on the admin page.
+    }
     router.push('/login')
   }
 }

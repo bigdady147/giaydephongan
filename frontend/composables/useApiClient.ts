@@ -56,7 +56,7 @@ export const useApiClient = () => {
     try {
       return await $fetch<T>(url, {
         method: (options.method ?? 'GET') as any,
-        body: options.body,
+        body: options.body as BodyInit | Record<string, any> | null | undefined,
         headers: getAuthHeaders(token)
       })
     } catch (error) {
