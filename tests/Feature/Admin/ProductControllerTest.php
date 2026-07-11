@@ -4,6 +4,7 @@ namespace Tests\Feature\Admin;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductVariant;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
@@ -123,5 +124,34 @@ class ProductControllerTest extends TestCase
 
         $first->assertStatus(201)->assertJsonPath('product.slug', 'giay-derby-da-bo');
         $second->assertStatus(201)->assertJsonPath('product.slug', 'giay-derby-da-bo-2');
+    }
+
+    public function test_updating_only_sale_price_succeeds_when_lower_than_existing_base_price(): void
+    {
+        $product = Product::factory()->create(['base_price' => 2000000]);
+        $this->actingAsStaff();
+
+        $this->putJson("/api/admin/products/{$product->id}", ['sale_price' => 1500000])
+            ->assertStatus(200)
+            ->assertJsonPath('product.sale_price', 1500000);
+    }
+
+    public function test_creating_a_product_with_an_already_used_variant_sku_returns_422(): void
+    {
+        $existing = Product::factory()->create();
+        ProductVariant::factory()->for($existing)->create(['sku' => 'TAKEN-SKU']);
+        $category = Category::factory()->create();
+        $this->actingAsStaff();
+
+        $this->postJson('/api/admin/products', [
+            'category_id' => $category->id,
+            'name' => 'Another Product',
+            'material' => 'full_grain_leather',
+            'base_price' => 900000,
+            'status' => 'draft',
+            'variants' => [
+                ['size' => '42', 'color' => 'Đen', 'sku' => 'TAKEN-SKU', 'stock_quantity' => 1],
+            ],
+        ])->assertStatus(422)->assertJsonValidationErrors(['variants.0.sku']);
     }
 }

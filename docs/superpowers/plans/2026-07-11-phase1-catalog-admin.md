@@ -1109,6 +1109,8 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
+        $request->mergeIfMissing(['base_price' => $product->base_price]);
+
         $validator = $this->validatorFor($request, $product->id, sometimes: true);
 
         if ($validator->fails()) {
@@ -1154,7 +1156,7 @@ class ProductController extends Controller
             'variants' => 'array',
             'variants.*.size' => 'required_with:variants|string|max:50',
             'variants.*.color' => 'required_with:variants|string|max:100',
-            'variants.*.sku' => 'required_with:variants|string|max:255|distinct',
+            'variants.*.sku' => ['required_with:variants', 'string', 'max:255', 'distinct', Rule::unique('product_variants', 'sku')],
             'variants.*.stock_quantity' => 'required_with:variants|integer|min:0',
             'variants.*.price_override' => 'nullable|integer|min:0',
         ]);
