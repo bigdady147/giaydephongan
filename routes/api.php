@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\HealthController;
 use App\Http\Controllers\Api\Admin\CategoryController;
 use App\Http\Controllers\Api\Admin\BrandController;
 use App\Http\Controllers\Api\Admin\ProductController;
+use App\Http\Controllers\Api\Admin\ProductVariantController;
+use App\Http\Controllers\Api\Admin\ProductImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +42,11 @@ Route::middleware(['auth:sanctum', 'can:staff-only'])->prefix('admin')->group(fu
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('brands', BrandController::class);
     Route::apiResource('products', ProductController::class);
+    Route::post('products/{product}/variants', [ProductVariantController::class, 'store']);
+    Route::put('variants/{variant}', [ProductVariantController::class, 'update']);
+    Route::delete('variants/{variant}', [ProductVariantController::class, 'destroy']);
+    Route::post('products/{product}/images', [ProductImageController::class, 'store']);
+    Route::delete('images/{image}', [ProductImageController::class, 'destroy']);
 });
 
 // Health check routes
