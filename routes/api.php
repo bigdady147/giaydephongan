@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HealthController;
+use App\Http\Controllers\Api\Admin\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,11 +26,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::put('/user/profile', [AuthController::class, 'updateProfile']);
-    
+
     // Example of a role-protected route (using a simple closure check or dedicated middleware)
     Route::middleware('can:admin-only')->get('/admin/users', function () {
         return \App\Models\User::all();
     });
+});
+
+// Admin catalog management — accessible to both admin and staff (see design spec §5)
+Route::middleware(['auth:sanctum', 'can:staff-only'])->prefix('admin')->group(function () {
+    Route::apiResource('categories', CategoryController::class);
 });
 
 // Health check routes
