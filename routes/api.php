@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HealthController;
 use App\Http\Controllers\Api\Admin\CategoryController;
+use App\Http\Controllers\Api\Admin\BrandController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
 // Admin catalog management — accessible to both admin and staff (see design spec §5)
 Route::middleware(['auth:sanctum', 'can:staff-only'])->prefix('admin')->group(function () {
     Route::apiResource('categories', CategoryController::class);
+    Route::apiResource('brands', BrandController::class);
 });
 
 // Health check routes
