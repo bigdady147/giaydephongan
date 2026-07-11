@@ -25,7 +25,7 @@ class ProductImageController extends Controller
         $path = $request->file('image')->store('products', 'public');
 
         $image = $product->images()->create([
-            'url' => Storage::url($path),
+            'url' => Storage::disk('public')->url($path),
             'sort_order' => $request->integer('sort_order', 0),
         ]);
 
