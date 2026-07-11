@@ -1,73 +1,146 @@
 <template>
-  <div class="admin-layout">
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <h2>Admin Panel</h2>
-        <span class="badge">Administrator</span>
+  <el-container class="admin-layout">
+    <el-aside width="220px" class="admin-sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-icon">👞</span>
+        <span class="brand-name">Hồng An Admin</span>
       </div>
-      
-              <nav class="sidebar-nav">
-        <NuxtLink to="/admin" class="nav-item">
-          <span class="nav-icon">📊</span>
-          {{ $t('navigation.dashboard') }}
-        </NuxtLink>
-        <NuxtLink to="/admin/categories" class="nav-item">
-          <span class="nav-icon">🗂️</span>
-          Danh mục
-        </NuxtLink>
-        <NuxtLink to="/admin/brands" class="nav-item">
-          <span class="nav-icon">🏷️</span>
-          Thương hiệu
-        </NuxtLink>
-        <NuxtLink to="/admin/products" class="nav-item">
-          <span class="nav-icon">👞</span>
-          Sản phẩm
-        </NuxtLink>
-        <NuxtLink to="/admin/users" class="nav-item">
-          <span class="nav-icon">👥</span>
-          {{ $t('navigation.users') }}
-        </NuxtLink>
-      </nav>
-      
-             <div class="sidebar-footer">
-         <button @click="handleLogout" class="btn-logout">Đăng xuất</button>
-       </div>
-    </aside>
-    
-    <div class="main-content">
-      <header class="top-header">
-        <div class="header-content">
-          <h1>Giày dép Hồng An</h1>
-          <div class="user-info">
-            <span>Admin User</span>
-            <div class="avatar">A</div>
-          </div>
-        </div>
-      </header>
-      
-      <main class="main">
+      <el-menu :default-active="route.path" router class="sidebar-menu" background-color="#1f2937" text-color="#d1d5db" active-text-color="#ffffff">
+        <el-menu-item index="/admin">
+          <el-icon><Odometer /></el-icon>
+          <span>{{ $t('navigation.dashboard') }}</span>
+        </el-menu-item>
+        <el-menu-item index="/admin/categories">
+          <el-icon><Collection /></el-icon>
+          <span>Danh mục</span>
+        </el-menu-item>
+        <el-menu-item index="/admin/brands">
+          <el-icon><PriceTag /></el-icon>
+          <span>Thương hiệu</span>
+        </el-menu-item>
+        <el-menu-item index="/admin/products">
+          <el-icon><Goods /></el-icon>
+          <span>Sản phẩm</span>
+        </el-menu-item>
+        <el-menu-item v-if="isAdmin" index="/admin/users">
+          <el-icon><User /></el-icon>
+          <span>{{ $t('navigation.users') }}</span>
+        </el-menu-item>
+      </el-menu>
+    </el-aside>
+
+    <el-container>
+      <el-header class="admin-header">
+        <span class="header-title">Giày dép Hồng An</span>
+        <el-dropdown @command="handleCommand">
+          <span class="header-user">
+            <el-avatar :size="32">{{ userInitial }}</el-avatar>
+            <span class="header-username">{{ user?.name ?? 'Admin' }}</span>
+            <el-icon><ArrowDown /></el-icon>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="logout">Đăng xuất</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </el-header>
+
+      <el-main class="admin-main">
         <slot />
-      </main>
-    </div>
-  </div>
+      </el-main>
+    </el-container>
+  </el-container>
 </template>
 
-<script setup>
-const router = useRouter()
-const { t } = useI18n()
-const auth = useAuth()
+<script setup lang="ts">
+import { computed } from 'vue'
+import { Odometer, Collection, PriceTag, Goods, User, ArrowDown } from '@element-plus/icons-vue'
+import { ElMessageBox } from 'element-plus'
 
-const handleLogout = async () => {
-  if (confirm(t('auth.logoutConfirm'))) {
-    try {
-      await auth.logout()
-    } catch {
-      // Local session is already cleared by logout()'s finally block;
-      // a failed server call must not strand the user on the admin page.
-    }
-    router.push('/login')
+const router = useRouter()
+const route = useRoute()
+const { t } = useI18n()
+const { user, isAdmin, logout } = useAuth()
+
+const userInitial = computed(() => (user.value?.name ?? 'A').charAt(0).toUpperCase())
+
+const handleCommand = async (command: string) => {
+  if (command !== 'logout') return
+
+  try {
+    await ElMessageBox.confirm(t('auth.logoutConfirm'), 'Xác nhận', {
+      confirmButtonText: 'Đăng xuất',
+      cancelButtonText: 'Hủy',
+      type: 'warning'
+    })
+  } catch {
+    return
   }
+
+  try {
+    await logout()
+  } catch {
+    // Local session is already cleared by logout()'s finally block.
+  }
+  router.push('/login')
 }
 </script>
 
+<style scoped lang="scss">
+.admin-layout {
+  min-height: 100vh;
+}
 
+.admin-sidebar {
+  background-color: #1f2937;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 16px;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-menu {
+  border-right: none;
+  flex: 1;
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: white;
+}
+
+.header-title {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.header-username {
+  font-size: 14px;
+  color: #374151;
+}
+
+.admin-main {
+  background-color: #f3f4f6;
+  padding: 24px;
+}
+</style>
