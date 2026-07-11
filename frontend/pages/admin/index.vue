@@ -1,166 +1,122 @@
 <template>
-  <div class="admin-page">
-    <div class="stats-grid">
-      <div class="stat-card">
-        <h3>Tổng số hồ sơ</h3>
-        <div class="stat-number">1,234</div>
-        <p class="stat-change positive">+12% so với tháng trước</p>
-      </div>
-      
-      <div class="stat-card">
-        <h3>Hồ sơ đang xử lý</h3>
-        <div class="stat-number">89</div>
-        <p class="stat-change neutral">Cần xử lý</p>
-      </div>
-      
-      <div class="stat-card">
-        <h3>Hồ sơ hoàn thành</h3>
-        <div class="stat-number">1,145</div>
-        <p class="stat-change positive">+8% so với tháng trước</p>
-      </div>
-      
-      <div class="stat-card">
-        <h3>Người dùng mới</h3>
-        <div class="stat-number">45</div>
-        <p class="stat-change positive">+15% so với tháng trước</p>
-      </div>
-    </div>
-    
-    <div class="actions">
-      <h2>Thao tác nhanh</h2>
-      <div class="action-buttons">
-        <button class="btn btn-primary">Quản lý hồ sơ</button>
-        <button class="btn btn-secondary">Quản lý người dùng</button>
-        <button class="btn btn-success">Báo cáo</button>
-        <button class="btn btn-warning">Cài đặt hệ thống</button>
-      </div>
-    </div>
+  <div class="dashboard-page">
+    <h1 class="page-title">Tổng quan</h1>
+
+    <el-alert v-if="loadError" :title="loadError" type="error" show-icon class="dashboard-alert" />
+
+    <el-row :gutter="20" v-loading="loading">
+      <el-col :span="6">
+        <el-card shadow="hover">
+          <el-statistic title="Sản phẩm" :value="stats.products_count" />
+          <p class="stat-sub">{{ stats.products_published_count }} đã đăng · {{ stats.products_draft_count }} nháp</p>
+        </el-card>
+      </el-col>
+      <el-col :span="6">
+        <el-card shadow="hover">
+          <el-statistic title="Danh mục" :value="stats.categories_count" />
+        </el-card>
+      </el-col>
+      <el-col :span="6">
+        <el-card shadow="hover">
+          <el-statistic title="Thương hiệu" :value="stats.brands_count" />
+        </el-card>
+      </el-col>
+      <el-col :span="6">
+        <el-card shadow="hover">
+          <el-statistic title="Biến thể sắp hết hàng" :value="stats.low_stock_variants_count" />
+          <p class="stat-sub">Trong tổng {{ stats.variants_count }} biến thể (dưới 5 đôi)</p>
+        </el-card>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="20" class="quick-links">
+      <el-col :span="8">
+        <el-card shadow="never">
+          <template #header>Thao tác nhanh</template>
+          <div class="quick-actions">
+            <el-button type="primary" @click="router.push('/admin/products')">+ Thêm sản phẩm</el-button>
+            <el-button @click="router.push('/admin/categories')">Quản lý danh mục</el-button>
+            <el-button @click="router.push('/admin/brands')">Quản lý thương hiệu</el-button>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
-<script setup>
-definePageMeta({
-  layout: 'admin'
+<script setup lang="ts">
+import { onMounted, reactive, ref } from 'vue'
+
+definePageMeta({ layout: 'admin' })
+
+interface DashboardStats {
+  categories_count: number
+  brands_count: number
+  products_count: number
+  products_published_count: number
+  products_draft_count: number
+  products_archived_count: number
+  variants_count: number
+  low_stock_variants_count: number
+}
+
+const router = useRouter()
+const api = useApiClient()
+
+const loading = ref(true)
+const loadError = ref('')
+const stats = reactive<DashboardStats>({
+  categories_count: 0,
+  brands_count: 0,
+  products_count: 0,
+  products_published_count: 0,
+  products_draft_count: 0,
+  products_archived_count: 0,
+  variants_count: 0,
+  low_stock_variants_count: 0
 })
+
+const loadStats = async () => {
+  loading.value = true
+  loadError.value = ''
+  try {
+    Object.assign(stats, await api.get<DashboardStats>('/admin/dashboard/stats'))
+  } catch (err: any) {
+    loadError.value = err.message ?? 'Không thể tải thống kê.'
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(loadStats)
 </script>
 
-<style scoped>
-.admin-page {
+<style scoped lang="scss">
+.dashboard-page {
   max-width: 1200px;
-  margin: 0 auto;
 }
 
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+.page-title {
+  margin-bottom: 20px;
 }
 
-.stat-card {
-  background: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
-  border: 1px solid #e5e7eb;
-}
-
-.stat-card h3 {
-  color: #374151;
-  margin-bottom: 0.5rem;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.stat-number {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #dc2626;
-  margin-bottom: 0.5rem;
-}
-
-.stat-change {
-  font-size: 0.875rem;
-  margin: 0;
-}
-
-.stat-change.positive {
-  color: #059669;
-}
-
-.stat-change.negative {
-  color: #dc2626;
-}
-
-.stat-change.neutral {
+.stat-sub {
+  margin-top: 8px;
+  font-size: 12px;
   color: #6b7280;
 }
 
-.actions {
-  background: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-  border: 1px solid #e5e7eb;
+.quick-links {
+  margin-top: 20px;
 }
 
-.actions h2 {
-  color: #374151;
-  margin-bottom: 1.5rem;
+.quick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.action-buttons {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-}
-
-.btn {
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.375rem;
-  font-weight: 500;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s;
-  text-decoration: none;
-  display: inline-block;
-  text-align: center;
-}
-
-.btn-primary {
-  background-color: #dc2626;
-  color: white;
-}
-
-.btn-primary:hover {
-  background-color: #b91c1c;
-}
-
-.btn-secondary {
-  background-color: #6b7280;
-  color: white;
-}
-
-.btn-secondary:hover {
-  background-color: #4b5563;
-}
-
-.btn-success {
-  background-color: #059669;
-  color: white;
-}
-
-.btn-success:hover {
-  background-color: #047857;
-}
-
-.btn-warning {
-  background-color: #d97706;
-  color: white;
-}
-
-.btn-warning:hover {
-  background-color: #b45309;
+.dashboard-alert {
+  margin-bottom: 16px;
 }
 </style>
