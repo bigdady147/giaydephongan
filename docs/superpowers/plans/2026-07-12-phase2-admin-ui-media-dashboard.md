@@ -1629,7 +1629,7 @@ git commit -m "feat: rebuild products admin page with Element Plus tabs for info
 - [ ] **Step 1: Run the full backend suite**
 
 Run: `php artisan test`
-Expected: all tests pass (59 existing + 2 new from Task 3 = 61).
+Expected: all tests pass (62 total — count drifted from the original 59+2=61 estimate due to an extra test added during Task 10's image-URL bug-fix pass; the final-review fix pass added an assertion to an existing test rather than a new test method, so the count stayed at 62).
 
 - [ ] **Step 2: Run the full frontend suite**
 

@@ -29,11 +29,13 @@ class DashboardControllerTest extends TestCase
         Product::factory()->for($category)->create(['status' => 'draft']);
         ProductVariant::factory()->for($published)->create(['stock_quantity' => 2, 'sku' => 'LOW-1']);
         ProductVariant::factory()->for($published)->create(['stock_quantity' => 20, 'sku' => 'HIGH-1']);
+        ProductVariant::factory()->for($published)->create(['stock_quantity' => 5, 'sku' => 'BOUNDARY-1']);
 
         Sanctum::actingAs(User::factory()->staff()->create());
 
         $response = $this->getJson('/api/admin/dashboard/stats');
 
+        // stock_quantity=5 must NOT be counted as low stock: the query is strictly `< 5`.
         $response->assertStatus(200)->assertJson([
             'categories_count' => 3,
             'brands_count' => 3,
@@ -41,7 +43,7 @@ class DashboardControllerTest extends TestCase
             'products_published_count' => 1,
             'products_draft_count' => 1,
             'products_archived_count' => 0,
-            'variants_count' => 2,
+            'variants_count' => 3,
             'low_stock_variants_count' => 1,
         ]);
     }
