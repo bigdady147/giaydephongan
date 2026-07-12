@@ -101,33 +101,60 @@
         "description": "Demonstrate Nuxt routing features",
         "button": "View Demo"
       }
-    }
   },
-  "client": {
-    "dashboard": {
-      "title": "Dashboard",
-      "welcome": "Welcome to Client Portal",
-      "stats": {
-        "totalServices": "Total Services",
-        "activeServices": "Active Services",
-        "completedServices": "Completed Services",
-        "pendingServices": "Pending Services"
-      }
+  "storefront": {
+    "home": "Home",
+    "search": "Search",
+    "searchPlaceholder": "Search products...",
+    "searchResultsFor": "Search results for \"{q}\"",
+    "searchEmpty": "No matching products found",
+    "login": "Sign in",
+    "hotline": "Hotline",
+    "categories": "Categories",
+    "featuredProducts": "Featured products",
+    "newArrivals": "New arrivals",
+    "viewAll": "View all",
+    "policies": "Policies",
+    "followUs": "Follow us",
+    "filter": "Filters",
+    "apply": "Apply",
+    "clearFilters": "Clear filters",
+    "brand": "Brand",
+    "material": "Material",
+    "size": "Size",
+    "color": "Color",
+    "priceRange": "Price range",
+    "priceFrom": "From",
+    "priceTo": "To",
+    "sortLabel": "Sort by",
+    "sortNewest": "Newest",
+    "sortPriceAsc": "Price: low to high",
+    "sortPriceDesc": "Price: high to low",
+    "sortBestSelling": "Best selling",
+    "productsCount": "{count} products",
+    "empty": "No products yet",
+    "backHome": "Back to home",
+    "badgeNew": "New",
+    "inStock": "{count} in stock",
+    "outOfStock": "Out of stock",
+    "selectSize": "Select size",
+    "selectColor": "Select color",
+    "sizeGuide": "Size guide",
+    "quickOrder": "Quick order",
+    "callToOrder": "Call {hotline}",
+    "chatZalo": "Chat on Zalo",
+    "productDescription": "Product description",
+    "relatedProducts": "Related products",
+    "recentlyViewed": "Recently viewed",
+    "materials": {
+      "full_grain_leather": "Full-grain leather",
+      "suede": "Suede",
+      "pu_leather": "PU leather",
+      "other": "Other"
     },
-    "profile": {
-      "title": "Personal Profile",
-      "personalInfo": "Personal Information",
-      "contactInfo": "Contact Information",
-      "updateProfile": "Update Profile",
-      "profileUpdated": "Profile updated successfully!"
-    },
-    "services": {
-      "title": "Services",
-      "availableServices": "Available Services",
-      "myServices": "My Services",
-      "registerService": "Register Service",
-      "serviceRegistered": "Service registered successfully!"
-    }
+    "pageNotFound": "Page not found",
+    "previousPage": "Previous",
+    "nextPage": "Next"
   },
   "admin": {
     "dashboard": {

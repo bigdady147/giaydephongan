@@ -103,31 +103,59 @@
         }
       }
     },
-    "client": {
-      "dashboard": {
-        "title": "Bảng điều khiển",
-        "welcome": "Chào mừng bạn đến với Client Portal",
-        "stats": {
-          "totalServices": "Tổng dịch vụ",
-          "activeServices": "Dịch vụ đang hoạt động",
-          "completedServices": "Dịch vụ đã hoàn thành",
-          "pendingServices": "Dịch vụ đang chờ"
-        }
+    "storefront": {
+      "home": "Trang chủ",
+      "search": "Tìm kiếm",
+      "searchPlaceholder": "Tìm kiếm sản phẩm...",
+      "searchResultsFor": "Kết quả tìm kiếm cho \"{q}\"",
+      "searchEmpty": "Không tìm thấy sản phẩm phù hợp",
+      "login": "Đăng nhập",
+      "hotline": "Hotline",
+      "categories": "Danh mục",
+      "featuredProducts": "Sản phẩm nổi bật",
+      "newArrivals": "Hàng mới về",
+      "viewAll": "Xem tất cả",
+      "policies": "Chính sách",
+      "followUs": "Kết nối với chúng tôi",
+      "filter": "Bộ lọc",
+      "apply": "Áp dụng",
+      "clearFilters": "Xóa lọc",
+      "brand": "Thương hiệu",
+      "material": "Chất liệu",
+      "size": "Size",
+      "color": "Màu sắc",
+      "priceRange": "Khoảng giá",
+      "priceFrom": "Từ",
+      "priceTo": "Đến",
+      "sortLabel": "Sắp xếp",
+      "sortNewest": "Mới nhất",
+      "sortPriceAsc": "Giá tăng dần",
+      "sortPriceDesc": "Giá giảm dần",
+      "sortBestSelling": "Bán chạy",
+      "productsCount": "{count} sản phẩm",
+      "empty": "Chưa có sản phẩm nào",
+      "backHome": "Về trang chủ",
+      "badgeNew": "Mới",
+      "inStock": "Còn {count} đôi",
+      "outOfStock": "Hết hàng",
+      "selectSize": "Chọn size",
+      "selectColor": "Chọn màu",
+      "sizeGuide": "Hướng dẫn chọn size",
+      "quickOrder": "Đặt hàng nhanh",
+      "callToOrder": "Gọi {hotline}",
+      "chatZalo": "Chat Zalo",
+      "productDescription": "Mô tả sản phẩm",
+      "relatedProducts": "Sản phẩm liên quan",
+      "recentlyViewed": "Đã xem gần đây",
+      "materials": {
+        "full_grain_leather": "Da bò thật",
+        "suede": "Da lộn",
+        "pu_leather": "Da PU",
+        "other": "Khác"
       },
-      "profile": {
-        "title": "Hồ sơ cá nhân",
-        "personalInfo": "Thông tin cá nhân",
-        "contactInfo": "Thông tin liên hệ",
-        "updateProfile": "Cập nhật hồ sơ",
-        "profileUpdated": "Hồ sơ đã được cập nhật thành công!"
-      },
-      "services": {
-        "title": "Dịch vụ",
-        "availableServices": "Dịch vụ có sẵn",
-        "myServices": "Dịch vụ của tôi",
-        "registerService": "Đăng ký dịch vụ",
-        "serviceRegistered": "Đăng ký dịch vụ thành công!"
-      }
+      "pageNotFound": "Không tìm thấy trang",
+      "previousPage": "Trang trước",
+      "nextPage": "Trang sau"
     },
     "admin": {
       "dashboard": {

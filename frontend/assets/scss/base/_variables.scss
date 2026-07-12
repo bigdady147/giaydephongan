@@ -201,3 +201,16 @@ $form-input-focus-border-color: $primary-blue;
 // Table
 $table-cell-padding: $spacing-4;
 $table-border-color: $border-color;
+
+// Storefront design tokens (Phase 3 — light/clean/modern, leather-brown accent)
+$sf-color-text: #1a1a1a;
+$sf-color-muted: #6b7280;
+$sf-color-accent: #8b5e34;
+$sf-color-accent-dark: #6f4a28;
+$sf-color-border: #e5e7eb;
+$sf-color-bg-soft: #f9fafb;
+$sf-color-sale: #b91c1c;
+$sf-radius: 10px;
+$sf-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08);
+$sf-shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+$sf-container: 1200px;
