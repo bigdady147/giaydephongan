@@ -11,7 +11,7 @@ class Product extends Model
 
     protected $fillable = [
         'category_id', 'brand_id', 'name', 'slug', 'sku', 'description',
-        'material', 'base_price', 'sale_price', 'status', 'thumbnail',
+        'material', 'base_price', 'sale_price', 'status', 'is_featured', 'thumbnail',
         'seo_title', 'seo_description', 'avg_rating', 'reviews_count',
     ];
 
@@ -20,6 +20,8 @@ class Product extends Model
         'sale_price' => 'integer',
         'avg_rating' => 'float',
         'reviews_count' => 'integer',
+        'is_featured' => 'boolean',
+        'sold_count' => 'integer',
     ];
 
     public function category()
