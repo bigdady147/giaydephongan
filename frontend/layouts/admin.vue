@@ -34,6 +34,14 @@
           <el-icon><Document /></el-icon>
           <span>Trang tĩnh</span>
         </el-menu-item>
+        <el-menu-item index="/admin/blog">
+          <el-icon><Notebook /></el-icon>
+          <span>Blog</span>
+        </el-menu-item>
+        <el-menu-item index="/admin/discount-codes">
+          <el-icon><Discount /></el-icon>
+          <span>Mã giảm giá</span>
+        </el-menu-item>
         <el-menu-item index="/admin/settings">
           <el-icon><Setting /></el-icon>
           <span>Cài đặt shop</span>
@@ -71,7 +79,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Odometer, Collection, PriceTag, Goods, User, ArrowDown, Picture, Document, Setting, List } from '@element-plus/icons-vue'
+import { Odometer, Collection, PriceTag, Goods, User, ArrowDown, Picture, Document, Setting, List, Notebook, Discount } from '@element-plus/icons-vue'
 import { ElMessageBox } from 'element-plus'
 
 const router = useRouter()
