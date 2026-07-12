@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\Storefront\CategoryController as StorefrontCategory
 use App\Http\Controllers\Api\Storefront\BrandController as StorefrontBrandController;
 use App\Http\Controllers\Api\Storefront\SettingController as StorefrontSettingController;
 use App\Http\Controllers\Api\Storefront\BannerController as StorefrontBannerController;
+use App\Http\Controllers\Api\Storefront\ProductController as StorefrontProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +62,7 @@ Route::get('/categories/{slug}', [StorefrontCategoryController::class, 'show']);
 Route::get('/brands', [StorefrontBrandController::class, 'index']);
 Route::get('/settings', [StorefrontSettingController::class, 'index']);
 Route::get('/banners', [StorefrontBannerController::class, 'index']);
+Route::get('/products', [StorefrontProductController::class, 'index']);
 
 // Health check routes
 Route::get('/health', [HealthController::class, 'index']);
