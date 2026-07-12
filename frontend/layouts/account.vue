@@ -28,8 +28,8 @@
             <NuxtLink to="/gio-hang" class="sf-cart-link">
               🛒 {{ $t('storefront.cart') }} <span v-if="cartCount > 0" class="sf-cart-badge">{{ cartCount }}</span>
             </NuxtLink>
-            <NuxtLink v-if="!user" to="/login" class="sf-account">{{ $t('storefront.login') }}</NuxtLink>
-            <NuxtLink v-else to="/tai-khoan/don-hang" class="sf-account">👤 {{ user.name }}</NuxtLink>
+            <span class="sf-account" v-if="user">{{ user.name }}</span>
+            <NuxtLink v-else to="/login" class="sf-account">{{ $t('storefront.login') }}</NuxtLink>
             <template #fallback>
               <NuxtLink to="/gio-hang" class="sf-cart-link">
                 🛒 {{ $t('storefront.cart') }}
@@ -43,7 +43,35 @@
     </header>
 
     <main class="sf-main">
-      <slot />
+      <div class="sf-container account-page-layout">
+        <aside class="account-sidebar">
+          <div class="sidebar-user">
+            <div class="user-avatar">👤</div>
+            <div class="user-info">
+              <strong>{{ user?.name }}</strong>
+              <span class="user-email">{{ user?.email }}</span>
+            </div>
+          </div>
+          <nav class="sidebar-nav">
+            <NuxtLink to="/tai-khoan/don-hang" class="sidebar-link">
+              📋 Đơn hàng của tôi
+            </NuxtLink>
+            <NuxtLink to="/tai-khoan/loyalty" class="sidebar-link">
+              ✨ Điểm tích lũy & Hạng
+            </NuxtLink>
+            <NuxtLink to="/tai-khoan/ho-so" class="sidebar-link">
+              👤 Hồ sơ cá nhân
+            </NuxtLink>
+            <button class="sidebar-link btn-logout" @click="handleLogout">
+              🚪 Đăng xuất
+            </button>
+          </nav>
+        </aside>
+
+        <section class="account-content">
+          <slot />
+        </section>
+      </div>
     </main>
 
     <footer class="sf-footer">
@@ -88,7 +116,7 @@
 import { ref } from 'vue'
 
 const router = useRouter()
-const { user } = useAuth()
+const { user, logout } = useAuth()
 const { data: shared } = await useStorefrontData()
 const { count: cartCount } = useCart()
 
@@ -100,6 +128,15 @@ const submitSearch = () => {
   if (!q) return
   menuOpen.value = false
   router.push({ path: '/tim-kiem', query: { q } })
+}
+
+const handleLogout = async () => {
+  try {
+    await logout()
+  } catch {
+    // Session cleared
+  }
+  router.push('/')
 }
 </script>
 
@@ -139,7 +176,34 @@ const submitSearch = () => {
 }
 .sf-burger { display: none; border: 0; background: none; font-size: 22px; cursor: pointer; }
 
-.sf-main { flex: 1; }
+.sf-main { flex: 1; padding: 24px 0; }
+
+.account-page-layout {
+  display: grid; grid-template-columns: 240px 1fr; gap: 32px; align-items: start;
+}
+.account-sidebar {
+  border: 1px solid $sf-color-border; border-radius: $sf-radius; background: #fff; padding: 20px;
+}
+.sidebar-user {
+  display: flex; gap: 12px; align-items: center; margin-bottom: 20px;
+  border-bottom: 1px solid $sf-color-border; padding-bottom: 16px;
+  .user-avatar { font-size: 32px; background: $sf-color-bg-soft; width: 44px; height: 44px; border-radius: 99px; display: flex; align-items: center; justify-content: center; }
+  .user-info {
+    display: flex; flex-direction: column; min-width: 0;
+    strong { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .user-email { font-size: 11px; color: $sf-color-muted; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  }
+}
+.sidebar-nav {
+  display: flex; flex-direction: column; gap: 6px;
+}
+.sidebar-link {
+  display: block; width: 100%; border: 0; background: none; text-align: left;
+  padding: 10px 12px; border-radius: 6px; text-decoration: none; color: $sf-color-text;
+  font-size: 14px; font-weight: 500; cursor: pointer;
+  &:hover, &.router-link-active { background: $sf-color-bg-soft; color: $sf-color-accent; }
+}
+.btn-logout { color: $sf-color-sale; }
 
 .sf-footer { background: $sf-color-bg-soft; border-top: 1px solid $sf-color-border; margin-top: 48px; padding: 40px 0 0; }
 .sf-footer-grid {
@@ -159,6 +223,7 @@ const submitSearch = () => {
   .sf-burger { display: block; }
   .sf-search { order: 3; width: 100%; input { width: 100%; flex: 1; } }
   .sf-hotline { display: none; }
+  .account-page-layout { grid-template-columns: 1fr; gap: 20px; }
   .sf-footer-grid { grid-template-columns: 1fr 1fr; }
 }
 </style>

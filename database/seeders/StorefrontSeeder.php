@@ -52,5 +52,16 @@ class StorefrontSeeder extends Seeder
         foreach ($pages as $page) {
             Page::updateOrCreate(['slug' => $page['slug']], $page + ['is_active' => true]);
         }
+
+        $tiers = [
+            ['name' => 'Đồng', 'min_points' => 0, 'discount_percent' => 0, 'sort_order' => 1],
+            ['name' => 'Bạc', 'min_points' => 500, 'discount_percent' => 2, 'sort_order' => 2],
+            ['name' => 'Vàng', 'min_points' => 2000, 'discount_percent' => 5, 'sort_order' => 3],
+            ['name' => 'Bạch Kim', 'min_points' => 5000, 'discount_percent' => 10, 'sort_order' => 4],
+        ];
+
+        foreach ($tiers as $tier) {
+            \App\Models\MembershipTier::updateOrCreate(['name' => $tier['name']], $tier);
+        }
     }
 }

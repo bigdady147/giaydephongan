@@ -29,6 +29,8 @@ class User extends Authenticatable
         'status',
         'birthday',
         'gender',
+        'points',
+        'membership_tier_id',
     ];
 
     /**
@@ -50,5 +52,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'birthday' => 'date',
+        'points' => 'integer',
     ];
+
+    public function membershipTier()
+    {
+        return $this->belongsTo(MembershipTier::class);
+    }
+
+    public function loyaltyLedger()
+    {
+        return $this->hasMany(LoyaltyLedger::class);
+    }
 }

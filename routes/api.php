@@ -42,6 +42,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::put('/user/profile', [AuthController::class, 'updateProfile'])->middleware('can:active-only');
 
+    // Customer account & loyalty
+    Route::middleware('can:active-only')->group(function () {
+        Route::get('/user/orders', [\App\Http\Controllers\Api\Customer\AccountController::class, 'orders']);
+        Route::get('/user/orders/{code}', [\App\Http\Controllers\Api\Customer\AccountController::class, 'showOrder']);
+        Route::get('/user/loyalty', [\App\Http\Controllers\Api\Customer\AccountController::class, 'loyalty']);
+    });
+
     // Example of a role-protected route (using a simple closure check or dedicated middleware)
     Route::middleware(['can:active-only', 'can:admin-only'])->get('/admin/users', function () {
         return \App\Models\User::all();
