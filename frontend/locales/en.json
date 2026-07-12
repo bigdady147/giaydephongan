@@ -174,7 +174,17 @@
     },
     "pageNotFound": "Page not found",
     "previousPage": "Previous",
-    "nextPage": "Next"
+    "nextPage": "Next",
+    "blog": "Guides",
+    "blogAllTopics": "All topics",
+    "blogEmpty": "No articles yet",
+    "blogReadMore": "Read more",
+    "blogRelated": "Related articles",
+    "pillars": {
+      "cam-nang-chon-giay": "Shoe buying guide",
+      "bao-quan-giay-da": "Leather care",
+      "giay-theo-dip": "Shoes for every occasion"
+    }
   },
   "admin": {
     "dashboard": {

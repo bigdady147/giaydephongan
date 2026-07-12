@@ -13,6 +13,7 @@
             class="sf-nav-link"
             @click="menuOpen = false"
           >{{ category.name }}</NuxtLink>
+          <NuxtLink to="/cam-nang" class="sf-nav-link" @click="menuOpen = false">{{ $t('storefront.blog') }}</NuxtLink>
         </nav>
 
         <form class="sf-search" @submit.prevent="submitSearch">
@@ -66,6 +67,7 @@
           <NuxtLink v-for="category in shared?.categories ?? []" :key="category.id" :to="`/danh-muc/${category.slug}`" class="sf-footer-link">
             {{ category.name }}
           </NuxtLink>
+          <NuxtLink to="/cam-nang" class="sf-footer-link">{{ $t('storefront.blog') }}</NuxtLink>
         </div>
         <div>
           <h4>{{ $t('storefront.followUs') }}</h4>

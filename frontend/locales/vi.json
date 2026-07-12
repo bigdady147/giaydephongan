@@ -174,7 +174,17 @@
       },
       "pageNotFound": "Không tìm thấy trang",
       "previousPage": "Trang trước",
-      "nextPage": "Trang sau"
+      "nextPage": "Trang sau",
+      "blog": "Cẩm nang",
+      "blogAllTopics": "Tất cả chủ đề",
+      "blogEmpty": "Chưa có bài viết nào",
+      "blogReadMore": "Đọc tiếp",
+      "blogRelated": "Bài viết liên quan",
+      "pillars": {
+        "cam-nang-chon-giay": "Cẩm nang chọn giày",
+        "bao-quan-giay-da": "Bảo quản giày da",
+        "giay-theo-dip": "Giày theo dịp"
+      }
     },
     "admin": {
       "dashboard": {

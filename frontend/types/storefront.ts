@@ -90,3 +90,22 @@ export interface AvailabilityInfo {
   sale_price: number | null
   variants: VariantInfo[]
 }
+
+export type BlogPillar = 'cam-nang-chon-giay' | 'bao-quan-giay-da' | 'giay-theo-dip'
+
+export interface BlogPostCard {
+  id: number
+  title: string
+  slug: string
+  excerpt: string | null
+  thumbnail: string | null
+  pillar: BlogPillar | null
+  published_at: string | null
+}
+
+export interface BlogPostDetail extends BlogPostCard {
+  content: string
+  seo_title: string | null
+  seo_description: string | null
+  related: BlogPostCard[]
+}
