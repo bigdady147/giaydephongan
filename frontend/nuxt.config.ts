@@ -35,7 +35,7 @@ export default defineNuxtConfig({
     preset: 'node-server',
     prerender: {
       crawlLinks: true,
-      routes: ['/', '/tim-kiem', '/sitemap.xml', '/robots.txt']
+      routes: ['/', '/tim-kiem', '/cam-nang', '/sitemap.xml', '/robots.txt']
     }
   },
 
@@ -46,11 +46,12 @@ export default defineNuxtConfig({
         try {
           const response = await fetch(`${apiBase}/slugs`)
           if (response.ok) {
-            const data = await response.json() as { products: string[]; categories: string[]; pages: string[] }
+            const data = await response.json() as { products: string[]; categories: string[]; pages: string[]; blog: string[] }
             const routes: string[] = []
             if (data.products) data.products.forEach((slug: string) => routes.push(`/san-pham/${slug}`))
             if (data.categories) data.categories.forEach((slug: string) => routes.push(`/danh-muc/${slug}`))
             if (data.pages) data.pages.forEach((slug: string) => routes.push(`/${slug}`))
+            if (data.blog) data.blog.forEach((slug: string) => routes.push(`/cam-nang/${slug}`))
 
             if (nitroConfig.prerender) {
               nitroConfig.prerender.routes = nitroConfig.prerender.routes || []
@@ -69,7 +70,20 @@ export default defineNuxtConfig({
   routeRules: {
     '/login': { ssr: false },
     '/register': { ssr: false },
-    '/admin/**': { ssr: false }
+    '/admin/**': { ssr: false },
+    '/gio-hang': { ssr: false },
+    '/thanh-toan': { ssr: false },
+    '/dat-hang-thanh-cong': { ssr: false },
+    '/tai-khoan/**': { ssr: false },
+    // i18n 'prefix_except_default' gives English routes an /en prefix that
+    // the rules above don't glob-match — mirror the client-only rules here.
+    '/en/login': { ssr: false },
+    '/en/register': { ssr: false },
+    '/en/admin/**': { ssr: false },
+    '/en/gio-hang': { ssr: false },
+    '/en/thanh-toan': { ssr: false },
+    '/en/dat-hang-thanh-cong': { ssr: false },
+    '/en/tai-khoan/**': { ssr: false }
   },
 
   // App configuration

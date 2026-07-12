@@ -5,13 +5,14 @@ export default defineEventHandler(async (event) => {
   const siteUrl = config.public.siteUrl
   const apiBase = config.public.apiBase
 
-  let routes: string[] = ['/']
+  let routes: string[] = ['/', '/cam-nang']
 
   try {
-    const data = await $fetch<{ products: string[]; categories: string[]; pages: string[] }>(`${apiBase}/slugs`)
+    const data = await $fetch<{ products: string[]; categories: string[]; pages: string[]; blog: string[] }>(`${apiBase}/slugs`)
     if (data.products) data.products.forEach(slug => routes.push(`/san-pham/${slug}`))
     if (data.categories) data.categories.forEach(slug => routes.push(`/danh-muc/${slug}`))
     if (data.pages) data.pages.forEach(slug => routes.push(`/${slug}`))
+    if (data.blog) data.blog.forEach(slug => routes.push(`/cam-nang/${slug}`))
   } catch (e) {
     console.error('Sitemap generation failed to fetch slugs', e)
   }
