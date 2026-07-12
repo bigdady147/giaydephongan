@@ -22,6 +22,10 @@
           <el-icon><Goods /></el-icon>
           <span>Sản phẩm</span>
         </el-menu-item>
+        <el-menu-item index="/admin/orders">
+          <el-icon><List /></el-icon>
+          <span>Đơn hàng</span>
+        </el-menu-item>
         <el-menu-item index="/admin/banners">
           <el-icon><Picture /></el-icon>
           <span>Banners</span>
@@ -67,7 +71,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Odometer, Collection, PriceTag, Goods, User, ArrowDown, Picture, Document, Setting } from '@element-plus/icons-vue'
+import { Odometer, Collection, PriceTag, Goods, User, ArrowDown, Picture, Document, Setting, List } from '@element-plus/icons-vue'
 import { ElMessageBox } from 'element-plus'
 
 const router = useRouter()

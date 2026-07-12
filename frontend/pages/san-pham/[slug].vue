@@ -19,6 +19,15 @@
 
         <button class="pdp-size-guide" @click="sizeGuideOpen = true">📏 {{ $t('storefront.sizeGuide') }}</button>
 
+        <div class="pdp-cart-actions">
+          <button class="btn-add-to-cart" :disabled="!selectedVariantId" @click="handleAddToCart(false)">
+            🛒 {{ $t('storefront.cart') }}
+          </button>
+          <button class="btn-buy-now" :disabled="!selectedVariantId" @click="handleBuyNow">
+            {{ $t('storefront.orderNow') }}
+          </button>
+        </div>
+
         <div class="pdp-cta">
           <p class="cta-title">{{ $t('storefront.quickOrder') }}</p>
           <a v-if="settings?.hotline" :href="`tel:${settings.hotline.replace(/\s/g, '')}`" class="cta-call">
@@ -49,6 +58,7 @@
     </ClientOnly>
 
     <SizeGuideModal v-model="sizeGuideOpen" />
+    <div v-if="toastMsg" class="pdp-toast">{{ toastMsg }}</div>
   </div>
 </template>
 
@@ -84,6 +94,40 @@ const live = reactive({
 
 const selectedVariantId = ref<number | null>(null)
 const sizeGuideOpen = ref(false)
+const toastMsg = ref('')
+
+const router = useRouter()
+const { addItem } = useCart()
+
+const handleAddToCart = (redirect = false) => {
+  if (!selectedVariantId.value || !product.value) return
+  const variant = live.variants.find(v => v.id === selectedVariantId.value)
+  if (!variant) return
+
+  addItem({
+    variantId: variant.id,
+    productId: product.value.id,
+    name: product.value.name,
+    slug: product.value.slug,
+    thumbnail: product.value.thumbnail,
+    size: variant.size,
+    color: variant.color,
+    price: variant.price_override !== null ? variant.price_override : (live.sale_price ?? live.base_price),
+  }, 1)
+
+  if (redirect) {
+    router.push('/thanh-toan')
+  } else {
+    toastMsg.value = 'Đã thêm sản phẩm vào giỏ hàng!'
+    setTimeout(() => {
+      toastMsg.value = ''
+    }, 3000)
+  }
+}
+
+const handleBuyNow = () => {
+  handleAddToCart(true)
+}
 
 const { items: recentItems, push: pushRecent } = useRecentlyViewed()
 const recentOthers = computed(() => recentItems.value.filter(item => item.id !== product.value!.id))
@@ -185,5 +229,26 @@ useHead({
   .cta-zalo { background: #0068ff; color: #fff; }
 }
 .pdp-description .pdp-desc-body { font-size: 15px; line-height: 1.8; color: #333; max-width: 820px; }
+.pdp-cart-actions {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;
+  button {
+    border: 0; border-radius: 8px; padding: 14px; font-size: 15px; font-weight: 700;
+    cursor: pointer; transition: background 0.2s;
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
+  }
+  .btn-add-to-cart {
+    background: #fff; color: $sf-color-accent; border: 1px solid $sf-color-accent;
+    &:hover:not(:disabled) { background: $sf-color-bg-soft; }
+  }
+  .btn-buy-now {
+    background: $sf-color-accent; color: #fff;
+    &:hover:not(:disabled) { background: $sf-color-accent-dark; }
+  }
+}
+.pdp-toast {
+  position: fixed; bottom: 24px; right: 24px; background: #1e293b; color: #fff;
+  padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 14px;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); z-index: 100;
+}
 @media (max-width: 768px) { .pdp-layout { grid-template-columns: 1fr; gap: 20px; } }
 </style>

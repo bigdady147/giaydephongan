@@ -63,6 +63,9 @@ Route::middleware(['auth:sanctum', 'can:active-only', 'can:staff-only'])->prefix
     Route::apiResource('pages', PageController::class);
     Route::get('settings', [SettingController::class, 'index']);
     Route::put('settings', [SettingController::class, 'update']);
+    Route::get('orders', [\App\Http\Controllers\Api\Admin\OrderController::class, 'index']);
+    Route::get('orders/{id}', [\App\Http\Controllers\Api\Admin\OrderController::class, 'show']);
+    Route::patch('orders/{id}/status', [\App\Http\Controllers\Api\Admin\OrderController::class, 'updateStatus']);
 });
 
 // Public storefront API — no auth (see docs/superpowers/specs/2026-07-12-storefront-catalog-design.md §3)
@@ -77,6 +80,11 @@ Route::get('/products/{slug}/availability', [StorefrontProductController::class,
 Route::get('/pages', [StorefrontPageController::class, 'index']);
 Route::get('/pages/{slug}', [StorefrontPageController::class, 'show']);
 Route::get('/slugs', [StorefrontMetaController::class, 'slugs']);
+
+// Storefront checkout & orders
+Route::post('/orders', [\App\Http\Controllers\Api\Storefront\OrderController::class, 'store']);
+Route::get('/orders/{code}', [\App\Http\Controllers\Api\Storefront\OrderController::class, 'show']);
+Route::post('/discount-codes/validate', [\App\Http\Controllers\Api\Storefront\OrderController::class, 'validateDiscount']);
 
 // Health check routes
 Route::get('/health', [HealthController::class, 'index']);

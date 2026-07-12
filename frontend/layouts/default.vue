@@ -25,9 +25,15 @@
             ☎ {{ shared.settings.hotline }}
           </a>
           <ClientOnly>
+            <NuxtLink to="/gio-hang" class="sf-cart-link">
+              🛒 {{ $t('storefront.cart') }} <span v-if="cartCount > 0" class="sf-cart-badge">{{ cartCount }}</span>
+            </NuxtLink>
             <NuxtLink v-if="!user" to="/login" class="sf-account">{{ $t('storefront.login') }}</NuxtLink>
             <span v-else class="sf-account">{{ user.name }}</span>
             <template #fallback>
+              <NuxtLink to="/gio-hang" class="sf-cart-link">
+                🛒 {{ $t('storefront.cart') }}
+              </NuxtLink>
               <NuxtLink to="/login" class="sf-account">{{ $t('storefront.login') }}</NuxtLink>
             </template>
           </ClientOnly>
@@ -84,6 +90,7 @@ import { ref } from 'vue'
 const router = useRouter()
 const { user } = useAuth()
 const { data: shared } = await useStorefrontData()
+const { count: cartCount } = useCart()
 
 const menuOpen = ref(false)
 const searchTerm = ref('')
@@ -120,6 +127,16 @@ const submitSearch = () => {
 .sf-header-actions { display: flex; align-items: center; gap: 14px; }
 .sf-hotline { color: $sf-color-accent; font-weight: 600; font-size: 14px; text-decoration: none; white-space: nowrap; }
 .sf-account { font-size: 14px; color: $sf-color-text; text-decoration: none; white-space: nowrap; }
+.sf-cart-link {
+  font-size: 14px; color: $sf-color-text; text-decoration: none; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 4px; position: relative;
+  &:hover { color: $sf-color-accent; }
+}
+.sf-cart-badge {
+  background: $sf-color-sale; color: #fff; font-size: 10px; font-weight: 700;
+  border-radius: 99px; min-width: 18px; height: 18px; display: inline-flex;
+  align-items: center; justify-content: center; padding: 0 4px;
+}
 .sf-burger { display: none; border: 0; background: none; font-size: 22px; cursor: pointer; }
 
 .sf-main { flex: 1; }
