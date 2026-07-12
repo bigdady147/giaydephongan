@@ -104,6 +104,7 @@ class ProductController extends Controller
             'base_price' => "{$prefix}|integer|min:0",
             'sale_price' => 'nullable|integer|min:0|lt:base_price',
             'status' => "{$prefix}|in:draft,published,archived",
+            'is_featured' => 'boolean',
             'thumbnail' => 'nullable|string',
             'seo_title' => 'nullable|string|max:255',
             'seo_description' => 'nullable|string|max:500',

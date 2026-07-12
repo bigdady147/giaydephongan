@@ -154,4 +154,15 @@ class ProductControllerTest extends TestCase
             ],
         ])->assertStatus(422)->assertJsonValidationErrors(['variants.0.sku']);
     }
+
+    public function test_staff_can_toggle_is_featured(): void
+    {
+        Sanctum::actingAs(User::factory()->staff()->create());
+        $product = Product::factory()->create(['is_featured' => false]);
+
+        $response = $this->putJson("/api/admin/products/{$product->id}", ['is_featured' => true]);
+
+        $response->assertStatus(200);
+        $this->assertTrue($product->fresh()->is_featured);
+    }
 }
