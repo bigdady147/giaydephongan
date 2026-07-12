@@ -20,6 +20,11 @@
           <el-tag :type="statusTagType((row as Product).status)">{{ statusLabel((row as Product).status) }}</el-tag>
         </template>
       </el-table-column>
+      <el-table-column label="Nổi bật" width="100">
+        <template #default="{ row }">
+          <el-switch v-model="row.is_featured" @change="toggleFeatured(row as Product)" />
+        </template>
+      </el-table-column>
       <el-table-column label="Biến thể" width="90">
         <template #default="{ row }">{{ (row as Product).variants.length }}</template>
       </el-table-column>
@@ -70,6 +75,9 @@
                 <el-option label="Đã đăng" value="published" />
                 <el-option label="Lưu trữ" value="archived" />
               </el-select>
+            </el-form-item>
+            <el-form-item label="Sản phẩm nổi bật">
+              <el-switch v-model="form.is_featured" />
             </el-form-item>
           </el-form>
 
@@ -123,6 +131,7 @@ interface Product {
   category?: Category
   brand?: Brand
   variants: Variant[]
+  is_featured?: boolean
 }
 
 const api = useApiClient()
@@ -147,7 +156,8 @@ const emptyForm = () => ({
   base_price: 0,
   sale_price: null as number | null,
   status: 'draft' as 'draft' | 'published' | 'archived',
-  variants: [] as Variant[]
+  variants: [] as Variant[],
+  is_featured: false
 })
 
 const form = reactive(emptyForm())
@@ -201,7 +211,8 @@ const openEditForm = (product: Product) => {
     base_price: product.base_price,
     sale_price: product.sale_price,
     status: product.status,
-    variants: []
+    variants: [],
+    is_featured: product.is_featured ?? false
   })
   showForm.value = true
 }
@@ -273,6 +284,16 @@ const removeProduct = async (product: Product) => {
     await loadAll()
   } catch (err: any) {
     loadError.value = err.message ?? 'Xóa sản phẩm thất bại.'
+  }
+}
+
+const toggleFeatured = async (product: Product) => {
+  try {
+    await api.put(`/admin/products/${product.id}`, { is_featured: product.is_featured })
+    ElMessage.success('Đã cập nhật trạng thái nổi bật')
+  } catch (err: any) {
+    product.is_featured = !product.is_featured // revert
+    ElMessage.error(err.message ?? 'Cập nhật thất bại')
   }
 }
 

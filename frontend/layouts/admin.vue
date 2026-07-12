@@ -22,6 +22,18 @@
           <el-icon><Goods /></el-icon>
           <span>Sản phẩm</span>
         </el-menu-item>
+        <el-menu-item index="/admin/banners">
+          <el-icon><Picture /></el-icon>
+          <span>Banners</span>
+        </el-menu-item>
+        <el-menu-item index="/admin/pages">
+          <el-icon><Document /></el-icon>
+          <span>Trang tĩnh</span>
+        </el-menu-item>
+        <el-menu-item index="/admin/settings">
+          <el-icon><Setting /></el-icon>
+          <span>Cài đặt shop</span>
+        </el-menu-item>
         <el-menu-item v-if="isAdmin" index="/admin/users">
           <el-icon><User /></el-icon>
           <span>{{ $t('navigation.users') }}</span>
@@ -55,7 +67,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Odometer, Collection, PriceTag, Goods, User, ArrowDown } from '@element-plus/icons-vue'
+import { Odometer, Collection, PriceTag, Goods, User, ArrowDown, Picture, Document, Setting } from '@element-plus/icons-vue'
 import { ElMessageBox } from 'element-plus'
 
 const router = useRouter()
