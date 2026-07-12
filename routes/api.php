@@ -10,6 +10,10 @@ use App\Http\Controllers\Api\Admin\ProductController;
 use App\Http\Controllers\Api\Admin\ProductVariantController;
 use App\Http\Controllers\Api\Admin\ProductImageController;
 use App\Http\Controllers\Api\Admin\DashboardController;
+use App\Http\Controllers\Api\Storefront\CategoryController as StorefrontCategoryController;
+use App\Http\Controllers\Api\Storefront\BrandController as StorefrontBrandController;
+use App\Http\Controllers\Api\Storefront\SettingController as StorefrontSettingController;
+use App\Http\Controllers\Api\Storefront\BannerController as StorefrontBannerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +54,13 @@ Route::middleware(['auth:sanctum', 'can:active-only', 'can:staff-only'])->prefix
     Route::post('products/{product}/images', [ProductImageController::class, 'store']);
     Route::delete('images/{image}', [ProductImageController::class, 'destroy']);
 });
+
+// Public storefront API — no auth (see docs/superpowers/specs/2026-07-12-storefront-catalog-design.md §3)
+Route::get('/categories', [StorefrontCategoryController::class, 'index']);
+Route::get('/categories/{slug}', [StorefrontCategoryController::class, 'show']);
+Route::get('/brands', [StorefrontBrandController::class, 'index']);
+Route::get('/settings', [StorefrontSettingController::class, 'index']);
+Route::get('/banners', [StorefrontBannerController::class, 'index']);
 
 // Health check routes
 Route::get('/health', [HealthController::class, 'index']);
