@@ -101,6 +101,7 @@
         "description": "Demonstrate Nuxt routing features",
         "button": "View Demo"
       }
+    }
   },
   "storefront": {
     "home": "Home",
