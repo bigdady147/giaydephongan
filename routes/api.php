@@ -13,6 +13,8 @@ use App\Http\Controllers\Api\Admin\DashboardController;
 use App\Http\Controllers\Api\Admin\BannerController;
 use App\Http\Controllers\Api\Admin\PageController;
 use App\Http\Controllers\Api\Admin\SettingController;
+use App\Http\Controllers\Api\Admin\BlogController;
+use App\Http\Controllers\Api\Storefront\BlogController as StorefrontBlogController;
 use App\Http\Controllers\Api\Storefront\CategoryController as StorefrontCategoryController;
 use App\Http\Controllers\Api\Storefront\BrandController as StorefrontBrandController;
 use App\Http\Controllers\Api\Storefront\SettingController as StorefrontSettingController;
@@ -68,6 +70,7 @@ Route::middleware(['auth:sanctum', 'can:active-only', 'can:staff-only'])->prefix
     Route::delete('images/{image}', [ProductImageController::class, 'destroy']);
     Route::apiResource('banners', BannerController::class);
     Route::apiResource('pages', PageController::class);
+    Route::apiResource('blog', BlogController::class);
     Route::get('settings', [SettingController::class, 'index']);
     Route::put('settings', [SettingController::class, 'update']);
     Route::get('orders', [\App\Http\Controllers\Api\Admin\OrderController::class, 'index']);
@@ -86,6 +89,8 @@ Route::get('/products/{slug}', [StorefrontProductController::class, 'show']);
 Route::get('/products/{slug}/availability', [StorefrontProductController::class, 'availability']);
 Route::get('/pages', [StorefrontPageController::class, 'index']);
 Route::get('/pages/{slug}', [StorefrontPageController::class, 'show']);
+Route::get('/blog', [StorefrontBlogController::class, 'index']);
+Route::get('/blog/{slug}', [StorefrontBlogController::class, 'show']);
 Route::get('/slugs', [StorefrontMetaController::class, 'slugs']);
 
 // Storefront checkout & orders

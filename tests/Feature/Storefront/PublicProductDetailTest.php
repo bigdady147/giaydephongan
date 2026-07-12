@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Storefront;
 
+use App\Models\BlogPost;
 use App\Models\Category;
 use App\Models\Page;
 use App\Models\Product;
@@ -79,6 +80,8 @@ class PublicProductDetailTest extends TestCase
         $category = Category::factory()->create(['is_active' => true]);
         Category::factory()->create(['is_active' => false]);
         $page = Page::factory()->create(['is_active' => true]);
+        $post = BlogPost::factory()->create(['status' => 'published']);
+        BlogPost::factory()->create(['status' => 'draft']);
 
         $response = $this->getJson('/api/slugs');
 
@@ -86,5 +89,7 @@ class PublicProductDetailTest extends TestCase
         $this->assertContains($product->slug, $response->json('products'));
         $this->assertContains($category->slug, $response->json('categories'));
         $this->assertContains($page->slug, $response->json('pages'));
+        $this->assertContains($post->slug, $response->json('blog'));
+        $this->assertCount(1, $response->json('blog'));
     }
 }
