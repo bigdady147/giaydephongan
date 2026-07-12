@@ -15,6 +15,8 @@ use App\Http\Controllers\Api\Storefront\BrandController as StorefrontBrandContro
 use App\Http\Controllers\Api\Storefront\SettingController as StorefrontSettingController;
 use App\Http\Controllers\Api\Storefront\BannerController as StorefrontBannerController;
 use App\Http\Controllers\Api\Storefront\ProductController as StorefrontProductController;
+use App\Http\Controllers\Api\Storefront\PageController as StorefrontPageController;
+use App\Http\Controllers\Api\Storefront\MetaController as StorefrontMetaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,6 +65,11 @@ Route::get('/brands', [StorefrontBrandController::class, 'index']);
 Route::get('/settings', [StorefrontSettingController::class, 'index']);
 Route::get('/banners', [StorefrontBannerController::class, 'index']);
 Route::get('/products', [StorefrontProductController::class, 'index']);
+Route::get('/products/{slug}', [StorefrontProductController::class, 'show']);
+Route::get('/products/{slug}/availability', [StorefrontProductController::class, 'availability']);
+Route::get('/pages', [StorefrontPageController::class, 'index']);
+Route::get('/pages/{slug}', [StorefrontPageController::class, 'show']);
+Route::get('/slugs', [StorefrontMetaController::class, 'slugs']);
 
 // Health check routes
 Route::get('/health', [HealthController::class, 'index']);

@@ -52,4 +52,31 @@ class ProductController extends Controller
                 ->paginate(12)
         );
     }
+
+    public function show(string $slug)
+    {
+        $product = Product::where('slug', $slug)->where('status', 'published')
+            ->with(['images', 'variants', 'category', 'brand'])
+            ->firstOrFail();
+
+        $related = Product::where('status', 'published')
+            ->where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->orderByDesc('created_at')
+            ->limit(8)
+            ->get(['id', 'name', 'slug', 'thumbnail', 'base_price', 'sale_price', 'created_at']);
+
+        return response()->json(array_merge($product->toArray(), ['related' => $related]));
+    }
+
+    public function availability(string $slug)
+    {
+        $product = Product::where('slug', $slug)->where('status', 'published')->firstOrFail();
+
+        return response()->json([
+            'base_price' => $product->base_price,
+            'sale_price' => $product->sale_price,
+            'variants' => $product->variants()->get(['id', 'size', 'color', 'stock_quantity', 'price_override']),
+        ]);
+    }
 }
