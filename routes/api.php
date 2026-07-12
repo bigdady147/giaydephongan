@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Admin\ProductController;
 use App\Http\Controllers\Api\Admin\ProductVariantController;
 use App\Http\Controllers\Api\Admin\ProductImageController;
 use App\Http\Controllers\Api\Admin\DashboardController;
+use App\Http\Controllers\Api\Admin\BannerController;
 use App\Http\Controllers\Api\Storefront\CategoryController as StorefrontCategoryController;
 use App\Http\Controllers\Api\Storefront\BrandController as StorefrontBrandController;
 use App\Http\Controllers\Api\Storefront\SettingController as StorefrontSettingController;
@@ -56,6 +57,7 @@ Route::middleware(['auth:sanctum', 'can:active-only', 'can:staff-only'])->prefix
     Route::delete('variants/{variant}', [ProductVariantController::class, 'destroy']);
     Route::post('products/{product}/images', [ProductImageController::class, 'store']);
     Route::delete('images/{image}', [ProductImageController::class, 'destroy']);
+    Route::apiResource('banners', BannerController::class);
 });
 
 // Public storefront API — no auth (see docs/superpowers/specs/2026-07-12-storefront-catalog-design.md §3)
