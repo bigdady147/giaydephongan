@@ -393,23 +393,23 @@ $table->timestamp('published_at')->nullable();
 ## Checklist thứ tự implementation
 
 ### Phase 4 — MVP Bán hàng
-- [ ] **Task 4.1** Migrations orders + order_items + discount_codes + Models + Tests
-- [ ] **Task 4.2** Public APIs: POST /api/orders, GET /api/orders/{code}, validate discount
-- [ ] **Task 4.3** Admin APIs: GET/PATCH /api/admin/orders
-- [ ] **Task 4.4** `useCart.ts` composable + Vitest tests
-- [ ] **Task 4.5** `/gio-hang` + `/thanh-toan` + `/dat-hang-thanh-cong` + nút "Thêm giỏ" trong PDP
-- [ ] **Task 4.6** `/admin/orders` danh sách + chi tiết + đổi trạng thái
+- [x] **Task 4.1** Migrations orders + order_items + discount_codes + Models + Tests
+- [x] **Task 4.2** Public APIs: POST /api/orders, GET /api/orders/{code}, validate discount
+- [x] **Task 4.3** Admin APIs: GET/PATCH /api/admin/orders
+- [x] **Task 4.4** `useCart.ts` composable + Vitest tests
+- [x] **Task 4.5** `/gio-hang` + `/thanh-toan` + `/dat-hang-thanh-cong` + nút "Thêm giỏ" trong PDP
+- [x] **Task 4.6** `/admin/orders` danh sách + chi tiết + đổi trạng thái
 
 ### Phase 5 — Tài khoản
-- [ ] **Task 5.1** Migrations + OrderObserver tích điểm tự động
-- [ ] **Task 5.2** Customer APIs + Tests
-- [ ] **Task 5.3** Frontend account layout + `/tai-khoan/{don-hang,loyalty,ho-so}`
+- [x] **Task 5.1** Migrations + OrderObserver tích điểm tự động
+- [x] **Task 5.2** Customer APIs + Tests
+- [x] **Task 5.3** Frontend account layout + `/tai-khoan/{don-hang,loyalty,ho-so}`
 
 ### Phase 6 — Blog + Discount
-- [ ] **Task 6.1** Migration blog_posts + Admin/Public APIs + Tests
-- [ ] **Task 6.2** Storefront `/cam-nang` + `/cam-nang/[slug]`
-- [ ] **Task 6.3** Admin Blog + Discount Codes CRUD frontend
-- [ ] **Task 6.4** Cập nhật sitemap, navigation, verify generate
+- [x] **Task 6.1** Migration blog_posts + Admin/Public APIs + Tests (đã bổ sung: CRUD mã giảm giá admin — `Api\Admin\DiscountCodeController` — không có trong bản nháp gốc nhưng cần thiết cho Task 6.3 frontend)
+- [x] **Task 6.2** Storefront `/cam-nang` + `/cam-nang/[slug]`
+- [x] **Task 6.3** Admin Blog + Discount Codes CRUD frontend
+- [x] **Task 6.4** Cập nhật sitemap, navigation, verify generate (phát hiện + sửa 2 bug chặn build có sẵn từ Phase 4/5: `formatCurrency` không tồn tại trong `utils/format.ts`, và `/gio-hang` `/thanh-toan` `/tai-khoan/**` thiếu `ssr:false` khiến `nuxi generate` lỗi 500 — đã verify `npm run generate` chạy sạch, 78 route, sitemap/robots đúng)
 
 ---
 
