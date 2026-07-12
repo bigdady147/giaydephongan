@@ -56,6 +56,7 @@ interface Variant {
 }
 
 const props = defineProps<{ productId: number | null }>()
+const emit = defineEmits<{ changed: [] }>()
 
 const api = useApiClient()
 
@@ -109,6 +110,7 @@ const addVariant = async () => {
     newVariant.sku = ''
     newVariant.stock_quantity = 0
     await loadVariants()
+    emit('changed')
   } catch (err: any) {
     error.value = err.message ?? 'Thêm biến thể thất bại.'
   } finally {
@@ -131,6 +133,7 @@ const removeVariant = async (variant: Variant) => {
   try {
     await api.del(`/admin/variants/${variant.id}`)
     await loadVariants()
+    emit('changed')
   } catch (err: any) {
     error.value = err.message ?? 'Xóa biến thể thất bại.'
   }

@@ -17,7 +17,6 @@
         </div>
       </div>
     </header>
-     123123
     <main class="main">
       <slot />
     </main>
@@ -34,16 +33,17 @@
 // Client layout logic
 const router = useRouter()
 const { t } = useI18n()
+const { logout } = useAuth()
 
-const handleLogout = () => {
-  if (confirm(t('auth.logoutConfirm'))) {
-    // Clear authentication data
-    localStorage.removeItem('isAuthenticated')
-    localStorage.removeItem('userRole')
-    
-    // Redirect to login page
-    router.push('/login')
+const handleLogout = async () => {
+  if (!confirm(t('auth.logoutConfirm'))) return
+
+  try {
+    await logout()
+  } catch {
+    // Local session is already cleared by logout()'s finally block.
   }
+  router.push('/login')
 }
 </script>
 

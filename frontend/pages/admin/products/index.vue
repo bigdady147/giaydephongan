@@ -92,7 +92,7 @@
         </el-tab-pane>
 
         <el-tab-pane label="Biến thể" name="variants" :disabled="!editingId">
-          <ProductVariantManager :product-id="editingId" />
+          <ProductVariantManager :product-id="editingId" @changed="loadAll" />
         </el-tab-pane>
       </el-tabs>
 
@@ -246,6 +246,11 @@ const submitForm = async () => {
     formErrors.base_price = err.errors?.base_price?.[0] ?? ''
     formErrors.sale_price = err.errors?.sale_price?.[0] ?? ''
     formError.value = err.message ?? 'Lưu sản phẩm thất bại.'
+
+    const hasVariantError = Object.keys(err.errors ?? {}).some((key) => key.startsWith('variants.'))
+    if (hasVariantError && formError.value === 'Validation error') {
+      formError.value = 'Thông tin biến thể không hợp lệ. Vui lòng kiểm tra lại size, màu, SKU và tồn kho.'
+    }
   } finally {
     saving.value = false
   }
