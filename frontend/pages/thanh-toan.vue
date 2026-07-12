@@ -64,7 +64,7 @@
               <div class="item-info">
                 <span class="item-name">{{ item.name }}</span>
                 <span class="item-meta">Size: {{ item.size }} · Màu: {{ item.color }} · SL: {{ item.quantity }}</span>
-                <span class="item-price">{{ formatCurrency(item.price * item.quantity) }}</span>
+                <span class="item-price">{{ formatVnd(item.price * item.quantity) }}</span>
               </div>
             </div>
           </div>
@@ -85,19 +85,19 @@
           <div class="summary-details">
             <div class="summary-row">
               <span>{{ $t('storefront.subtotal') }}</span>
-              <span>{{ formatCurrency(total) }}</span>
+              <span>{{ formatVnd(total) }}</span>
             </div>
             <div class="summary-row">
               <span>{{ $t('storefront.shippingFee') }}</span>
-              <span>{{ total >= 500000 ? 'Miễn phí' : formatCurrency(30000) }}</span>
+              <span>{{ total >= 500000 ? 'Miễn phí' : formatVnd(30000) }}</span>
             </div>
             <div v-if="discountAmount > 0" class="summary-row discount">
               <span>{{ $t('storefront.discountAmount') }}</span>
-              <span>–{{ formatCurrency(discountAmount) }}</span>
+              <span>–{{ formatVnd(discountAmount) }}</span>
             </div>
             <div class="summary-total">
               <span>{{ $t('storefront.total') }}</span>
-              <strong>{{ formatCurrency(finalTotal) }}</strong>
+              <strong>{{ formatVnd(finalTotal) }}</strong>
             </div>
           </div>
 
@@ -115,7 +115,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import { useCart } from '~/composables/useCart'
-import { formatCurrency } from '~/utils/format'
+import { formatVnd } from '~/utils/format'
 
 definePageMeta({ ssr: false })
 

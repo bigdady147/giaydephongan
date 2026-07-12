@@ -28,7 +28,7 @@
                   <div class="cart-info">
                     <NuxtLink :to="`/san-pham/${item.slug}`" class="cart-name">{{ item.name }}</NuxtLink>
                     <span class="cart-meta">Size: {{ item.size }} · Màu: {{ item.color }}</span>
-                    <span class="cart-price">{{ formatCurrency(item.price) }}</span>
+                    <span class="cart-price">{{ formatVnd(item.price) }}</span>
                   </div>
                 </div>
               </td>
@@ -40,7 +40,7 @@
                 </div>
               </td>
               <td align="right" class="cart-item-total">
-                {{ formatCurrency(item.price * item.quantity) }}
+                {{ formatVnd(item.price * item.quantity) }}
               </td>
               <td align="center">
                 <button class="btn-remove" :aria-label="'Xóa ' + item.name" @click="removeItem(item.variantId)">✕</button>
@@ -54,15 +54,15 @@
         <h2>{{ $t('storefront.total') }}</h2>
         <div class="summary-row">
           <span>{{ $t('storefront.subtotal') }}</span>
-          <strong>{{ formatCurrency(total) }}</strong>
+          <strong>{{ formatVnd(total) }}</strong>
         </div>
         <div class="summary-row">
           <span>{{ $t('storefront.shippingFee') }}</span>
-          <span>{{ total >= 500000 ? 'Miễn phí' : formatCurrency(30000) }}</span>
+          <span>{{ total >= 500000 ? 'Miễn phí' : formatVnd(30000) }}</span>
         </div>
         <div class="summary-total">
           <span>{{ $t('storefront.total') }}</span>
-          <strong>{{ formatCurrency(total + (total >= 500000 ? 0 : 30000)) }}</strong>
+          <strong>{{ formatVnd(total + (total >= 500000 ? 0 : 30000)) }}</strong>
         </div>
         <NuxtLink to="/thanh-toan" class="btn-checkout">{{ $t('storefront.checkout') }}</NuxtLink>
       </div>
@@ -72,7 +72,7 @@
 
 <script setup lang="ts">
 import { useCart } from '~/composables/useCart'
-import { formatCurrency } from '~/utils/format'
+import { formatVnd } from '~/utils/format'
 
 definePageMeta({ ssr: false })
 

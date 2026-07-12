@@ -28,7 +28,7 @@
             <strong>Địa chỉ giao hàng:</strong> {{ order.shipping_address }}
           </div>
           <div class="order-total-price">
-            Tổng thanh toán: <strong>{{ formatCurrency(order.total) }}</strong>
+            Tổng thanh toán: <strong>{{ formatVnd(order.total) }}</strong>
           </div>
         </div>
 
@@ -52,10 +52,10 @@
                   <span class="item-spec">{{ item.variant_snapshot }}</span>
                 </div>
                 <span class="item-qty-price">
-                  {{ item.quantity }} x {{ formatCurrency(item.price) }}
+                  {{ item.quantity }} x {{ formatVnd(item.price) }}
                 </span>
                 <span class="item-subtotal">
-                  {{ formatCurrency(item.subtotal) }}
+                  {{ formatVnd(item.subtotal) }}
                 </span>
               </div>
             </div>
@@ -63,19 +63,19 @@
             <div class="details-pricing">
               <div class="pricing-row">
                 <span>Tạm tính</span>
-                <span>{{ formatCurrency(details.subtotal) }}</span>
+                <span>{{ formatVnd(details.subtotal) }}</span>
               </div>
               <div class="pricing-row">
                 <span>Phí vận chuyển</span>
-                <span>{{ details.shipping_fee === 0 ? 'Miễn phí' : formatCurrency(details.shipping_fee) }}</span>
+                <span>{{ details.shipping_fee === 0 ? 'Miễn phí' : formatVnd(details.shipping_fee) }}</span>
               </div>
               <div v-if="details.discount_amount > 0" class="pricing-row discount">
                 <span>Giảm giá</span>
-                <span>–{{ formatCurrency(details.discount_amount) }}</span>
+                <span>–{{ formatVnd(details.discount_amount) }}</span>
               </div>
               <div class="pricing-row total">
                 <span>Tổng cộng</span>
-                <strong>{{ formatCurrency(details.total) }}</strong>
+                <strong>{{ formatVnd(details.total) }}</strong>
               </div>
             </div>
 
@@ -91,7 +91,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { formatCurrency } from '~/utils/format'
+import { formatVnd } from '~/utils/format'
 
 definePageMeta({ layout: 'account', middleware: 'auth' })
 
