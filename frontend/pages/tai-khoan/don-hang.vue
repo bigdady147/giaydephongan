@@ -93,7 +93,7 @@
 import { onMounted, ref } from 'vue'
 import { formatVnd } from '~/utils/format'
 
-definePageMeta({ layout: 'account', middleware: 'auth' })
+definePageMeta({ layout: 'account', middleware: 'auth-client' })
 
 interface OrderItem {
   id: number

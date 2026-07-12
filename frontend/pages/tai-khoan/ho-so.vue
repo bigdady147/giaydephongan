@@ -47,7 +47,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 
-definePageMeta({ layout: 'account', middleware: 'auth' })
+definePageMeta({ layout: 'account', middleware: 'auth-client' })
 
 const api = useApiClient()
 const { user, fetchUser } = useAuth()

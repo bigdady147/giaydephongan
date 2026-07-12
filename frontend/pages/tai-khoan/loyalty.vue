@@ -77,7 +77,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 
-definePageMeta({ layout: 'account', middleware: 'auth' })
+definePageMeta({ layout: 'account', middleware: 'auth-client' })
 
 interface Tier {
   id: number
