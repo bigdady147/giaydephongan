@@ -32,7 +32,36 @@ export default defineNuxtConfig({
 
   // Nitro configuration
   nitro: {
-    preset: 'node-server'
+    preset: 'node-server',
+    prerender: {
+      crawlLinks: true,
+      routes: ['/', '/tim-kiem', '/sitemap.xml', '/robots.txt']
+    }
+  },
+
+  hooks: {
+    async 'nitro:config'(nitroConfig) {
+      if (process.env.NODE_ENV === 'production' || process.env.PRERENDER === 'true') {
+        const apiBase = process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8000/api'
+        try {
+          const response = await fetch(`${apiBase}/slugs`)
+          if (response.ok) {
+            const data = await response.json() as { products: string[]; categories: string[]; pages: string[] }
+            const routes: string[] = []
+            if (data.products) data.products.forEach((slug: string) => routes.push(`/san-pham/${slug}`))
+            if (data.categories) data.categories.forEach((slug: string) => routes.push(`/danh-muc/${slug}`))
+            if (data.pages) data.pages.forEach((slug: string) => routes.push(`/${slug}`))
+
+            if (nitroConfig.prerender) {
+              nitroConfig.prerender.routes = nitroConfig.prerender.routes || []
+              nitroConfig.prerender.routes.push(...routes)
+            }
+          }
+        } catch (e) {
+          console.warn('Failed to fetch slugs for prerendering. Backend may be offline.', e)
+        }
+      }
+    }
   },
 
   // Auth/admin pages are client-only (SPA) — they read localStorage and
