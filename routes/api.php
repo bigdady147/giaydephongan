@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\Admin\SettingController;
 use App\Http\Controllers\Api\Admin\BlogController;
 use App\Http\Controllers\Api\Admin\DiscountCodeController;
 use App\Http\Controllers\Api\Admin\ReviewController;
+use App\Http\Controllers\Api\Admin\ReportController;
 use App\Http\Controllers\Api\Storefront\BlogController as StorefrontBlogController;
 use App\Http\Controllers\Api\Storefront\CategoryController as StorefrontCategoryController;
 use App\Http\Controllers\Api\Storefront\BrandController as StorefrontBrandController;
@@ -84,6 +85,12 @@ Route::middleware(['auth:sanctum', 'can:active-only', 'can:staff-only'])->prefix
     Route::get('orders', [\App\Http\Controllers\Api\Admin\OrderController::class, 'index']);
     Route::get('orders/{id}', [\App\Http\Controllers\Api\Admin\OrderController::class, 'show']);
     Route::patch('orders/{id}/status', [\App\Http\Controllers\Api\Admin\OrderController::class, 'updateStatus']);
+});
+
+// Admin-only reports (see design spec §5 — reports restricted to admin role, not staff)
+Route::middleware(['auth:sanctum', 'can:active-only', 'can:admin-only'])->prefix('admin')->group(function () {
+    Route::get('reports/revenue', [ReportController::class, 'revenue']);
+    Route::get('reports/top-products', [ReportController::class, 'topProducts']);
 });
 
 // Public storefront API — no auth (see docs/superpowers/specs/2026-07-12-storefront-catalog-design.md §3)
