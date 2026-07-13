@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\Admin\PageController;
 use App\Http\Controllers\Api\Admin\SettingController;
 use App\Http\Controllers\Api\Admin\BlogController;
 use App\Http\Controllers\Api\Admin\DiscountCodeController;
+use App\Http\Controllers\Api\Admin\ReviewController;
 use App\Http\Controllers\Api\Storefront\BlogController as StorefrontBlogController;
 use App\Http\Controllers\Api\Storefront\CategoryController as StorefrontCategoryController;
 use App\Http\Controllers\Api\Storefront\BrandController as StorefrontBrandController;
@@ -75,6 +76,9 @@ Route::middleware(['auth:sanctum', 'can:active-only', 'can:staff-only'])->prefix
     Route::apiResource('pages', PageController::class);
     Route::apiResource('blog', BlogController::class);
     Route::apiResource('discount-codes', DiscountCodeController::class);
+    Route::get('reviews', [ReviewController::class, 'index']);
+    Route::patch('reviews/{review}/status', [ReviewController::class, 'updateStatus']);
+    Route::delete('reviews/{review}', [ReviewController::class, 'destroy']);
     Route::get('settings', [SettingController::class, 'index']);
     Route::put('settings', [SettingController::class, 'update']);
     Route::get('orders', [\App\Http\Controllers\Api\Admin\OrderController::class, 'index']);
