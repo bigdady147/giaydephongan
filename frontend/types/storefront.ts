@@ -44,11 +44,21 @@ export interface ProductDetail extends CardProduct {
   material: 'full_grain_leather' | 'suede' | 'pu_leather' | 'other'
   seo_title: string | null
   seo_description: string | null
+  avg_rating: number
+  reviews_count: number
   images: ProductImageInfo[]
   variants: VariantInfo[]
   category: CategoryInfo | null
   brand: BrandInfo | null
   related: CardProduct[]
+}
+
+export interface ReviewInfo {
+  id: number
+  rating: number
+  comment: string | null
+  created_at: string
+  user: { id: number; name: string }
 }
 
 export interface BannerInfo {

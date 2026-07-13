@@ -50,6 +50,50 @@
       <ProductGrid :products="product.related" />
     </section>
 
+    <section class="pdp-reviews">
+      <SectionHeading :title="`${$t('storefront.reviews')} (${product.reviews_count})`" />
+
+      <div class="reviews-summary">
+        <span class="reviews-score">★ {{ product.avg_rating.toFixed(1) }}</span>
+        <span class="reviews-sub">{{ product.reviews_count }} đánh giá từ khách hàng</span>
+      </div>
+
+      <ClientOnly>
+        <form v-if="isAuthenticated && !reviewSubmitted" class="review-form" @submit.prevent="submitReview">
+          <label class="review-form-label">{{ $t('storefront.reviewRatingLabel') }}</label>
+          <select v-model.number="reviewForm.rating" class="review-form-select">
+            <option v-for="n in [5, 4, 3, 2, 1]" :key="n" :value="n">{{ n }} sao</option>
+          </select>
+          <textarea
+            v-model="reviewForm.comment"
+            class="review-form-textarea"
+            rows="3"
+            :placeholder="$t('storefront.reviewPlaceholder')"
+          />
+          <p v-if="reviewError" class="review-form-error">{{ reviewError }}</p>
+          <button type="submit" class="review-form-submit" :disabled="reviewSubmitting">
+            {{ reviewSubmitting ? $t('storefront.reviewSubmitting') : $t('storefront.reviewSubmit') }}
+          </button>
+        </form>
+        <p v-else-if="reviewSubmitted" class="review-form-thanks">{{ $t('storefront.reviewThanks') }}</p>
+        <p v-else class="review-form-login">
+          <NuxtLink to="/login">{{ $t('storefront.login') }}</NuxtLink> {{ $t('storefront.reviewLoginPrompt') }}
+        </p>
+      </ClientOnly>
+
+      <div v-if="reviews.length" class="review-list">
+        <div v-for="review in reviews" :key="review.id" class="review-item">
+          <div class="review-item-head">
+            <strong>{{ review.user.name }}</strong>
+            <span class="review-item-rating">{{ '★'.repeat(review.rating) }}{{ '☆'.repeat(5 - review.rating) }}</span>
+          </div>
+          <p v-if="review.comment" class="review-item-comment">{{ review.comment }}</p>
+          <span class="review-item-date">{{ formatReviewDate(review.created_at) }}</span>
+        </div>
+      </div>
+      <p v-else class="review-list-empty">{{ $t('storefront.reviewsEmpty') }}</p>
+    </section>
+
     <ClientOnly>
       <section v-if="recentOthers.length">
         <SectionHeading :title="$t('storefront.recentlyViewed')" />
@@ -66,7 +110,7 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { isNew } from '~/utils/format'
 import { sanitizeHtml } from '~/utils/sanitizeHtml'
-import type { AvailabilityInfo, ProductDetail } from '~/types/storefront'
+import type { AvailabilityInfo, ProductDetail, ReviewInfo } from '~/types/storefront'
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -98,6 +142,42 @@ const toastMsg = ref('')
 
 const router = useRouter()
 const { addItem } = useCart()
+const { isAuthenticated } = useAuth()
+const apiClient = useApiClient()
+
+const reviews = ref<ReviewInfo[]>([])
+const reviewForm = reactive({ rating: 5, comment: '' })
+const reviewSubmitting = ref(false)
+const reviewSubmitted = ref(false)
+const reviewError = ref('')
+
+const loadReviews = async () => {
+  try {
+    const res = await $fetch<{ data: ReviewInfo[] }>(`${api}/products/${slug}/reviews`)
+    reviews.value = res.data
+  } catch {
+    reviews.value = []
+  }
+}
+
+const submitReview = async () => {
+  reviewSubmitting.value = true
+  reviewError.value = ''
+  try {
+    await apiClient.post(`/products/${slug}/reviews`, {
+      rating: reviewForm.rating,
+      comment: reviewForm.comment || null
+    })
+    reviewSubmitted.value = true
+    await loadReviews()
+  } catch (err: any) {
+    reviewError.value = err.message ?? 'Gửi đánh giá thất bại.'
+  } finally {
+    reviewSubmitting.value = false
+  }
+}
+
+const formatReviewDate = (val: string) => new Date(val).toLocaleDateString('vi-VN')
 
 const handleAddToCart = (redirect = false) => {
   if (!selectedVariantId.value || !product.value) return
@@ -142,6 +222,8 @@ onMounted(async () => {
     sale_price: product.value!.sale_price,
     created_at: product.value!.created_at
   })
+
+  loadReviews()
 
   try {
     const fresh = await $fetch<AvailabilityInfo>(`${api}/products/${slug}/availability`)
@@ -250,5 +332,37 @@ useHead({
   padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 14px;
   box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); z-index: 100;
 }
+.pdp-reviews { margin-top: 40px; }
+.reviews-summary {
+  display: flex; align-items: baseline; gap: 10px; margin-bottom: 16px;
+  .reviews-score { font-size: 22px; font-weight: 700; color: $sf-color-accent; }
+  .reviews-sub { font-size: 13px; color: $sf-color-muted; }
+}
+.review-form {
+  display: flex; flex-direction: column; gap: 10px; max-width: 480px;
+  border: 1px solid $sf-color-border; border-radius: $sf-radius; padding: 16px; margin-bottom: 24px;
+  .review-form-label { font-weight: 600; font-size: 14px; }
+  .review-form-select, .review-form-textarea {
+    border: 1px solid $sf-color-border; border-radius: 6px; padding: 8px 10px; font-size: 14px; font-family: inherit;
+  }
+  .review-form-error { color: #dc2626; font-size: 13px; margin: 0; }
+  .review-form-submit {
+    align-self: flex-start; border: 0; border-radius: 8px; padding: 10px 20px; font-weight: 700;
+    background: $sf-color-accent; color: #fff; cursor: pointer;
+    &:disabled { opacity: 0.6; cursor: not-allowed; }
+    &:hover:not(:disabled) { background: $sf-color-accent-dark; }
+  }
+}
+.review-form-thanks { color: #16a34a; font-weight: 600; margin-bottom: 24px; }
+.review-form-login { font-size: 14px; margin-bottom: 24px; a { color: $sf-color-accent; font-weight: 600; } }
+.review-list { display: flex; flex-direction: column; gap: 16px; }
+.review-item {
+  border-bottom: 1px solid $sf-color-border; padding-bottom: 16px;
+  .review-item-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .review-item-rating { color: $sf-color-accent; letter-spacing: 1px; }
+  .review-item-comment { font-size: 14px; color: #333; margin-bottom: 6px; }
+  .review-item-date { font-size: 12px; color: $sf-color-muted; }
+}
+.review-list-empty { color: $sf-color-muted; font-size: 14px; }
 @media (max-width: 768px) { .pdp-layout { grid-template-columns: 1fr; gap: 20px; } }
 </style>
