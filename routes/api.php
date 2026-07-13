@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\Storefront\BannerController as StorefrontBannerCont
 use App\Http\Controllers\Api\Storefront\ProductController as StorefrontProductController;
 use App\Http\Controllers\Api\Storefront\PageController as StorefrontPageController;
 use App\Http\Controllers\Api\Storefront\MetaController as StorefrontMetaController;
+use App\Http\Controllers\Api\Storefront\ReviewController as StorefrontReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/user/orders', [\App\Http\Controllers\Api\Customer\AccountController::class, 'orders']);
         Route::get('/user/orders/{code}', [\App\Http\Controllers\Api\Customer\AccountController::class, 'showOrder']);
         Route::get('/user/loyalty', [\App\Http\Controllers\Api\Customer\AccountController::class, 'loyalty']);
+        Route::post('/products/{slug}/reviews', [StorefrontReviewController::class, 'store']);
     });
 
     // Example of a role-protected route (using a simple closure check or dedicated middleware)
@@ -89,6 +91,7 @@ Route::get('/banners', [StorefrontBannerController::class, 'index']);
 Route::get('/products', [StorefrontProductController::class, 'index']);
 Route::get('/products/{slug}', [StorefrontProductController::class, 'show']);
 Route::get('/products/{slug}/availability', [StorefrontProductController::class, 'availability']);
+Route::get('/products/{slug}/reviews', [StorefrontReviewController::class, 'index']);
 Route::get('/pages', [StorefrontPageController::class, 'index']);
 Route::get('/pages/{slug}', [StorefrontPageController::class, 'show']);
 Route::get('/blog', [StorefrontBlogController::class, 'index']);
