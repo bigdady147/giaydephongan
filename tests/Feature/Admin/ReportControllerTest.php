@@ -39,10 +39,10 @@ class ReportControllerTest extends TestCase
         $response = $this->getJson('/api/admin/reports/revenue');
 
         $response->assertStatus(200)
-            ->assertJsonPath('total_revenue', 300000.0)
+            ->assertJsonPath('total_revenue', 300000)
             ->assertJsonPath('total_orders', 2)
             ->assertJsonPath('daily.0.date', $today)
-            ->assertJsonPath('daily.0.revenue', 300000.0);
+            ->assertJsonPath('daily.0.revenue', 300000);
     }
 
     public function test_admin_can_view_top_products_ranked_by_quantity(): void
