@@ -42,9 +42,17 @@
           <el-icon><Discount /></el-icon>
           <span>Mã giảm giá</span>
         </el-menu-item>
+        <el-menu-item index="/admin/reviews">
+          <el-icon><ChatDotSquare /></el-icon>
+          <span>Đánh giá</span>
+        </el-menu-item>
         <el-menu-item index="/admin/settings">
           <el-icon><Setting /></el-icon>
           <span>Cài đặt shop</span>
+        </el-menu-item>
+        <el-menu-item v-if="isAdmin" index="/admin/reports">
+          <el-icon><TrendCharts /></el-icon>
+          <span>Báo cáo</span>
         </el-menu-item>
         <el-menu-item v-if="isAdmin" index="/admin/users">
           <el-icon><User /></el-icon>
@@ -79,7 +87,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Odometer, Collection, PriceTag, Goods, User, ArrowDown, Picture, Document, Setting, List, Notebook, Discount } from '@element-plus/icons-vue'
+import { Odometer, Collection, PriceTag, Goods, User, ArrowDown, Picture, Document, Setting, List, Notebook, Discount, ChatDotSquare, TrendCharts } from '@element-plus/icons-vue'
 import { ElMessageBox } from 'element-plus'
 
 const router = useRouter()
